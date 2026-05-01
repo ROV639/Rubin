@@ -1,0 +1,33 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Instrument+Serif&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-base text-text font-sans antialiased">
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --color-base: #FAF9F5;
+    --color-surface: #FFFDF8;
+    --color-primary: #C15F3C;
+    --color-accent: #1C6BBB;
+    --color-text: #1F1E1D;
+    --color-border: #E0D9D0;
+  }
+</style>
