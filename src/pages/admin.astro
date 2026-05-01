@@ -1,0 +1,519 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const categories = [
+  { key: 'eve-city', label: 'EVE城市' },
+  { key: 'eve-daily', label: 'EVE日常' },
+  { key: 'eve-cover', label: 'EVE封面' },
+  { key: 'portrait', label: '人像' },
+  { key: 'product', label: '产品' },
+  { key: 'landscape', label: '风景' },
+  { key: 'other', label: '其它' },
+];
+---
+
+<BaseLayout title="管理后台 — 泽川">
+  <div class="min-h-screen bg-base p-6">
+    <div class="max-w-2xl mx-auto">
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-8">
+        <div>
+          <h1 class="font-serif text-2xl text-text">管理后台</h1>
+          <p class="text-text/40 text-sm mt-1">上传和管理图片</p>
+        </div>
+        <a href="/" class="text-text/40 hover:text-text text-sm">返回首页</a>
+      </div>
+
+      <!-- Login Form -->
+      <div id="login-form" class="bg-surface rounded-xl border border-border p-8 shadow-sm mb-6">
+        <h2 class="font-sans text-lg text-text mb-4">登录</h2>
+        <input
+          type="password"
+          id="password"
+          placeholder="输入管理密码..."
+          class="w-full px-4 py-3 bg-base border border-border rounded-lg text-text placeholder:text-text/30 focus:outline-none focus:border-primary transition-colors mb-4"
+        />
+        <button
+          id="login-btn"
+          class="w-full py-3 bg-text text-base rounded-lg hover:bg-text/80 transition-colors"
+        >
+          进入后台
+        </button>
+        <p id="error-msg" class="text-red-500 text-sm mt-3 hidden">密码错误</p>
+      </div>
+
+      <!-- Admin Panel -->
+      <div id="admin-panel" class="hidden">
+        <!-- Upload Section -->
+        <div class="bg-surface rounded-xl border border-border p-6 mb-6">
+          <h2 class="font-sans text-lg text-text mb-4">上传图片</h2>
+
+          <!-- Upload Platform Selection -->
+          <div class="flex gap-3 mb-4">
+            <button
+              id="btn-imgbb"
+              class="px-4 py-2 rounded-lg border border-border text-sm transition-colors bg-text text-base"
+              data-platform="imgbb"
+            >
+              imgbb
+            </button>
+            <button
+              id="btn-qiniu"
+              class="px-4 py-2 rounded-lg border border-border text-sm transition-colors text-text/60"
+              data-platform="qiniu"
+            >
+              七牛云
+            </button>
+          </div>
+
+          <!-- Dropzone -->
+          <div
+            id="dropzone"
+            class="border-2 border-dashed border-border rounded-xl p-8 text-center cursor-pointer hover:border-primary/50 transition-colors mb-4"
+          >
+            <input type="file" id="file-input" accept="image/*" class="hidden" multiple />
+            <div class="text-text/40">
+              <p class="text-3xl mb-2">📁</p>
+              <p class="font-sans">拖拽图片到这里，或<span class="text-primary">点击选择</span></p>
+              <p class="text-xs text-text/30 mt-2">支持 PNG, JPG, WebP，最大 32MB</p>
+            </div>
+          </div>
+
+          <!-- Preview -->
+          <div id="preview-area" class="hidden mb-4">
+            <div class="grid grid-cols-4 gap-3" id="preview-grid"></div>
+          </div>
+
+          <!-- Prompt & Category -->
+          <div class="flex gap-3 mb-4">
+            <input
+              type="text"
+              id="prompt-input"
+              placeholder="描述这张图片..."
+              class="flex-1 px-4 py-3 bg-base border border-border rounded-lg text-text text-sm placeholder:text-text/30 focus:outline-none focus:border-primary"
+            />
+            <select
+              id="category-select"
+              class="px-4 py-3 bg-base border border-border rounded-lg text-text text-sm focus:outline-none focus:border-primary"
+            >
+              {categories.map(cat => (
+                <option value={cat.key}>{cat.label}</option>
+              ))}
+            </select>
+          </div>
+
+          <!-- Upload Button -->
+          <button
+            id="upload-btn"
+            class="w-full py-3 bg-primary text-white rounded-lg hover:bg-primary/80 transition-colors font-sans"
+          >
+            上传
+          </button>
+        </div>
+
+        <!-- Uploaded List -->
+        <div class="bg-surface rounded-xl border border-border p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="font-sans text-lg text-text">已上传</h2>
+            <span id="img-count" class="text-text/40 text-sm">0 张</span>
+          </div>
+          <div id="upload-list" class="space-y-3 max-h-96 overflow-y-auto">
+            <p class="text-text/40 text-sm text-center py-8">暂无上传</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 px-6 py-3 bg-text text-base rounded-full opacity-0 transition-opacity pointer-events-none">
+    上传成功！
+  </div>
+</BaseLayout>
+
+<script>
+  const ADMIN_PASSWORD = 'rubin639';
+  const API_URL = 'https://rubin-gallery-api.luokaijun2025.workers.dev';
+
+  // 七牛云凭证
+  const QINIU = {
+    accessKey: 'OC2fSAQYQEl4kGxlID-NZvm-D1CB60NyRBAWSIVm',
+    secretKey: 'jDMhpIGGoLTzBF8ekVTdHi1kcaLVnXk1CMDI2c6T',
+    bucket: 'tedbscxjm',
+    domain: 'https://tedbscxjm.hn-bkt.clouddn.com',
+  };
+
+  // DOM Elements
+  const loginForm = document.getElementById('login-form')!;
+  const adminPanel = document.getElementById('admin-panel')!;
+  const passwordInput = document.getElementById('password') as HTMLInputElement;
+  const loginBtn = document.getElementById('login-btn')!;
+  const errorMsg = document.getElementById('error-msg')!;
+  const dropzone = document.getElementById('dropzone')!;
+  const fileInput = document.getElementById('file-input') as HTMLInputElement;
+  const previewArea = document.getElementById('preview-area')!;
+  const previewGrid = document.getElementById('preview-grid')!;
+  const promptInput = document.getElementById('prompt-input') as HTMLInputElement;
+  const categorySelect = document.getElementById('category-select') as HTMLSelectElement;
+  const uploadBtn = document.getElementById('upload-btn')!;
+  const uploadList = document.getElementById('upload-list')!;
+  const imgCount = document.getElementById('img-count')!;
+  const toast = document.getElementById('toast')!;
+  const btnImgbb = document.getElementById('btn-imgbb')!;
+  const btnQiniu = document.getElementById('btn-qiniu')!;
+
+  let selectedFiles: File[] = [];
+  let uploadedImages: Array<{url: string, prompt: string, category: string, time: string, platform: string}> = [];
+  let currentPlatform = 'imgbb';
+
+  // Check auth
+  if (sessionStorage.getItem('admin_auth') === 'true') {
+    loginForm.classList.add('hidden');
+    adminPanel.classList.remove('hidden');
+    loadUploadedImages();
+  }
+
+  // Platform switch
+  btnImgbb.addEventListener('click', () => {
+    currentPlatform = 'imgbb';
+    btnImgbb.classList.add('bg-text', 'text-base');
+    btnImgbb.classList.remove('text-text/60');
+    btnQiniu.classList.remove('bg-text', 'text-base');
+    btnQiniu.classList.add('text-text/60');
+  });
+
+  btnQiniu.addEventListener('click', () => {
+    currentPlatform = 'qiniu';
+    btnQiniu.classList.add('bg-text', 'text-base');
+    btnQiniu.classList.remove('text-text/60');
+    btnImgbb.classList.remove('bg-text', 'text-base');
+    btnImgbb.classList.add('text-text/60');
+  });
+
+  // Login
+  loginBtn.addEventListener('click', () => {
+    if (passwordInput.value === ADMIN_PASSWORD) {
+      sessionStorage.setItem('admin_auth', 'true');
+      loginForm.classList.add('hidden');
+      adminPanel.classList.remove('hidden');
+      loadUploadedImages();
+    } else {
+      errorMsg.classList.remove('hidden');
+      passwordInput.value = '';
+    }
+  });
+
+  passwordInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') loginBtn.click();
+  });
+
+  // Dropzone
+  dropzone.addEventListener('click', () => fileInput.click());
+
+  dropzone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropzone.classList.add('border-primary');
+  });
+
+  dropzone.addEventListener('dragleave', () => {
+    dropzone.classList.remove('border-primary');
+  });
+
+  dropzone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropzone.classList.remove('border-primary');
+    handleFiles(Array.from(e.dataTransfer?.files || []));
+  });
+
+  fileInput.addEventListener('change', () => {
+    handleFiles(Array.from(fileInput.files || []));
+  });
+
+  function handleFiles(files: File[]) {
+    const newFiles = files.filter(f => f.type.startsWith('image/'));
+    if (newFiles.length === 0) return;
+
+    // Append to existing selected files instead of replacing
+    selectedFiles = [...selectedFiles, ...newFiles];
+    renderPreview();
+  }
+
+  function renderPreview() {
+    if (selectedFiles.length === 0) {
+      previewArea.classList.add('hidden');
+      return;
+    }
+
+    previewArea.classList.remove('hidden');
+    previewGrid.innerHTML = '';
+
+    selectedFiles.forEach((file, index) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const div = document.createElement('div');
+        div.className = 'aspect-square bg-border rounded-lg overflow-hidden relative group';
+        div.innerHTML = `
+          <img src="${e.target?.result}" class="w-full h-full object-cover" />
+          <button onclick="removeFile(${index})" class="absolute top-1 right-1 w-6 h-6 bg-red-500 text-white rounded-full text-xs opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">×</button>
+        `;
+        previewGrid.appendChild(div);
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  (window as any).removeFile = (index: number) => {
+    selectedFiles.splice(index, 1);
+    renderPreview();
+  };
+
+  // Upload
+  uploadBtn.addEventListener('click', async () => {
+    if (selectedFiles.length === 0) return;
+
+    uploadBtn.textContent = '上传中...';
+    uploadBtn.disabled = true;
+
+    const prompt = promptInput.value || 'AI Art';
+    const category = categorySelect.value;
+
+    for (const file of selectedFiles) {
+      try {
+        let url = '';
+
+        if (currentPlatform === 'imgbb') {
+          url = await uploadToImgbb(file);
+        } else {
+          url = await uploadToQiniu(file);
+        }
+
+        if (url) {
+          uploadedImages.push({
+            id: 'img-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9),
+            src: url,
+            prompt,
+            category,
+            time: new Date().toISOString(),
+            platform: currentPlatform,
+            isLocal: false,
+          });
+        }
+      } catch (err) {
+        console.error('Upload failed:', err);
+      }
+    }
+
+    try {
+      await saveUploadedImages();
+      renderUploadList();
+      showToast('上传成功！');
+    } catch (e) {
+      showToast('保存失败，请重试');
+    }
+
+    uploadBtn.textContent = '上传';
+    uploadBtn.disabled = false;
+    selectedFiles = [];
+    previewArea.classList.add('hidden');
+    previewGrid.innerHTML = '';
+    promptInput.value = '';
+  });
+
+  async function uploadToImgbb(file: File): Promise<string> {
+    const formData = new FormData();
+    formData.append('key', 'f08e6df06b61a99acbb06ee60649f9bb');
+    formData.append('image', file);
+
+    const res = await fetch('https://api.imgbb.com/1/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      return data.data.url;
+    }
+    throw new Error('imgbb upload failed');
+  }
+
+  async function uploadToQiniu(file: File): Promise<string> {
+    // 生成上传凭证
+    const token = await generateQiniuToken(file.name);
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('token', token);
+    formData.append('key', file.name);
+
+    const res = await fetch('https://upload.qiniup.com', {
+      method: 'POST',
+      body: formData,
+    });
+    const data = await res.json();
+
+    if (data.key) {
+      return `${QINIU.domain}/${data.key}`;
+    }
+    throw new Error('Qiniu upload failed');
+  }
+
+  async function generateQiniuToken(filename: string): Promise<string> {
+    const encoder = new TextEncoder();
+    const policy = btoa(JSON.stringify({
+      scope: QINIU.bucket,
+      deadline: Math.floor(Date.now() / 1000) + 3600,
+    }));
+
+    const signingStr = `${QINIU.accessKey}:${policy}`;
+    const key = encoder.encode(QINIU.secretKey);
+    const data = encoder.encode(signingStr);
+
+    const cryptoKey = await crypto.subtle.importKey(
+      'raw', key, { name: 'HMAC', hash: 'SHA-1' }, false, ['sign']
+    );
+
+    const signature = await crypto.subtle.sign('HMAC', cryptoKey, data);
+    const sign = btoa(String.fromCharCode(...new Uint8Array(signature)));
+
+    return `${QINIU.accessKey}:${sign}:${policy}`;
+  }
+
+  async function loadUploadedImages() {
+    // Load from cloud
+    try {
+      const res = await fetch(API_URL);
+      if (!res.ok) throw new Error('API response not ok');
+      const cloudImages = await res.json();
+      if (Array.isArray(cloudImages) && cloudImages.length > 0) {
+        uploadedImages = cloudImages;
+        localStorage.setItem('rubin_gallery_backup', JSON.stringify(cloudImages));
+      } else {
+        // Try localStorage backup
+        const backup = localStorage.getItem('rubin_gallery_backup');
+        if (backup) {
+          uploadedImages = JSON.parse(backup);
+        }
+      }
+    } catch (e) {
+      console.error('Load failed:', e);
+      // Try localStorage backup
+      const backup = localStorage.getItem('rubin_gallery_backup');
+      if (backup) {
+        uploadedImages = JSON.parse(backup);
+      }
+    }
+    renderUploadList();
+  }
+
+  async function saveUploadedImages() {
+    // Save to cloud API
+    try {
+      const result = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(uploadedImages.map(img => ({
+          id: img.id,
+          src: img.src,
+          prompt: img.prompt,
+          category: img.category,
+          time: img.time || new Date().toISOString(),
+          platform: img.platform || 'imgbb',
+          isLocal: false
+        })))
+      });
+      if (!result.ok) throw new Error('Save failed');
+      // Also save backup to localStorage
+      localStorage.setItem('rubin_gallery_backup', JSON.stringify(uploadedImages));
+    } catch (e) {
+      console.error('Save failed:', e);
+      showToast('保存失败: ' + e.message);
+      throw e; // Re-throw so caller knows it failed
+    }
+  }
+
+  function renderUploadList() {
+    imgCount.textContent = `${uploadedImages.length} 张`;
+
+    if (uploadedImages.length === 0) {
+      uploadList.innerHTML = '<p class="text-text/40 text-sm text-center py-8">暂无上传</p>';
+      return;
+    }
+
+    const categoryOptions = [
+      { key: 'eve-city', label: 'EVE城市' },
+      { key: 'eve-daily', label: 'EVE日常' },
+      { key: 'eve-cover', label: 'EVE封面' },
+      { key: 'portrait', label: '人像' },
+      { key: 'product', label: '产品' },
+      { key: 'landscape', label: '风景' },
+      { key: 'other', label: '其它' },
+    ];
+
+    uploadList.innerHTML = uploadedImages
+      .slice()
+      .reverse()
+      .map((img, i) => `
+        <div class="flex items-center gap-3 p-3 bg-base rounded-lg">
+          <img src="${img.src}" class="w-14 h-14 object-cover rounded" alt="${img.prompt}" />
+          <div class="flex-1 min-w-0">
+            <p class="text-text/70 text-sm truncate">${img.prompt}</p>
+            <p class="text-text/40 text-xs mb-2">${img.platform} · ${formatTime(img.time)}</p>
+            <select onchange="updateCategory(${uploadedImages.length - 1 - i}, this.value)" class="text-xs px-2 py-1 bg-surface border border-border/50 rounded text-text/70 cursor-pointer">
+              ${categoryOptions.map(cat => `<option value="${cat.key}" ${img.category === cat.key ? 'selected' : ''}>${cat.label}</option>`).join('')}
+            </select>
+          </div>
+          <button onclick="deleteImage(${uploadedImages.length - 1 - i})" class="text-text/30 hover:text-red-500 text-sm">删除</button>
+        </div>
+      `).join('');
+  }
+
+  (window as any).updateCategory = (index: number, category: string) => {
+    uploadedImages[index].category = category;
+    saveUploadedImages();
+  };
+
+  function getCategoryLabel(key: string): string {
+    const map: Record<string, string> = {
+      'eve-city': 'EVE城市',
+      'eve-daily': 'EVE日常',
+      'eve-cover': 'EVE封面',
+      portrait: '人像',
+      product: '产品',
+      landscape: '风景',
+      other: '其它',
+    };
+    return map[key] || key;
+  }
+
+  function formatTime(iso: string): string {
+    const d = new Date(iso);
+    return `${d.getMonth() + 1}/${d.getDate()} ${d.getHours()}:${String(d.getMinutes()).padStart(2, '0')}`;
+  }
+
+  (window as any).deleteImage = async (index: number) => {
+    const deletedImg = uploadedImages[index];
+    uploadedImages.splice(index, 1);
+    // Delete from cloud
+    try {
+      await fetch(API_URL, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: deletedImg.id })
+      });
+    } catch (e) {
+      console.error('Failed to delete from cloud:', e);
+    }
+    saveUploadedImages();
+    renderUploadList();
+  };
+
+  function showToast(msg: string) {
+    toast.textContent = msg;
+    toast.classList.remove('opacity-0');
+    toast.classList.add('opacity-100');
+    setTimeout(() => {
+      toast.classList.remove('opacity-100');
+      toast.classList.add('opacity-0');
+    }, 2000);
+  }
+</script>

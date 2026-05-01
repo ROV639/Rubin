@@ -1,0 +1,7 @@
+name = "rubin-gallery-api"
+main = "functions/api/images.js"
+compatibility_date = "2024-01-01"
+
+[[kv_namespaces]]
+binding = "KV"
+id = "6d7e5b31ce444040a6e018b15831ed7b"

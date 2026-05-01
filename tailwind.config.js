@@ -4,16 +4,17 @@ export default {
   theme: {
     extend: {
       colors: {
-        base: '#FAF9F5',
-        surface: '#FFFDF8',
-        primary: '#C15F3C',
-        accent: '#1C6BBB',
-        text: '#1F1E1D',
+        base: '#F4F1EC',
+        surface: '#FFFFFF',
+        primary: '#4A6D8C',
+        neutral: '#6B7A8D',
+        accent: '#4A6D8C',
+        text: '#6B7A8D',
         border: '#E0D9D0',
       },
       fontFamily: {
-        serif: ['Instrument Serif', 'Charter', 'Georgia', 'serif'],
-        sans: ['DM Sans', 'Inter', 'system-ui', 'sans-serif'],
+        serif: ['DM Serif Display', 'Georgia', 'serif'],
+        sans: ['Noto Sans SC', 'DM Sans', 'sans-serif'],
         mono: ['Fira Code', 'Geist Mono', 'monospace'],
       },
     },
