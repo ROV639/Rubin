@@ -487,7 +487,7 @@ const defaultImages = [
   document.getElementById('btn-edit-cancel')!.addEventListener('click', closeEditModal);
   document.getElementById('btn-exit-admin')!.addEventListener('click', exitAdminMode);
 
-  closeBtn.addEventListener('click', closeLightbox);
+  closeBtn?.addEventListener('click', closeLightbox);
   lightbox.addEventListener('click', (e) => {
     if (e.target === lightbox) closeLightbox();
   });
