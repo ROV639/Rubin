@@ -93,6 +93,18 @@ A: 检查 package.json 依赖是否有冲突，参考 `npm install --legacy-peer
 ### Q: wrangler.toml 无效？
 A: Cloudflare Pages 使用时需要 `pages_build_output_dir = "dist"` 字段。
 
+### Q: GitHub push 后网站没更新？
+A: 检查 Cloudflare Pages 监听的分支（通常是 master），确保 push 到正确分支。本地 master 和 origin/master 都要同步。
+
+### Q: 页面加载后图片空白，但 API 正常？
+A: 检查 JavaScript 初始化错误。常见原因：DOM 元素 ID 不匹配导致初始化失败。检查控制台错误信息。
+
+## 重要教训（2026-05-03）
+
+1. **分支同步问题**：本地分支名可能和远程不一致。Cloudflare Pages 监听 master，但代码可能在 main。推送前确认分支一致。
+2. **DOM 元素检查**：使用 `!` 非空断言时要确保元素存在，或用 `?.` 可选链。
+3. **缓存问题**：Cloudflare 可能有缓存，清除缓存或等待几分钟。
+
 ## 相关文档
 
 - CLAUDE.md（主）：~/.claude/CLAUDE.md
