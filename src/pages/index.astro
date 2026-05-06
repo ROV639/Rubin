@@ -247,13 +247,21 @@ const defaultImages = [
   }
 </style>
 
-<script>
+<script define:vars={{ defaultImages }}>
   const ADMIN_PASSWORD = 'rubin639';
   const API_URL = 'https://rubin-gallery-api.luokaijun2025.workers.dev';
   const STORAGE_KEY = 'rubin_gallery';
 
-  // Default images (static assets)
-  const defaultImages: any = [];
+  const categories = [
+    { key: 'all', label: '全部' },
+    { key: 'eve-city', label: 'EVE城市' },
+    { key: 'eve-daily', label: 'EVE日常' },
+    { key: 'eve-cover', label: 'EVE封面' },
+    { key: 'portrait', label: '人像' },
+    { key: 'product', label: '产品' },
+    { key: 'landscape', label: '风景' },
+    { key: 'other', label: '其它' },
+  ];
 
   // State
   let images = [];
