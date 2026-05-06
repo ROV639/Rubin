@@ -1,5 +1,16 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const categories = [
+  { key: 'all', label: '全部' },
+  { key: 'eve-city', label: 'EVE城市' },
+  { key: 'eve-daily', label: 'EVE日常' },
+  { key: 'eve-cover', label: 'EVE封面' },
+  { key: 'portrait', label: '人像' },
+  { key: 'product', label: '产品' },
+  { key: 'landscape', label: '风景' },
+  { key: 'other', label: '其它' },
+];
 ---
 
 <BaseLayout title="泽川 — Rubin's Agent Nexus">
@@ -229,17 +240,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   const STORAGE_KEY = 'rubin_gallery';
 
   const defaultImages = [];
-
-  const categories = [
-    { key: 'all', label: '全部' },
-    { key: 'eve-city', label: 'EVE城市' },
-    { key: 'eve-daily', label: 'EVE日常' },
-    { key: 'eve-cover', label: 'EVE封面' },
-    { key: 'portrait', label: '人像' },
-    { key: 'product', label: '产品' },
-    { key: 'landscape', label: '风景' },
-    { key: 'other', label: '其它' },
-  ];
 
   // State
   let images = [];
