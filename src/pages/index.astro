@@ -63,6 +63,7 @@ const defaultImages = [
               : 'border-border/50 text-neutral/60 hover:border-accent/50 hover:text-accent'
           ]}
           data-category={cat.key}
+          data-active={i === 0 ? 'true' : undefined}
         >
           {cat.label}
         </button>
@@ -287,14 +288,18 @@ const defaultImages = [
     try {
       const res = await fetch(API_URL);
       const cloudImages = await res.json();
+      console.log('API returned images:', cloudImages.length);
       if (cloudImages && cloudImages.length > 0) {
         images = [...defaultImages, ...cloudImages.filter((img: any) => !img.isLocal)];
+        console.log('Total images after merge:', images.length);
       } else {
         images = [...defaultImages];
+        console.log('No cloud images, using defaults:', images.length);
       }
     } catch (e) {
       // Fallback to defaults
       images = [...defaultImages];
+      console.error('API fetch failed:', e);
     }
     renderGallery(getCurrentFilter());
   }
@@ -510,7 +515,7 @@ const defaultImages = [
   }
 
   function getCurrentFilter() {
-    const activeBtn = document.querySelector('nav button.bg-accent\\/15');
+    const activeBtn = document.querySelector('nav button[data-active]');
     return activeBtn?.getAttribute('data-category') || 'all';
   }
 
@@ -606,9 +611,11 @@ const defaultImages = [
       navBtns.forEach(b => {
         b.classList.remove('bg-accent/15', 'text-accent', 'border-accent/50');
         b.classList.add('border-border/50', 'text-neutral/60');
+        b.removeAttribute('data-active');
       });
       btn.classList.remove('border-border/50', 'text-neutral/60');
       btn.classList.add('bg-accent/15', 'text-accent', 'border-accent/50');
+      btn.setAttribute('data-active', 'true');
 
       renderGallery(cat);
     });
