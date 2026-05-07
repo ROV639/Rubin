@@ -89,7 +89,7 @@ const categories = [
         <div>
           <div class="flex items-center gap-3 mb-3">
             <span class="w-8 h-px bg-accent"></span>
-            <span class="accent-text text-xs tracking-[0.3em] uppercase text-accent">Gallery</span>
+            <span class="text-xs tracking-[0.3em] uppercase text-accent">Gallery</span>
           </div>
           <h2 class="text-4xl font-light tracking-tight text-neutral" style="font-family: 'Cormorant Garamond', serif;">精选作品</h2>
         </div>
@@ -112,8 +112,8 @@ const categories = [
         </div>
       </div>
 
-      <!-- Gallery grid -->
-      <div id="gallery" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+      <!-- Gallery grid - masonry style with varying heights -->
+      <div id="gallery" class="columns-2 md:columns-3 lg:columns-4 gap-4">
         <!-- Images rendered by JS -->
       </div>
 
@@ -319,6 +319,11 @@ const categories = [
   ::selection {
     background: #8A724833;
   }
+
+  /* Accent text color */
+  .accent-text {
+    color: var(--color-accent);
+  }
 </style>
 
 <script>
@@ -424,7 +429,7 @@ const categories = [
       div.style.animationDelay = `${idx * 40}ms`;
 
       div.innerHTML = `
-        <div class="img-wrap relative overflow-hidden rounded-lg border border-border/30 bg-surface cursor-pointer">
+        <div class="img-wrap relative overflow-hidden rounded-lg border border-border/30 bg-surface cursor-pointer break-inside-avoid mb-4">
           <img src="${img.src}" alt="${img.prompt}" class="w-full object-cover" loading="lazy" />
           ${isAdmin && !img.isLocal ? `
             <div class="admin-controls absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
