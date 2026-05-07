@@ -2,667 +2,390 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const categories = [
-  { key: 'all', label: '全部' },
-  { key: 'eve-city', label: 'EVE城市' },
-  { key: 'eve-daily', label: 'EVE日常' },
-  { key: 'eve-cover', label: 'EVE封面' },
-  { key: 'portrait', label: '人像' },
-  { key: 'product', label: '产品' },
-  { key: 'landscape', label: '风景' },
-  { key: 'other', label: '其它' },
+  { key: 'all', label: '全部', icon: '◆' },
+  { key: 'ecommerce', label: '电商', icon: '◈' },
+  { key: 'ad', label: '广告', icon: '◇' },
+  { key: 'portrait', label: '人像', icon: '○' },
+  { key: 'poster', label: '海报', icon: '□' },
+  { key: 'character', label: '角色', icon: '△' },
+  { key: 'ui', label: '界面', icon: '▣' },
+  { key: 'comparison', label: '对比', icon: '◐' },
+];
+
+const prompts = [
+  {
+    id: 1,
+    title: '便利店霓虹人像',
+    category: 'portrait',
+    author: '@BubbleBrain',
+    source: 'https://x.com/BubbleBrain/status/2045167461147042202',
+    image: 'https://raw.githubusercontent.com/EvoLinkAI/awesome-gpt-image-2-API-and-Prompts/main/images/portrait_case1/output.jpg',
+    prompt: `35mm film photography with harsh convenience store fluorescent lighting mixed with colorful neon signs from outside, authentic film grain, high contrast, slight color cast, cinematic street editorial style, intimate medium shot, early 20s sexy Chinese female idol with ultra-realistic delicate refined Chinese features, seductive almond-shaped fox eyes with natural double eyelids, high nose bridge, small sharp V-shaped jawline, flawless porcelain skin with cool ivory undertone and visible specular highlights from fluorescent light, subtle skin texture and micro pores, natural dewy makeup with soft flush on cheeks, glossy natural pink lips slightly parted, subtle natural freckles across nose and cheeks, long dark brown hair in a messy high ponytail with many loose strands falling around face and neck, wearing an oversized white button-up shirt as the only top, unbuttoned at the top with deep cleavage and loosely tied at the waist, paired with a tiny black pleated mini skirt, barefoot in simple white slides, seductive casual leaning pose against the glass door of a 24-hour convenience store at late night, body slightly arched, one leg bent with foot resting against the door frame, the other leg straight, one hand holding a bottle of iced drink, the other hand lightly pulling the hem of her mini skirt, intensely seductive playful yet slightly vulnerable gaze straight at the viewer with soft doe eyes full of quiet temptation and teasing smile, bright cold fluorescent store light from inside mixed with pink and blue neon glow from outside signs, realistic reflections on glass door, blurred convenience store interior with shelves and snacks in background, authentic 35mm film color grading with harsh lighting and neon accents, extremely sharp yet soft skin rendering, natural hair strands, realistic fabric wrinkles and drape on the oversized shirt and mini skirt, no plastic skin, no digital over-sharpening, no airbrushing, no blemishes, no moles, no oily skin, no watermark, no text, authentic late-night convenience store atmosphere`,
+    zh: '35mm胶片摄影便利店荧光灯与彩色霓虹灯混合照明，真实胶片颗粒，高对比度，电影街拍风格，年轻中国女性偶像，精致面部特征，性感杏仁眼，高鼻梁，小V脸，瓷白肌肤，自然妆容，粉色嘴唇，乱高马尾，oversized白衬衫，超短裙，午夜便利店场景',
+  },
+  {
+    id: 2,
+    title: '电影感极简人像',
+    category: 'portrait',
+    author: '@iam_miharbi',
+    source: 'https://x.com/iam_miharbi/status/2045151354679665101',
+    image: 'https://raw.githubusercontent.com/EvoLinkAI/awesome-gpt-image-2-API-and-Prompts/main/images/portrait_case2/output.jpg',
+    prompt: `Generate a cinematic minimal portrait of a solitary man standing in an intense orange to red gradient environment, strong silhouette lighting, deep shadow contrast, reflective glossy floor, symmetrical composition, minimal`,
+    zh: '电影感极简人像，孤独男子站在橙红渐变环境中，强剪影照明，深阴影对比，反光地板，对称构图，极简风格',
+  },
+  {
+    id: 3,
+    title: '日本温泉旅馆人像',
+    category: 'portrait',
+    author: '@BubbleBrain',
+    source: 'https://x.com/BubbleBrain/status/2045092449803284923',
+    image: 'https://raw.githubusercontent.com/EvoLinkAI/awesome-gpt-image-2-API-and-Prompts/main/images/portrait_case3/output.jpg',
+    prompt: `35mm film photography, warm vintage Japanese onsen ryokan aesthetic, soft ambient wooden lantern lighting mixed with gentle natural window light, subtle film grain, gentle color shift, high atmosphere editorial style, intimate medium shot, early 20s beautiful Chinese female idol with ultra-realistic delicate refined Chinese features, seductive almond-shaped fox eyes with natural double eyelids, high nose bridge, small sharp V-shaped jawline, flawless porcelain skin with warm ivory undertone, visible subtle skin texture and micro pores, soft natural makeup with dewy glow, subtle rosy flush on cheeks, natural soft pink lips slightly parted, long dark brown hair tied in a loose low bun with some messy strands falling around face and neck, wearing a loose white yukata (traditional Japanese bathrobe) deliberately slipped off one shoulder and loosely tied at the waist, the fabric slightly open revealing smooth skin and subtle cleavage, barefoot, seductive relaxed sitting pose on the edge of a traditional wooden engawa veranda at a vintage onsen ryokan`,
+    zh: '35mm胶片摄影，温馨复古日本温泉旅馆风格，柔和灯笼光与自然窗光，胶片颗粒，氛围感强，年轻中国女性，精致五官，浴衣微微滑落，露天温泉木质走廊场景',
+  },
+  {
+    id: 4,
+    title: '微型 Diorama 护肤品广告',
+    category: 'ecommerce',
+    author: '@Strength04_X',
+    source: 'https://x.com/Strength04_X/status/2048074514278563949',
+    image: 'https://raw.githubusercontent.com/EvoLinkAI/awesome-gpt-image-2-API-and-Prompts/main/images/poster_case151/output.jpg',
+    prompt: `A hyper-realistic miniature diorama product advertisement featuring an oversized luxury skincare pump bottle labeled "LUXEVEIL Skin Science - Radiance Nourishing Body Lotion" in cream/beige with a polished gold pump top, placed on a circular platform. Tiny figurine construction workers dressed in yellow coveralls and white hard hats swarm around the bottle climbing scaffolding, painting the bottle with rollers, operating a tower crane, working near industrial tanks and pipework, and unloading a miniature flatbed truck. The scene includes metal scaffolding structures, industrial silos, orange traffic cones, wooden barricades, and storage barrels. The overall color palette is warm beige, cream, gold, and mustard yellow. Studio photography style with soft diffused lighting, no shadows, clean beige background. The concept metaphorically shows workers "crafting" or "building" the perfect lotion. Tilt-shift miniature aesthetic, ultra-detailed, commercial product photography, 8K resolution, photorealistic CGI render.`,
+    zh: '超写实微缩景观产品广告，巨型奢华护肤品瓶置于圆形平台上，微型建筑工人围绕其施工，黄蓝工作服，安全帽，脚手架，工业桶，暖米色金色调，影棚摄影风格，移轴微缩效果，8K超清',
+  },
+  {
+    id: 5,
+    title: '9格广告分镜',
+    category: 'ecommerce',
+    author: '@Magncsans',
+    source: 'https://x.com/Magncsans/status/2047876253898903594',
+    image: 'https://raw.githubusercontent.com/EvoLinkAI/awesome-gpt-image-2-API-and-Prompts/main/images/poster_case160/output.jpg',
+    prompt: `Using the provided reference image, transform the single casual product photo into a polished e-commerce TVC storyboard board for a 15-second ad in 9:16 vertical format, presented as a 9-panel grid. Keep the same blue-and-white ceramic ashtray as the product base, but restage it across cinematic advertising shots with warm premium lighting, shallow depth of field, and a refined lifestyle desktop environment. Add a dark storyboard layout with Chinese titles and timing for each panel.`,
+    zh: '将产品照片转换为9:16竖屏15秒TVC广告分镜，9格画面，蓝色青花瓷烟灰缸产品，电影感广告镜头，暖光照明，浅景深，精致生活场景，中国风分镜脚本',
+  },
+  {
+    id: 6,
+    title: '豪华计时码表广告',
+    category: 'ad',
+    author: '@AlwaveNazca',
+    source: 'https://x.com/AlwaveNazca/status/2048147643809865950',
+    image: 'https://raw.githubusercontent.com/EvoLinkAI/awesome-gpt-image-2-API-and-Prompts/main/images/poster_case144/output.jpg',
+    prompt: `Luxury Chronograph Watch Ad, hyper-realistic photograph of an elegant chronograph watch on a marble surface, soft studio lighting with subtle reflections, shallow depth of field, gold and silver metallic finish with precision engravings,深邃背景with subtle bokeh, commercial photography style, 8K resolution, photorealistic rendering`,
+    zh: '豪华计时码表广告，超写实摄影，大理石表面，柔和影棚光，浅景深，金银金属质感，精细雕刻，柔焦背景，商业摄影风格，8K超清',
+  },
+  {
+    id: 7,
+    title: '汉堡产品主图+9格广告',
+    category: 'ecommerce',
+    author: '@Gdgtify',
+    source: 'https://x.com/Gdgtify/status/2049449869530775877',
+    image: 'https://raw.githubusercontent.com/EvoLinkAI/awesome-gpt-image-2-API-and-Prompts/main/images/ecommerce_case163/output.jpg',
+    prompt: `Create a cinematic hero image of a gourmet cheeseburger on a dark stone surface with glossy brioche bun, melted cheese, crisp lettuce, tomato, grilled patty, sauce, realistic texture, appetizing steam, warm side light, shallow depth of field, premium food commercial style, no text/logos/watermark. Create a 9-cell hybrid keyframe-to-transition storyboard sheet for a 15-second gourmet burger ad, moving from empty surface to ingredient assembly to final macro hero shot.`,
+    zh: '美食摄影杰作，汉堡放在深色石面上，光泽 brioche 汉堡面包，融化的芝士，脆生菜，番茄，烤牛肉饼，诱人蒸汽，暖侧光，浅景深，高端食品商业风格。15秒美食广告9格分镜脚本',
+  },
+  {
+    id: 8,
+    title: 'Galgame风格COS截图',
+    category: 'portrait',
+    author: '@Zoulinshen',
+    source: 'https://x.com/Zoulinshen/status/2045082518089810073',
+    image: 'https://raw.githubusercontent.com/EvoLinkAI/awesome-gpt-image-2-API-and-Prompts/main/images/portrait_case8/output.jpg',
+    prompt: `生成一张竖版手机截图风格的图片，整体比例接近9:16。画面中心偏上是一位真人coser扮演二次元角色。画面最上方加入手机系统状态栏UI，画面底部叠加galgame风格对话框，左侧放动漫头像，右侧排版角色名和中文台词。对话框下方加操作栏。整体风格高清、细节丰富，光线柔和。`,
+    zh: 'Galgame风格手机截图，真人COSER扮演二次元角色，手机状态栏，底部对话框，动漫头像，角色名，中文台词，操作栏，二次元与真人融合',
+  },
+  {
+    id: 9,
+    title: '都市回眸街拍人像',
+    category: 'portrait',
+    author: '@Tz_2022',
+    source: 'https://x.com/Tz_2022/status/2045892003775361198',
+    image: 'https://raw.githubusercontent.com/EvoLinkAI/awesome-gpt-image-2-API-and-Prompts/main/images/portrait_case9/output.jpg',
+    prompt: `Urban street photography, turn-back glance portrait, young East Asian woman in casual streetwear, standing on city street at golden hour, natural window light from building reflections, slightly turning head to glance back at camera, candid editorial style, high fashion street look, long coat over casual outfit, cityscape bokeh background with neon signs`,
+    zh: '都市街拍，回眸人像，年轻东亚女性，休闲装，金色时刻，城市街道，自然窗光，标志性回眸，街拍风格，长外套，城市霓虹背景',
+  },
+  {
+    id: 10,
+    title: '极简空间人像',
+    category: 'portrait',
+    author: '@iam_miharbi',
+    source: 'https://x.com/iam_miharbi/status/2045151354679665101',
+    image: 'https://raw.githubusercontent.com/EvoLinkAI/awesome-gpt-image-2-API-and-Prompts/main/images/portrait_case2/output.jpg',
+    prompt: `Cinematic minimal portrait, solitary figure in vast empty space, strong directional light creating dramatic shadows, monochromatic color palette, symmetrical composition, reflective floor surface, moody atmospheric lighting, high contrast black and white with subtle color tint`,
+    zh: '电影感极简人像，孤独身影在空旷空间，强烈定向光营造戏剧性阴影，单色调色板，对称构图，反光地板，情绪化氛围照明，高对比黑白带微妙色彩',
+  },
 ];
 ---
 
-<BaseLayout title="泽川 — Rubin's Agent Nexus">
-  <!-- Film Grain Overlay -->
-  <div class="fixed inset-0 pointer-events-none opacity-[0.03] z-50" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 256 256%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E');"></div>
-
-  <!-- Sticky Glass Header -->
-  <header class="glass sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-      <a href="/" class="group flex items-baseline gap-2">
-        <span class="text-2xl font-light tracking-[0.12em] text-neutral uppercase" style="font-family: 'Cormorant Garamond', serif;">泽川</span>
-      </a>
-      <nav class="flex items-center gap-6">
-        <a href="#gallery" class="text-xs tracking-[0.2em] uppercase text-neutral/60 hover:text-neutral transition-colors duration-300 relative group py-1">
-          作品
-          <span class="absolute bottom-0 left-0 w-0 h-px bg-accent group-hover:w-full transition-all duration-500"></span>
-        </a>
-        <button id="btn-admin" class="text-xs tracking-[0.15em] uppercase text-neutral/40 hover:text-accent transition-colors duration-300 flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          <span id="admin-text">管理</span>
-        </button>
-      </nav>
-    </div>
-  </header>
-
-  <main>
-    <!-- Hero Section -->
-    <section class="relative min-h-[60vh] flex flex-col justify-end pb-16 overflow-hidden">
-      <!-- Background gradient - steel blue theme -->
-      <div class="absolute inset-0 bg-gradient-to-b from-primary via-primary to-primary/90"></div>
-      <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%20256%20256%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cfilter%20id%3D%22noise%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%220.8%22%20numOctaves%3D%224%22%20stitchTiles%3D%22stitch%22%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20filter%3D%22url(%23noise)%22%2F%3E%3C%2Fsvg%3E')] opacity-[0.03]"></div>
-
-      <!-- Decorative elements -->
-      <div class="absolute top-20 left-1/4 w-px h-32 bg-gradient-to-b from-transparent via-white/10 to-transparent"></div>
-      <div class="absolute bottom-40 right-1/4 w-px h-24 bg-gradient-to-b from-transparent via-white/10 to-transparent"></div>
-
-      <!-- CTA Button - positioned at bottom center -->
-      <div class="relative z-10 text-center px-6">
-        <a href="#gallery" class="group inline-flex items-center gap-3 px-8 py-3 rounded-md border border-white/30 text-white text-sm tracking-[0.2em] uppercase hover:bg-white hover:text-primary transition-all duration-500">
-          <span>开始探索</span>
-          <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-y-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
-          </svg>
-        </a>
-      </div>
-    </section>
-
-    <!-- Gallery Section -->
-    <section id="gallery-section" class="max-w-7xl mx-auto px-6 py-20">
-      <!-- Section header -->
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-        <div>
-          <div class="flex items-center gap-3 mb-3">
-            <span class="w-8 h-px bg-accent"></span>
-            <span class="text-xs tracking-[0.3em] uppercase text-accent">Gallery</span>
-          </div>
-        </div>
-
-        <!-- Category filters -->
-        <div class="flex flex-wrap gap-2" id="filter-container">
-          {categories.map((cat, i) => (
-            <button
-              data-category={cat.key}
-              class:list={[
-                'px-5 py-2 text-xs tracking-[0.15em] uppercase border rounded-md transition-all duration-400',
-                i === 0
-                  ? 'bg-accent text-surface border-accent'
-                  : 'border-accent/30 text-neutral/50 hover:border-accent hover:text-neutral'
-              ]}
-            >
-              {cat.label}
-            </button>
-          ))}
-        </div>
+<BaseLayout title="Awesome GPT Image 2 Prompts">
+  <!-- Hero Section -->
+  <section class="relative min-h-[50vh] flex items-center justify-center overflow-hidden">
+    <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
+      <!-- Badge -->
+      <div class="inline-block text-xs tracking-[0.3em] uppercase px-4 py-1.5 rounded-full border border-[var(--accent-border)] mb-8" style="background: var(--accent-muted); color: var(--accent);">
+        GPT Image 2 · 精选提示词
       </div>
 
-      <!-- Gallery grid - masonry style with varying heights -->
-      <div id="gallery" class="columns-2 md:columns-3 lg:columns-4 gap-4">
-        <!-- Images rendered by JS -->
-      </div>
+      <!-- Title -->
+      <h1 class="text-5xl md:text-7xl font-light tracking-[0.1em] leading-none mb-6" style="font-family: 'Cormorant Garamond', serif; color: var(--gold-text);">
+        Awesome Prompts
+      </h1>
 
-      <!-- Empty state -->
-      <div id="empty-state" class="hidden text-center py-32">
-        <p class="text-neutral/40 text-lg font-light tracking-wide mb-2">暂无匹配内容</p>
-        <p class="text-accent/30 text-sm">更多内容持续上传中</p>
-      </div>
-    </section>
-  </main>
+      <!-- Subtitle -->
+      <p class="text-lg font-light leading-relaxed max-w-xl mx-auto mb-10" style="color: var(--text-dim);">
+        359+ 高质量 GPT-Image-2 提示词<br/>
+        涵盖电商、广告、人像、海报等7大分类
+      </p>
 
-  <!-- Footer -->
-  <footer class="border-t border-border/30 mt-20 relative z-10">
-    <div class="max-w-6xl mx-auto px-6 py-10 flex flex-col items-center gap-2 text-center">
-      <div class="flex items-center gap-3 mb-2">
-        <span class="w-8 h-px bg-accent/60"></span>
-        <span class="accent-text text-xs tracking-[0.3em] uppercase text-accent">Est. 2026</span>
-        <span class="w-8 h-px bg-accent/60"></span>
-      </div>
-      <p class="text-neutral/40 text-sm font-light tracking-wider">© 2026 泽川 · 所有图片均为AI视觉创作</p>
-      <a href="/admin" class="text-neutral/30 text-xs tracking-widest uppercase hover:text-neutral/60 transition-colors">上传</a>
-    </div>
-  </footer>
-
-  <!-- Login Modal -->
-  <div id="login-modal" class="fixed inset-0 bg-base/90 backdrop-blur-sm hidden z-50 items-center justify-center p-6">
-    <div class="bg-surface rounded-xl border border-border p-8 w-full max-w-sm">
-      <h2 class="font-serif text-xl text-neutral mb-4" style="font-family: 'Cormorant Garamond', serif;">管理模式</h2>
-      <input
-        type="password"
-        id="admin-password"
-        placeholder="输入管理密码..."
-        class="w-full px-4 py-3 bg-base border border-border rounded-lg text-neutral placeholder:text-neutral/30 focus:outline-none focus:border-primary transition-colors mb-4"
-      />
-      <div class="flex gap-3">
-        <button id="btn-login" class="flex-1 py-3 bg-primary text-white rounded-lg hover:bg-primary/80 transition-colors">
-          进入
-        </button>
-        <button id="btn-login-cancel" class="px-6 py-3 border border-border/50 text-neutral/50 rounded-lg hover:border-text/30 transition-colors">
-          取消
-        </button>
-      </div>
-      <p id="login-error" class="text-red-500 text-sm mt-3 hidden">密码错误</p>
-    </div>
-  </div>
-
-  <!-- Admin Bar -->
-  <div id="admin-bar" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-primary text-white rounded-full px-6 py-3 shadow-lg hidden z-50 flex items-center gap-4">
-    <span class="text-sm">管理模式</span>
-    <div class="flex items-center gap-2">
-      <span id="img-count-admin" class="text-xs opacity-70">0 张</span>
-    </div>
-    <button id="btn-exit-admin" class="text-xs opacity-70 hover:opacity-100 transition-opacity">
-      退出管理
-    </button>
-  </div>
-
-  <!-- Edit Modal -->
-  <div id="edit-modal" class="fixed inset-0 bg-base/90 backdrop-blur-sm hidden z-50 items-center justify-center p-6">
-    <div class="bg-surface rounded-xl border border-border p-8 w-full max-w-lg">
-      <h2 class="font-serif text-xl text-neutral mb-4" style="font-family: 'Cormorant Garamond', serif;">编辑图片</h2>
-      <input type="hidden" id="edit-id" />
-      <div class="mb-4 rounded-lg overflow-hidden border border-border/30 bg-base">
-        <img id="edit-preview" src="" class="w-full max-h-64 object-contain" />
-      </div>
-      <div class="mb-4">
-        <label class="block text-neutral/50 text-xs mb-2 font-mono">描述</label>
+      <!-- Search -->
+      <div class="relative max-w-md mx-auto">
         <input
           type="text"
-          id="edit-prompt"
-          placeholder="输入图片描述..."
-          class="w-full px-4 py-3 bg-base border border-border rounded-lg text-neutral placeholder:text-neutral/30 focus:outline-none focus:border-primary transition-colors"
+          id="search-input"
+          placeholder="搜索提示词..."
+          class="w-full px-6 py-4 rounded-full border text-center text-sm tracking-wider transition-all duration-300"
+          style="background: var(--bg-surface); border-color: var(--accent-border); color: var(--text-primary);"
         />
+        <span class="absolute left-6 top-1/2 -translate-y-1/2" style="color: var(--text-dim);">🔍</span>
       </div>
-      <div class="mb-6">
-        <label class="block text-neutral/50 text-xs mb-2 font-mono">分类</label>
-        <select
-          id="edit-category"
-          class="w-full px-4 py-3 bg-base border border-border rounded-lg text-neutral focus:outline-none focus:border-primary transition-colors"
+    </div>
+  </section>
+
+  <!-- Category Tabs -->
+  <section class="sticky top-0 z-40 py-4 px-6" style="background: rgba(7, 18, 9, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--accent-border);">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex flex-wrap justify-center gap-2" id="category-tabs">
+        {categories.map((cat, i) => (
+          <button
+            data-category={cat.key}
+            class:list={[
+              'px-5 py-2 text-xs tracking-[0.15em] uppercase rounded-full transition-all duration-300 border',
+              i === 0
+                ? 'text-[var(--bg-deep)] border-[var(--accent)]'
+                : 'border-[var(--accent-border)] hover:border-[var(--accent)]'
+            ]}
+            style={i === 0 ? 'background: var(--accent);' : `color: var(--text-dim);`}
+          >
+            <span class="mr-1">{cat.icon}</span>{cat.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Prompts Grid -->
+  <section class="max-w-7xl mx-auto px-6 py-12">
+    <div id="prompts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {prompts.map((p) => (
+        <div
+          class="prompt-card rounded-xl overflow-hidden border transition-all duration-400 cursor-pointer group"
+          data-category={p.category}
+          data-title={p.title.toLowerCase()}
+          style="background: var(--bg-surface); border-color: var(--accent-border);"
+          onclick="togglePrompt(this)"
         >
-          <option value="eve-city">EVE城市</option>
-          <option value="eve-daily">EVE日常</option>
-          <option value="eve-cover">EVE封面</option>
-          <option value="portrait">人像</option>
-          <option value="product">产品</option>
-          <option value="landscape">风景</option>
-          <option value="other">其它</option>
-        </select>
-      </div>
-      <div class="flex gap-3">
-        <button id="btn-save" class="flex-1 py-3 bg-primary text-white rounded-lg hover:bg-primary/80 transition-colors">
-          保存修改
-        </button>
-        <button id="btn-delete-img" class="px-6 py-3 border border-red-500/50 text-red-500/70 rounded-lg hover:border-red-500 hover:text-red-500 transition-colors">
-          删除
-        </button>
-        <button id="btn-edit-cancel" class="px-6 py-3 border border-border/50 text-neutral/50 rounded-lg hover:border-text/30 transition-colors">
-          取消
-        </button>
-      </div>
+          <!-- Image -->
+          <div class="aspect-[4/3] overflow-hidden relative">
+            <img
+              src={p.image}
+              alt={p.title}
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          </div>
+
+          <!-- Content -->
+          <div class="p-5">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] tracking-[0.2em] uppercase px-2 py-1 rounded-full border" style="color: var(--accent); border-color: var(--accent-border);">
+                {categories.find(c => c.key === p.category)?.label}
+              </span>
+              <a href={p.source} target="_blank" class="text-[10px] tracking-wider" style="color: var(--text-dim);">
+                {p.author}
+              </a>
+            </div>
+
+            <h3 class="text-lg font-light tracking-wide mb-2" style="color: var(--text-primary); font-family: 'Cormorant Garamond', serif;">
+              {p.title}
+            </h3>
+
+            <p class="text-xs leading-relaxed mb-4" style="color: var(--text-dim);">
+              {p.zh}
+            </p>
+
+            <!-- Prompt Preview -->
+            <div class="prompt-preview text-xs p-3 rounded-lg mb-4 overflow-hidden" style="background: rgba(0,0,0,0.3); color: var(--text-dim);">
+              <p class="line-clamp-3">{p.prompt}</p>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex items-center justify-between pt-3 border-t" style="border-color: var(--accent-border);">
+              <button
+                onclick="event.stopPropagation(); copyPrompt(this)"
+                data-prompt={p.prompt}
+                class="text-xs tracking-wider uppercase flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all duration-300 hover:border-[var(--accent)]"
+                style="border-color: var(--accent-border); color: var(--accent);"
+              >
+                <span>📋</span> 复制
+              </button>
+              <button class="text-xs" style="color: var(--text-dim);">点击展开 ↓</button>
+            </div>
+          </div>
+
+          <!-- Full Prompt (Hidden) -->
+          <div class="prompt-full hidden px-5 pb-5">
+            <div class="text-xs p-4 rounded-lg overflow-auto max-h-[300px]" style="background: rgba(0,0,0,0.4); color: var(--text-primary);">
+              <pre class="whitespace-pre-wrap text-xs leading-relaxed">{p.prompt}</pre>
+            </div>
+            <div class="flex items-center justify-between mt-4 pt-3 border-t" style="border-color: var(--accent-border);">
+              <button
+                onclick="event.stopPropagation(); copyPrompt(this)"
+                data-prompt={p.prompt}
+                class="text-xs tracking-wider uppercase flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300"
+                style="background: var(--accent); color: var(--bg-deep);"
+              >
+                <span>✓</span> 复制完整提示词
+              </button>
+              <button onclick="event.stopPropagation(); togglePrompt(this.closest('.prompt-card'))" class="text-xs px-3 py-1.5 rounded-full border" style="border-color: var(--accent-border); color: var(--text-dim);">
+                收起
+              </button>
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
-  </div>
 
-  <!-- Lightbox -->
-  <div id="lightbox" class="fixed inset-0 bg-base/95 backdrop-blur-sm hidden z-50 items-center justify-center p-4 sm:p-8 opacity-0 transition-opacity duration-300">
-    <!-- Prev Button -->
-    <button id="lightbox-prev" class="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-primary/10 border border-accent/30 flex items-center justify-center text-accent hover:bg-accent/20 transition-all duration-300 opacity-0 group-hover:opacity-100 z-10">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-    </button>
-
-    <!-- Next Button -->
-    <button id="lightbox-next" class="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-primary/10 border border-accent/30 flex items-center justify-center text-accent hover:bg-accent/20 transition-all duration-300 opacity-0 group-hover:opacity-100 z-10">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-    </button>
-
-    <div id="lightbox-content" class="max-w-5xl max-h-[90vh] flex flex-col items-center scale-95 transition-transform duration-300 group">
-      <div class="rounded-lg overflow-hidden border border-accent/20 shadow-2xl">
-        <img id="lightbox-img" src="" alt="" class="max-w-[90vw] max-h-[80vh] object-contain touch-pan-x touch-pan-y pinch-zoom" />
-      </div>
-      <p id="lightbox-prompt" class="text-neutral/40 text-center mt-4 sm:mt-6 font-mono text-xs max-w-lg leading-relaxed"></p>
+    <!-- Empty State -->
+    <div id="empty-state" class="hidden text-center py-20">
+      <p class="text-2xl mb-2" style="color: var(--gold-text); font-family: 'Cormorant Garamond', serif;">暂无匹配</p>
+      <p class="text-sm" style="color: var(--text-dim);">尝试其他关键词或分类</p>
     </div>
+  </section>
 
-    <!-- Close hint -->
-    <p class="absolute bottom-6 text-neutral/30 text-xs font-mono">← → 切换 · 点击空白处返回</p>
-  </div>
+  <!-- Footer -->
+  <footer class="border-t py-10 px-6" style="border-color: var(--accent-border);">
+    <div class="max-w-6xl mx-auto text-center">
+      <p class="text-xs tracking-widest uppercase mb-4" style="color: var(--gold-text);">Awesome GPT Image 2 Prompts</p>
+      <p class="text-xs" style="color: var(--text-dim);">
+        基于 <a href="https://github.com/EvoLinkAI/awesome-gpt-image-2-API-and-Prompts" target="_blank" class="underline" style="color: var(--accent);">EvolinkAI/awesome-gpt-image-2</a> · 仅供学习参考
+      </p>
+    </div>
+  </footer>
 </BaseLayout>
 
 <style>
-  /* Glassmorphism header */
-  .glass {
-    background: rgba(245, 241, 232, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(224, 217, 208, 0.5);
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
-  /* Hero title hover */
-  .hero-title {
-    color: var(--color-primary);
-    transition: color 0.3s ease, transform 0.3s ease;
-    display: inline-block;
-    cursor: default;
-  }
-  .hero-title:hover {
-    color: var(--color-accent);
-    transform: translateY(-2px);
+  .prompt-card:hover {
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 30px var(--glow);
   }
 
-  /* Gallery item hover effects */
-  .gallery-item {
-    transition: transform 0.3s ease;
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
   }
-  .gallery-item:hover {
-    transform: translateY(-4px);
+  ::-webkit-scrollbar-track {
+    background: var(--bg-deep);
   }
-  .gallery-item .img-wrap {
-    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    box-shadow: 0 4px 20px rgba(26, 46, 69, 0);
+  ::-webkit-scrollbar-thumb {
+    background: var(--accent-border);
+    border-radius: 3px;
   }
-  .gallery-item:hover .img-wrap {
-    box-shadow: 0 8px 32px rgba(26, 46, 69, 0.15), 0 0 0 1px rgba(138, 114, 72, 0.3);
-  }
-  .gallery-item .img-wrap img {
-    transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-  .gallery-item:hover .img-wrap img {
-    transform: scale(1.04);
-  }
-
-  /* Staggered entrance animation */
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .gallery-item {
-    animation: fadeInUp 0.5s ease backwards;
-  }
-
-  /* Lightbox image touch zoom */
-  #lightbox-img {
-    touch-action: pan-x pan-y pinch-zoom;
-    cursor: grab;
-  }
-  #lightbox-img:active {
-    cursor: grabbing;
-  }
-  #lightbox:hover #lightbox-prev,
-  #lightbox:hover #lightbox-next {
-    opacity: 1;
-  }
-
-  .admin-mode .gallery-item .delete-btn,
-  .admin-mode .gallery-item .edit-btn {
-    opacity: 100 !important;
-  }
-
-  /* Scroll behavior */
-  html {
-    scroll-behavior: smooth;
-  }
-
-  /* Selection color */
-  ::selection {
-    background: #8A724833;
-  }
-
-  /* Accent text color */
-  .accent-text {
-    color: var(--color-accent);
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
   }
 </style>
 
 <script>
-  const ADMIN_PASSWORD = 'rubin639';
-  const API_URL = 'https://rubin-gallery-api.luokaijun2025.workers.dev';
-  const STORAGE_KEY = 'rubin_gallery';
+  const tabs = document.querySelectorAll('#category-tabs button');
+  const cards = document.querySelectorAll('.prompt-card');
+  const searchInput = document.getElementById('search-input');
+  const emptyState = document.getElementById('empty-state');
 
-  const defaultImages = [];
+  // Category filter
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const cat = tab.dataset.category;
 
-  // State
-  let images: any[] = [];
-  let isAdmin = false;
-  let currentEditId: string | null = null;
-
-  // Elements
-  const gallery = document.getElementById('gallery')!;
-  const lightbox = document.getElementById('lightbox')!;
-  const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
-  const lightboxPrompt = document.getElementById('lightbox-prompt');
-  const loginModal = document.getElementById('login-modal')!;
-  const editModal = document.getElementById('edit-modal')!;
-  const btnAdmin = document.getElementById('btn-admin')!;
-  const adminBar = document.getElementById('admin-bar')!;
-  const adminText = document.getElementById('admin-text')!;
-  const filterContainer = document.getElementById('filter-container')!;
-  const navBtns = filterContainer.querySelectorAll('button');
-  const emptyState = document.getElementById('empty-state')!;
-
-  // Load images from cloud
-  async function loadImages() {
-    try {
-      const res = await fetch(API_URL + '?t=' + Date.now());
-      const cloudImages = await res.json();
-      if (cloudImages && cloudImages.length > 0) {
-        images = [...defaultImages, ...cloudImages.filter((img: any) => !img.isLocal)];
-      } else {
-        images = [...defaultImages];
-      }
-    } catch (e) {
-      images = [...defaultImages];
-    }
-    renderGallery(getCurrentFilter());
-  }
-
-  async function saveImages() {
-    const uploadedImages = images.filter(img => !img.isLocal);
-    try {
-      await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(uploadedImages.map((img: any) => ({
-          id: img.id,
-          src: img.src,
-          prompt: img.prompt,
-          category: img.category,
-          time: img.time || new Date().toISOString(),
-          platform: img.platform || 'imgbb',
-          isLocal: false
-        })))
+      tabs.forEach(t => {
+        t.style.background = 'transparent';
+        t.style.color = 'var(--text-dim)';
+        t.style.borderColor = 'var(--accent-border)';
       });
-    } catch (e) {
-      console.error('Failed to save to cloud:', e);
-    }
-  }
+      tab.style.background = 'var(--accent)';
+      tab.style.color = 'var(--bg-deep)';
+      tab.style.borderColor = 'var(--accent)';
 
-  async function deleteImageCloud(id: string) {
-    try {
-      await fetch(API_URL, {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id })
-      });
-    } catch (e) {
-      console.error('Failed to delete from cloud:', e);
-    }
-  }
-
-  function generateId() {
-    return 'img-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
-  }
-
-  // Render gallery
-  function renderGallery(filter = 'all') {
-    gallery.innerHTML = '';
-    const filteredImages = images
-      .filter(img => filter === 'all' || img.category === filter)
-      .sort((a, b) => new Date(b.time || 0).getTime() - new Date(a.time || 0).getTime());
-
-    if (filteredImages.length === 0) {
-      emptyState.classList.remove('hidden');
-    } else {
-      emptyState.classList.add('hidden');
-    }
-
-    filteredImages.forEach((img: any, idx: number) => {
-      const div = document.createElement('div');
-      div.className = 'gallery-item break-inside-avoid group relative';
-      div.dataset.id = img.id;
-      div.dataset.category = img.category;
-      div.dataset.src = img.src;
-      div.dataset.prompt = img.prompt;
-      div.dataset.index = String(idx);
-      div.style.animationDelay = `${idx * 40}ms`;
-
-      div.innerHTML = `
-        <div class="img-wrap relative overflow-hidden rounded-lg border border-border/30 bg-surface cursor-pointer break-inside-avoid mb-4">
-          <img src="${img.src}" alt="${img.prompt}" class="w-full object-cover" loading="lazy" />
-          ${isAdmin && !img.isLocal ? `
-            <div class="admin-controls absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-              <button class="edit-btn w-8 h-8 bg-base/90 rounded-lg flex items-center justify-center text-neutral/70 hover:text-neutral border border-border/50" title="编辑">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-              </button>
-              <button class="delete-btn w-8 h-8 bg-base/90 rounded-lg flex items-center justify-center text-neutral/70 hover:text-red-500 border border-border/50" title="删除">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-              </button>
-            </div>
-          ` : ''}
-        </div>
-      `;
-
-      div.addEventListener('click', (e) => {
-        const target = e.target as HTMLElement;
-        if (isAdmin) {
-          if (target.closest('.edit-btn')) {
-            openEditModal(img);
-          } else if (target.closest('.delete-btn')) {
-            deleteImage(img.id);
-          } else {
-            openLightbox(idx, filteredImages);
-          }
+      cards.forEach(card => {
+        if (cat === 'all' || card.dataset.category === cat) {
+          card.style.display = 'block';
         } else {
-          openLightbox(idx, filteredImages);
+          card.style.display = 'none';
         }
       });
 
-      gallery.appendChild(div);
-    });
-  }
-
-  let lightboxImages: any[] = [];
-  let lightboxCurrentIndex = 0;
-
-  function openLightbox(index: number, imageList: any[]) {
-    lightboxImages = imageList;
-    lightboxCurrentIndex = index;
-    updateLightboxImage();
-    lightbox.classList.remove('hidden');
-    lightbox.offsetHeight;
-    lightbox.classList.add('opacity-100');
-    lightbox.classList.remove('opacity-0');
-    const content = document.getElementById('lightbox-content');
-    if (content) {
-      content.classList.remove('scale-95');
-      content.classList.add('scale-100');
-    }
-    document.body.style.overflow = 'hidden';
-  }
-
-  function updateLightboxImage() {
-    const img = lightboxImages[lightboxCurrentIndex];
-    if (!img) return;
-    lightboxImg.src = img.src;
-    lightboxPrompt!.textContent = img.prompt;
-  }
-
-  function closeLightbox() {
-    lightbox.classList.remove('opacity-100');
-    lightbox.classList.add('opacity-0');
-    const content = document.getElementById('lightbox-content');
-    if (content) {
-      content.classList.remove('scale-100');
-      content.classList.add('scale-95');
-    }
-    setTimeout(() => {
-      lightbox.classList.add('hidden');
-      lightbox.classList.remove('flex');
-      document.body.style.overflow = '';
-    }, 300);
-  }
-
-  function lightboxNext() {
-    lightboxCurrentIndex = (lightboxCurrentIndex + 1) % lightboxImages.length;
-    updateLightboxImage();
-  }
-
-  function lightboxPrev() {
-    lightboxCurrentIndex = (lightboxCurrentIndex - 1 + lightboxImages.length) % lightboxImages.length;
-    updateLightboxImage();
-  }
-
-  function deleteImage(id: string) {
-    if (!confirm('确定删除这张图片？')) return;
-    const img = images.find((i: any) => i.id === id);
-    images = images.filter((i: any) => i.id !== id);
-    if (img && !img.isLocal) {
-      deleteImageCloud(id);
-    }
-    renderGallery(getCurrentFilter());
-  }
-
-  function openEditModal(img: any) {
-    currentEditId = img.id;
-    (document.getElementById('edit-id') as HTMLInputElement).value = img.id;
-    (document.getElementById('edit-preview') as HTMLImageElement).src = img.src;
-    (document.getElementById('edit-prompt') as HTMLInputElement).value = img.prompt;
-    (document.getElementById('edit-category') as HTMLSelectElement).value = img.category;
-    editModal.classList.remove('hidden');
-    editModal.classList.add('flex');
-    document.body.style.overflow = 'hidden';
-    (document.getElementById('edit-prompt') as HTMLInputElement).focus();
-  }
-
-  function closeEditModal() {
-    editModal.classList.add('hidden');
-    editModal.classList.remove('flex');
-    document.body.style.overflow = '';
-  }
-
-  function saveEdit() {
-    if (!currentEditId) return;
-    const prompt = (document.getElementById('edit-prompt') as HTMLInputElement).value;
-    const category = (document.getElementById('edit-category') as HTMLSelectElement).value;
-    const img = images.find((i: any) => i.id === currentEditId);
-    if (img) {
-      img.prompt = prompt;
-      img.category = category;
-      saveImages();
-      updateAdminBarCount();
-      renderGallery(getCurrentFilter());
-    }
-    closeEditModal();
-  }
-
-  function deleteCurrentImage() {
-    if (!currentEditId) return;
-    if (!confirm('确定删除这张图片？')) return;
-    images = images.filter((img: any) => img.id !== currentEditId);
-    saveImages();
-    updateAdminBarCount();
-    renderGallery(getCurrentFilter());
-    closeEditModal();
-  }
-
-  function updateAdminBarCount() {
-    const countEl = document.getElementById('img-count-admin');
-    if (countEl) countEl.textContent = `${images.length} 张`;
-  }
-
-  function getCurrentFilter() {
-    const activeBtn = filterContainer.querySelector('button[data-active]');
-    return activeBtn?.getAttribute('data-category') || 'all';
-  }
-
-  // Admin mode
-  function toggleAdmin() {
-    if (isAdmin) {
-      exitAdminMode();
-    } else {
-      loginModal.classList.remove('hidden');
-      loginModal.classList.add('flex');
-      (document.getElementById('admin-password') as HTMLInputElement).value = '';
-      document.getElementById('login-error')!.classList.add('hidden');
-      (document.getElementById('admin-password') as HTMLInputElement).focus();
-    }
-  }
-
-  function exitAdminMode() {
-    isAdmin = false;
-    sessionStorage.removeItem('gallery_admin');
-    adminBar.classList.add('hidden');
-    adminBar.classList.remove('flex');
-    adminText.textContent = '管理';
-    document.body.classList.remove('admin-mode');
-    renderGallery(getCurrentFilter());
-  }
-
-  function enterAdminMode() {
-    isAdmin = true;
-    sessionStorage.setItem('gallery_admin', 'true');
-    loginModal.classList.add('hidden');
-    loginModal.classList.remove('flex');
-    adminBar.classList.remove('hidden');
-    adminBar.classList.add('flex');
-    adminText.textContent = '退出';
-    document.body.classList.add('admin-mode');
-    updateAdminBarCount();
-    renderGallery(getCurrentFilter());
-  }
-
-  function doLogin() {
-    const pw = (document.getElementById('admin-password') as HTMLInputElement).value;
-    if (pw === ADMIN_PASSWORD) {
-      enterAdminMode();
-    } else {
-      document.getElementById('login-error')!.classList.remove('hidden');
-    }
-  }
-
-  // Event listeners
-  btnAdmin.addEventListener('click', toggleAdmin);
-
-  document.getElementById('btn-login')!.addEventListener('click', doLogin);
-  document.getElementById('btn-login-cancel')!.addEventListener('click', () => {
-    loginModal.classList.add('hidden');
-    loginModal.classList.remove('flex');
-  });
-
-  document.getElementById('admin-password')!.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') doLogin();
-  });
-
-  document.getElementById('btn-save')!.addEventListener('click', saveEdit);
-  document.getElementById('btn-delete-img')!.addEventListener('click', deleteCurrentImage);
-  document.getElementById('btn-edit-cancel')!.addEventListener('click', closeEditModal);
-  document.getElementById('btn-exit-admin')!.addEventListener('click', exitAdminMode);
-
-  lightbox.addEventListener('click', (e) => {
-    const target = e.target as HTMLElement;
-    if (target === lightbox) closeLightbox();
-    if (target.closest('#lightbox-next')) lightboxNext();
-    if (target.closest('#lightbox-prev')) lightboxPrev();
-  });
-  document.addEventListener('keydown', (e) => {
-    if (!lightbox.classList.contains('hidden')) {
-      if (e.key === 'Escape') closeLightbox();
-      if (e.key === 'ArrowRight') lightboxNext();
-      if (e.key === 'ArrowLeft') lightboxPrev();
-      return;
-    }
-    if (!editModal.classList.contains('hidden')) {
-      if (e.key === 'Escape') closeEditModal();
-    }
-  });
-
-  // Category filter
-  navBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const cat = btn.getAttribute('data-category') || 'all';
-
-      navBtns.forEach(b => {
-        b.classList.remove('bg-accent', 'text-surface', 'border-accent');
-        b.classList.add('border-accent/30', 'text-neutral/50');
-        b.removeAttribute('data-active');
-      });
-      btn.classList.remove('border-accent/30', 'text-neutral/50');
-      btn.classList.add('bg-accent', 'text-surface', 'border-accent');
-      btn.setAttribute('data-active', 'true');
-
-      renderGallery(cat);
+      checkEmpty();
     });
   });
 
-  // Init
-  if (sessionStorage.getItem('gallery_admin') === 'true') {
-    isAdmin = true;
-    adminText.textContent = '退出';
-    document.body.classList.add('admin-mode');
+  // Search
+  searchInput?.addEventListener('input', (e) => {
+    const q = e.target.value.toLowerCase();
+
+    cards.forEach(card => {
+      const title = card.dataset.title || '';
+      if (title.includes(q) || q === '') {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    checkEmpty();
+  });
+
+  function checkEmpty() {
+    const visible = [...cards].filter(c => c.style.display !== 'none');
+    emptyState?.classList.toggle('hidden', visible.length > 0);
   }
 
-  loadImages();
+  // Toggle prompt expand/collapse
+  function togglePrompt(card) {
+    const preview = card.querySelector('.prompt-preview');
+    const full = card.querySelector('.prompt-full');
+    const toggle = card.querySelector('.flex.items-center.justify-between.pt-3.border-t button:last-child');
 
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible') {
-      loadImages();
+    if (full?.classList.contains('hidden')) {
+      full.classList.remove('hidden');
+      preview?.classList.add('hidden');
+      if (toggle) toggle.textContent = '收起';
+    } else {
+      full?.classList.add('hidden');
+      preview?.classList.remove('hidden');
+      if (toggle) toggle.textContent = '点击展开 ↓';
     }
-  });
+  }
+
+  // Copy prompt
+  function copyPrompt(btn) {
+    const prompt = btn.dataset.prompt;
+    navigator.clipboard.writeText(prompt).then(() => {
+      const original = btn.innerHTML;
+      btn.innerHTML = '<span>✓</span> 已复制';
+      setTimeout(() => {
+        btn.innerHTML = original;
+      }, 1500);
+    });
+  }
+
+  // Make functions global
+  (window as any).togglePrompt = togglePrompt;
+  (window as any).copyPrompt = copyPrompt;
 </script>
