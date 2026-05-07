@@ -24,7 +24,7 @@ const categories = [
   <header class="pt-12 pb-8 px-6">
     <div class="max-w-6xl mx-auto flex justify-between items-start">
       <div>
-        <h1 class="font-serif text-5xl text-neutral tracking-tight leading-tight">泽川</h1>
+        <h1 class="font-serif text-5xl text-neutral tracking-tight leading-tight hero-title" style="font-family: 'Cormorant Garamond', serif;">泽川</h1>
         <p class="text-neutral/50 text-sm mt-3 font-mono tracking-wider">Rubin's Agent Nexus</p>
       </div>
       <button id="btn-admin" class="text-neutral/50 text-xs font-mono hover:text-accent transition-colors px-3 py-1 border border-accent/30 rounded flex items-center gap-1">
@@ -230,6 +230,35 @@ const categories = [
   .admin-mode .gallery-item .delete-btn,
   .admin-mode .gallery-item .edit-btn {
     opacity: 100 !important;
+  }
+
+  /* Hero title hover - steel blue theme, hover to accent */
+  .hero-title {
+    color: var(--color-primary);
+    transition: color 0.3s ease, transform 0.3s ease;
+    display: inline-block;
+    cursor: default;
+  }
+  .hero-title:hover {
+    color: var(--color-accent);
+    transform: translateY(-2px);
+  }
+
+  /* Category button hover animations */
+  nav button {
+    transition: all 0.3s ease;
+  }
+  nav button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(26, 46, 69, 0.15);
+  }
+  nav button:active {
+    transform: translateY(0);
+  }
+
+  /* Gallery item hover */
+  .gallery-item:hover {
+    transform: translateY(-2px);
   }
 </style>
 
