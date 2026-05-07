@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rubin-gallery-v4';
+const CACHE_NAME = 'rubin-gallery-v5';
 const ASSETS = [
   '/',
   '/index.html',
