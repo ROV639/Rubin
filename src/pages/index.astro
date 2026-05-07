@@ -1,5 +1,15 @@
 ---
+import promptsData from '../data/prompts.json';
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const prompts = promptsData as Array<{
+  img: string;
+  link: string;
+  author: string;
+  prompt: string;
+  title: string;
+  category: string;
+}>;
 
 const categories = [
   { key: 'all', label: '全部', icon: '◆' },
@@ -12,131 +22,34 @@ const categories = [
   { key: 'comparison', label: '对比', icon: '◐' },
 ];
 
-const prompts = [
-  {
-    id: 1,
-    title: '便利店霓虹人像',
-    category: 'portrait',
-    author: '@BubbleBrain',
-    source: 'https://x.com/BubbleBrain/status/2045167461147042202',
-    image: 'https://raw.githubusercontent.com/EvoLinkAI/awesome-gpt-image-2-API-and-Prompts/main/images/portrait_case1/output.jpg',
-    prompt: `35mm film photography with harsh convenience store fluorescent lighting mixed with colorful neon signs from outside, authentic film grain, high contrast, slight color cast, cinematic street editorial style, intimate medium shot, early 20s sexy Chinese female idol with ultra-realistic delicate refined Chinese features, seductive almond-shaped fox eyes with natural double eyelids, high nose bridge, small sharp V-shaped jawline, flawless porcelain skin with cool ivory undertone and visible specular highlights from fluorescent light, subtle skin texture and micro pores, natural dewy makeup with soft flush on cheeks, glossy natural pink lips slightly parted, subtle natural freckles across nose and cheeks, long dark brown hair in a messy high ponytail with many loose strands falling around face and neck, wearing an oversized white button-up shirt as the only top, unbuttoned at the top with deep cleavage and loosely tied at the waist, paired with a tiny black pleated mini skirt, barefoot in simple white slides, seductive casual leaning pose against the glass door of a 24-hour convenience store at late night, body slightly arched, one leg bent with foot resting against the door frame, the other leg straight, one hand holding a bottle of iced drink, the other hand lightly pulling the hem of her mini skirt, intensely seductive playful yet slightly vulnerable gaze straight at the viewer with soft doe eyes full of quiet temptation and teasing smile, bright cold fluorescent store light from inside mixed with pink and blue neon glow from outside signs, realistic reflections on glass door, blurred convenience store interior with shelves and snacks in background, authentic 35mm film color grading with harsh lighting and neon accents, extremely sharp yet soft skin rendering, natural hair strands, realistic fabric wrinkles and drape on the oversized shirt and mini skirt, no plastic skin, no digital over-sharpening, no airbrushing, no blemishes, no moles, no oily skin, no watermark, no text, authentic late-night convenience store atmosphere`,
-    zh: '35mm胶片摄影便利店荧光灯与彩色霓虹灯混合照明，真实胶片颗粒，高对比度，电影街拍风格，年轻中国女性偶像，精致面部特征，性感杏仁眼，高鼻梁，小V脸，瓷白肌肤，自然妆容，粉色嘴唇，乱高马尾，oversized白衬衫，超短裙，午夜便利店场景',
-  },
-  {
-    id: 2,
-    title: '电影感极简人像',
-    category: 'portrait',
-    author: '@iam_miharbi',
-    source: 'https://x.com/iam_miharbi/status/2045151354679665101',
-    image: 'https://raw.githubusercontent.com/EvoLinkAI/awesome-gpt-image-2-API-and-Prompts/main/images/portrait_case2/output.jpg',
-    prompt: `Generate a cinematic minimal portrait of a solitary man standing in an intense orange to red gradient environment, strong silhouette lighting, deep shadow contrast, reflective glossy floor, symmetrical composition, minimal`,
-    zh: '电影感极简人像，孤独男子站在橙红渐变环境中，强剪影照明，深阴影对比，反光地板，对称构图，极简风格',
-  },
-  {
-    id: 3,
-    title: '日本温泉旅馆人像',
-    category: 'portrait',
-    author: '@BubbleBrain',
-    source: 'https://x.com/BubbleBrain/status/2045092449803284923',
-    image: 'https://raw.githubusercontent.com/EvoLinkAI/awesome-gpt-image-2-API-and-Prompts/main/images/portrait_case3/output.jpg',
-    prompt: `35mm film photography, warm vintage Japanese onsen ryokan aesthetic, soft ambient wooden lantern lighting mixed with gentle natural window light, subtle film grain, gentle color shift, high atmosphere editorial style, intimate medium shot, early 20s beautiful Chinese female idol with ultra-realistic delicate refined Chinese features, seductive almond-shaped fox eyes with natural double eyelids, high nose bridge, small sharp V-shaped jawline, flawless porcelain skin with warm ivory undertone, visible subtle skin texture and micro pores, soft natural makeup with dewy glow, subtle rosy flush on cheeks, natural soft pink lips slightly parted, long dark brown hair tied in a loose low bun with some messy strands falling around face and neck, wearing a loose white yukata (traditional Japanese bathrobe) deliberately slipped off one shoulder and loosely tied at the waist, the fabric slightly open revealing smooth skin and subtle cleavage, barefoot, seductive relaxed sitting pose on the edge of a traditional wooden engawa veranda at a vintage onsen ryokan`,
-    zh: '35mm胶片摄影，温馨复古日本温泉旅馆风格，柔和灯笼光与自然窗光，胶片颗粒，氛围感强，年轻中国女性，精致五官，浴衣微微滑落，露天温泉木质走廊场景',
-  },
-  {
-    id: 4,
-    title: '微型 Diorama 护肤品广告',
-    category: 'ecommerce',
-    author: '@Strength04_X',
-    source: 'https://x.com/Strength04_X/status/2048074514278563949',
-    image: 'https://raw.githubusercontent.com/EvoLinkAI/awesome-gpt-image-2-API-and-Prompts/main/images/poster_case151/output.jpg',
-    prompt: `A hyper-realistic miniature diorama product advertisement featuring an oversized luxury skincare pump bottle labeled "LUXEVEIL Skin Science - Radiance Nourishing Body Lotion" in cream/beige with a polished gold pump top, placed on a circular platform. Tiny figurine construction workers dressed in yellow coveralls and white hard hats swarm around the bottle climbing scaffolding, painting the bottle with rollers, operating a tower crane, working near industrial tanks and pipework, and unloading a miniature flatbed truck. The scene includes metal scaffolding structures, industrial silos, orange traffic cones, wooden barricades, and storage barrels. The overall color palette is warm beige, cream, gold, and mustard yellow. Studio photography style with soft diffused lighting, no shadows, clean beige background. The concept metaphorically shows workers "crafting" or "building" the perfect lotion. Tilt-shift miniature aesthetic, ultra-detailed, commercial product photography, 8K resolution, photorealistic CGI render.`,
-    zh: '超写实微缩景观产品广告，巨型奢华护肤品瓶置于圆形平台上，微型建筑工人围绕其施工，黄蓝工作服，安全帽，脚手架，工业桶，暖米色金色调，影棚摄影风格，移轴微缩效果，8K超清',
-  },
-  {
-    id: 5,
-    title: '9格广告分镜',
-    category: 'ecommerce',
-    author: '@Magncsans',
-    source: 'https://x.com/Magncsans/status/2047876253898903594',
-    image: 'https://raw.githubusercontent.com/EvoLinkAI/awesome-gpt-image-2-API-and-Prompts/main/images/poster_case160/output.jpg',
-    prompt: `Using the provided reference image, transform the single casual product photo into a polished e-commerce TVC storyboard board for a 15-second ad in 9:16 vertical format, presented as a 9-panel grid. Keep the same blue-and-white ceramic ashtray as the product base, but restage it across cinematic advertising shots with warm premium lighting, shallow depth of field, and a refined lifestyle desktop environment. Add a dark storyboard layout with Chinese titles and timing for each panel.`,
-    zh: '将产品照片转换为9:16竖屏15秒TVC广告分镜，9格画面，蓝色青花瓷烟灰缸产品，电影感广告镜头，暖光照明，浅景深，精致生活场景，中国风分镜脚本',
-  },
-  {
-    id: 6,
-    title: '豪华计时码表广告',
-    category: 'ad',
-    author: '@AlwaveNazca',
-    source: 'https://x.com/AlwaveNazca/status/2048147643809865950',
-    image: 'https://raw.githubusercontent.com/EvoLinkAI/awesome-gpt-image-2-API-and-Prompts/main/images/poster_case144/output.jpg',
-    prompt: `Luxury Chronograph Watch Ad, hyper-realistic photograph of an elegant chronograph watch on a marble surface, soft studio lighting with subtle reflections, shallow depth of field, gold and silver metallic finish with precision engravings,深邃背景with subtle bokeh, commercial photography style, 8K resolution, photorealistic rendering`,
-    zh: '豪华计时码表广告，超写实摄影，大理石表面，柔和影棚光，浅景深，金银金属质感，精细雕刻，柔焦背景，商业摄影风格，8K超清',
-  },
-  {
-    id: 7,
-    title: '汉堡产品主图+9格广告',
-    category: 'ecommerce',
-    author: '@Gdgtify',
-    source: 'https://x.com/Gdgtify/status/2049449869530775877',
-    image: 'https://raw.githubusercontent.com/EvoLinkAI/awesome-gpt-image-2-API-and-Prompts/main/images/ecommerce_case163/output.jpg',
-    prompt: `Create a cinematic hero image of a gourmet cheeseburger on a dark stone surface with glossy brioche bun, melted cheese, crisp lettuce, tomato, grilled patty, sauce, realistic texture, appetizing steam, warm side light, shallow depth of field, premium food commercial style, no text/logos/watermark. Create a 9-cell hybrid keyframe-to-transition storyboard sheet for a 15-second gourmet burger ad, moving from empty surface to ingredient assembly to final macro hero shot.`,
-    zh: '美食摄影杰作，汉堡放在深色石面上，光泽 brioche 汉堡面包，融化的芝士，脆生菜，番茄，烤牛肉饼，诱人蒸汽，暖侧光，浅景深，高端食品商业风格。15秒美食广告9格分镜脚本',
-  },
-  {
-    id: 8,
-    title: 'Galgame风格COS截图',
-    category: 'portrait',
-    author: '@Zoulinshen',
-    source: 'https://x.com/Zoulinshen/status/2045082518089810073',
-    image: 'https://raw.githubusercontent.com/EvoLinkAI/awesome-gpt-image-2-API-and-Prompts/main/images/portrait_case8/output.jpg',
-    prompt: `生成一张竖版手机截图风格的图片，整体比例接近9:16。画面中心偏上是一位真人coser扮演二次元角色。画面最上方加入手机系统状态栏UI，画面底部叠加galgame风格对话框，左侧放动漫头像，右侧排版角色名和中文台词。对话框下方加操作栏。整体风格高清、细节丰富，光线柔和。`,
-    zh: 'Galgame风格手机截图，真人COSER扮演二次元角色，手机状态栏，底部对话框，动漫头像，角色名，中文台词，操作栏，二次元与真人融合',
-  },
-  {
-    id: 9,
-    title: '都市回眸街拍人像',
-    category: 'portrait',
-    author: '@Tz_2022',
-    source: 'https://x.com/Tz_2022/status/2045892003775361198',
-    image: 'https://raw.githubusercontent.com/EvoLinkAI/awesome-gpt-image-2-API-and-Prompts/main/images/portrait_case9/output.jpg',
-    prompt: `Urban street photography, turn-back glance portrait, young East Asian woman in casual streetwear, standing on city street at golden hour, natural window light from building reflections, slightly turning head to glance back at camera, candid editorial style, high fashion street look, long coat over casual outfit, cityscape bokeh background with neon signs`,
-    zh: '都市街拍，回眸人像，年轻东亚女性，休闲装，金色时刻，城市街道，自然窗光，标志性回眸，街拍风格，长外套，城市霓虹背景',
-  },
-  {
-    id: 10,
-    title: '极简空间人像',
-    category: 'portrait',
-    author: '@iam_miharbi',
-    source: 'https://x.com/iam_miharbi/status/2045151354679665101',
-    image: 'https://raw.githubusercontent.com/EvoLinkAI/awesome-gpt-image-2-API-and-Prompts/main/images/portrait_case2/output.jpg',
-    prompt: `Cinematic minimal portrait, solitary figure in vast empty space, strong directional light creating dramatic shadows, monochromatic color palette, symmetrical composition, reflective floor surface, moody atmospheric lighting, high contrast black and white with subtle color tint`,
-    zh: '电影感极简人像，孤独身影在空旷空间，强烈定向光营造戏剧性阴影，单色调色板，对称构图，反光地板，情绪化氛围照明，高对比黑白带微妙色彩',
-  },
-];
+const categoryNames: Record<string, string> = {
+  ad: '广告创意',
+  character: '角色设计',
+  comparison: '对比实验',
+  ecommerce: '电商产品',
+  portrait: '人像摄影',
+  poster: '海报插画',
+  ui: '界面设计',
+};
 ---
 
 <BaseLayout title="Awesome GPT Image 2 Prompts">
   <!-- Hero Section -->
   <section class="relative min-h-[50vh] flex items-center justify-center overflow-hidden">
     <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
-      <!-- Badge -->
       <div class="inline-block text-xs tracking-[0.3em] uppercase px-4 py-1.5 rounded-full border border-[var(--accent-border)] mb-8" style="background: var(--accent-muted); color: var(--accent);">
         GPT Image 2 · 精选提示词
       </div>
 
-      <!-- Title -->
       <h1 class="text-5xl md:text-7xl font-light tracking-[0.1em] leading-none mb-6" style="font-family: 'Cormorant Garamond', serif; color: var(--gold-text);">
         Awesome Prompts
       </h1>
 
-      <!-- Subtitle -->
       <p class="text-lg font-light leading-relaxed max-w-xl mx-auto mb-10" style="color: var(--text-dim);">
-        359+ 高质量 GPT-Image-2 提示词<br/>
+        {prompts.length}+ 高质量 GPT-Image-2 提示词<br/>
         涵盖电商、广告、人像、海报等7大分类
       </p>
 
-      <!-- Search -->
       <div class="relative max-w-md mx-auto">
         <input
           type="text"
@@ -175,18 +88,18 @@ const prompts = [
   <!-- Prompts Grid -->
   <section class="max-w-7xl mx-auto px-6 py-12">
     <div id="prompts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {prompts.map((p) => (
+      {prompts.map((p, idx) => (
         <div
           class="prompt-card rounded-xl overflow-hidden border transition-all duration-400 cursor-pointer group"
           data-category={p.category}
           data-title={p.title.toLowerCase()}
+          data-idx={idx}
           style="background: var(--bg-surface); border-color: var(--accent-border);"
-          onclick="togglePrompt(this)"
+          onclick={`togglePrompt(${idx})`}
         >
-          <!-- Image -->
           <div class="aspect-[4/3] overflow-hidden relative">
             <img
-              src={p.image}
+              src={p.img}
               alt={p.title}
               class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               loading="lazy"
@@ -194,59 +107,53 @@ const prompts = [
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </div>
 
-          <!-- Content -->
           <div class="p-5">
             <div class="flex items-center justify-between mb-3">
               <span class="text-[10px] tracking-[0.2em] uppercase px-2 py-1 rounded-full border" style="color: var(--accent); border-color: var(--accent-border);">
-                {categories.find(c => c.key === p.category)?.label}
+                {categoryNames[p.category] || p.category}
               </span>
-              <a href={p.source} target="_blank" class="text-[10px] tracking-wider" style="color: var(--text-dim);">
-                {p.author}
-              </a>
+              {p.author && (
+                <span class="text-[10px] tracking-wider" style="color: var(--text-dim);">
+                  {p.author}
+                </span>
+              )}
             </div>
 
             <h3 class="text-lg font-light tracking-wide mb-2" style="color: var(--text-primary); font-family: 'Cormorant Garamond', serif;">
               {p.title}
             </h3>
 
-            <p class="text-xs leading-relaxed mb-4" style="color: var(--text-dim);">
-              {p.zh}
-            </p>
-
-            <!-- Prompt Preview -->
             <div class="prompt-preview text-xs p-3 rounded-lg mb-4 overflow-hidden" style="background: rgba(0,0,0,0.3); color: var(--text-dim);">
               <p class="line-clamp-3">{p.prompt}</p>
             </div>
 
-            <!-- Actions -->
             <div class="flex items-center justify-between pt-3 border-t" style="border-color: var(--accent-border);">
               <button
-                onclick="event.stopPropagation(); copyPrompt(this)"
-                data-prompt={p.prompt}
+                onclick={`event.stopPropagation(); copyPrompt(${idx})`}
+                data-prompt={p.prompt.replace(/`/g, '\\`').replace(/\$/g, '\\$')}
                 class="text-xs tracking-wider uppercase flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all duration-300 hover:border-[var(--accent)]"
                 style="border-color: var(--accent-border); color: var(--accent);"
               >
                 <span>📋</span> 复制
               </button>
-              <button class="text-xs" style="color: var(--text-dim);">点击展开 ↓</button>
+              <span class="text-xs" style="color: var(--text-dim);">点击展开 ↓</span>
             </div>
           </div>
 
-          <!-- Full Prompt (Hidden) -->
           <div class="prompt-full hidden px-5 pb-5">
             <div class="text-xs p-4 rounded-lg overflow-auto max-h-[300px]" style="background: rgba(0,0,0,0.4); color: var(--text-primary);">
               <pre class="whitespace-pre-wrap text-xs leading-relaxed">{p.prompt}</pre>
             </div>
             <div class="flex items-center justify-between mt-4 pt-3 border-t" style="border-color: var(--accent-border);">
               <button
-                onclick="event.stopPropagation(); copyPrompt(this)"
-                data-prompt={p.prompt}
+                onclick={`event.stopPropagation(); copyPrompt(${idx})`}
+                data-prompt={p.prompt.replace(/`/g, '\\`').replace(/\$/g, '\\$')}
                 class="text-xs tracking-wider uppercase flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300"
                 style="background: var(--accent); color: var(--bg-deep);"
               >
                 <span>✓</span> 复制完整提示词
               </button>
-              <button onclick="event.stopPropagation(); togglePrompt(this.closest('.prompt-card'))" class="text-xs px-3 py-1.5 rounded-full border" style="border-color: var(--accent-border); color: var(--text-dim);">
+              <button onclick={`event.stopPropagation(); togglePrompt(${idx})`} class="text-xs px-3 py-1.5 rounded-full border" style="border-color: var(--accent-border); color: var(--text-dim);">
                 收起
               </button>
             </div>
@@ -255,7 +162,6 @@ const prompts = [
       ))}
     </div>
 
-    <!-- Empty State -->
     <div id="empty-state" class="hidden text-center py-20">
       <p class="text-2xl mb-2" style="color: var(--gold-text); font-family: 'Cormorant Garamond', serif;">暂无匹配</p>
       <p class="text-sm" style="color: var(--text-dim);">尝试其他关键词或分类</p>
@@ -286,7 +192,6 @@ const prompts = [
     box-shadow: 0 0 30px var(--glow);
   }
 
-  /* Scrollbar */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -303,7 +208,8 @@ const prompts = [
   }
 </style>
 
-<script>
+<script define:vars={{ prompts }}>
+{
   const tabs = document.querySelectorAll('#category-tabs button');
   const cards = document.querySelectorAll('.prompt-card');
   const searchInput = document.getElementById('search-input');
@@ -357,35 +263,38 @@ const prompts = [
   }
 
   // Toggle prompt expand/collapse
-  function togglePrompt(card) {
+  window.togglePrompt = function(idx) {
+    const card = document.querySelector(`[data-idx="${idx}"]`);
+    if (!card) return;
     const preview = card.querySelector('.prompt-preview');
     const full = card.querySelector('.prompt-full');
-    const toggle = card.querySelector('.flex.items-center.justify-between.pt-3.border-t button:last-child');
+    const toggleBtn = card.querySelector('.flex.items-center.justify-between.pt-3 button:last-child');
 
     if (full?.classList.contains('hidden')) {
       full.classList.remove('hidden');
       preview?.classList.add('hidden');
-      if (toggle) toggle.textContent = '收起';
+      if (toggleBtn) toggleBtn.textContent = '收起';
     } else {
       full?.classList.add('hidden');
       preview?.classList.remove('hidden');
-      if (toggle) toggle.textContent = '点击展开 ↓';
+      if (toggleBtn) toggleBtn.textContent = '点击展开 ↓';
     }
-  }
+  };
 
   // Copy prompt
-  function copyPrompt(btn) {
-    const prompt = btn.dataset.prompt;
-    navigator.clipboard.writeText(prompt).then(() => {
+  window.copyPrompt = function(idx) {
+    const card = document.querySelector(`[data-idx="${idx}"]`);
+    if (!card) return;
+    const btn = event.target.closest('button');
+    if (!btn) return;
+    const promptData = btn.dataset.prompt;
+    navigator.clipboard.writeText(promptData).then(() => {
       const original = btn.innerHTML;
       btn.innerHTML = '<span>✓</span> 已复制';
       setTimeout(() => {
         btn.innerHTML = original;
       }, 1500);
     });
-  }
-
-  // Make functions global
-  (window as any).togglePrompt = togglePrompt;
-  (window as any).copyPrompt = copyPrompt;
+  };
+}
 </script>
