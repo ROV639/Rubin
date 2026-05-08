@@ -38,41 +38,45 @@ const categories = [
 
   <main>
     <!-- Hero Section -->
-    <section class="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
-      <!-- Background gradient -->
-      <div class="absolute inset-0 bg-gradient-to-b from-base via-base to-surface/50"></div>
+    <section class="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
+      <!-- Steel blue background -->
+      <div class="absolute inset-0" style="background: #2C4A6B;"></div>
+      <!-- Subtle texture overlay -->
+      <div class="absolute inset-0 opacity-20" style="background-image: url('data:image/svg+xml,%3Csvg width=%2260%22 height=%2260%22 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cg fill=%22%23000000%22 fill-opacity=%220.05%22%3E%3Cpath d=%22M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
 
       <!-- Decorative elements -->
-      <div class="absolute top-20 left-1/4 w-px h-32 bg-gradient-to-b from-transparent via-border/30 to-transparent"></div>
-      <div class="absolute bottom-40 right-1/4 w-px h-24 bg-gradient-to-b from-transparent via-border/30 to-transparent"></div>
+      <div class="absolute top-20 left-1/4 w-px h-32 bg-white/10"></div>
+      <div class="absolute bottom-40 right-1/4 w-px h-24 bg-white/10"></div>
+      <div class="absolute top-1/3 right-1/5 w-2 h-2 rounded-full bg-white/20"></div>
+      <div class="absolute bottom-1/4 left-1/6 w-3 h-3 rounded-full bg-white/10"></div>
 
       <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
         <!-- Badge -->
-        <div class="inline-block text-xs tracking-[0.3em] uppercase px-4 py-1.5 rounded-full border border-accent/30 text-accent mb-8" style="background: rgba(138, 114, 72, 0.08);">
+        <div class="inline-block text-xs tracking-[0.3em] uppercase px-4 py-1.5 rounded-full border border-white/30 text-white mb-8" style="background: rgba(255,255,255,0.1);">
           AI 视觉创作
         </div>
 
         <!-- Main title -->
-        <h1 class="text-6xl md:text-8xl font-light tracking-[0.15em] leading-none mb-6 text-neutral hero-title" style="font-family: 'Cormorant Garamond', serif;">
+        <h1 class="text-6xl md:text-8xl font-light tracking-[0.15em] leading-none mb-6 text-white hero-title" style="font-family: 'Cormorant Garamond', serif;">
           泽川
         </h1>
 
         <!-- Subtitle -->
-        <p class="text-neutral/50 text-lg font-light leading-relaxed max-w-lg mx-auto mb-10">
-          记录所见，探索所知。<br>
+        <p class="text-white/60 text-lg font-light leading-relaxed max-w-lg mx-auto mb-10">
+          记录所见，探索所知。<br/>
           让每一次定格，都成为时间的标本。
         </p>
 
         <!-- Decorative divider -->
         <div class="flex items-center justify-center gap-3 mb-10">
-          <span class="w-1 h-1 rounded-full bg-accent/30"></span>
-          <span class="w-1 h-1 rounded-full bg-accent/50"></span>
-          <span class="w-1 h-1 rounded-full bg-accent/80"></span>
+          <span class="w-1 h-1 rounded-full bg-white/30"></span>
+          <span class="w-1 h-1 rounded-full bg-white/50"></span>
+          <span class="w-1 h-1 rounded-full bg-white/80"></span>
         </div>
 
         <!-- CTA Button -->
         <div class="flex items-center justify-center gap-5">
-          <a href="#gallery" class="group inline-flex items-center gap-3 px-8 py-3 rounded-md border border-accent/30 text-neutral text-sm tracking-[0.2em] uppercase hover:bg-accent hover:text-surface transition-all duration-500" style="background: rgba(138, 114, 72, 0.05);">
+          <a href="#gallery" class="group inline-flex items-center gap-3 px-8 py-3 rounded-md border border-white/30 text-white text-sm tracking-[0.2em] uppercase hover:bg-white hover:text-[#2C4A6B] transition-all duration-500" style="background: rgba(255,255,255,0.05);">
             <span>开始探索</span>
             <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-y-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
@@ -83,15 +87,15 @@ const categories = [
     </section>
 
     <!-- Gallery Section -->
-    <section id="gallery" class="max-w-7xl mx-auto px-6 py-20">
+    <section id="gallery-section" class="max-w-7xl mx-auto px-6 py-20">
       <!-- Section header -->
       <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
         <div>
           <div class="flex items-center gap-3 mb-3">
-            <span class="w-8 h-px bg-accent"></span>
-            <span class="accent-text text-xs tracking-[0.3em] uppercase text-accent">Gallery</span>
+            <span class="w-8 h-px" style="background: #2C4A6B;"></span>
+            <span class="text-xs tracking-[0.3em] uppercase" style="color: #2C4A6B;">Gallery</span>
           </div>
-          <h2 class="text-4xl font-light tracking-tight text-neutral" style="font-family: 'Cormorant Garamond', serif;">精选作品</h2>
+          <h2 class="text-4xl font-light tracking-tight" style="color: #1A2E45; font-family: 'Cormorant Garamond', serif;">精选作品</h2>
         </div>
 
         <!-- Category filters -->
@@ -102,9 +106,10 @@ const categories = [
               class:list={[
                 'px-5 py-2 text-xs tracking-[0.15em] uppercase border rounded-md transition-all duration-400',
                 i === 0
-                  ? 'bg-accent text-surface border-accent'
-                  : 'border-accent/30 text-neutral/50 hover:border-accent hover:text-neutral'
+                  ? 'text-white border-[#2C4A6B]'
+                  : 'border-[#2C4A6B]/30 text-[#1A2E45]/50 hover:border-[#2C4A6B] hover:text-[#1A2E45]'
               ]}
+              style={i === 0 ? 'background: #2C4A6B;' : ''}
             >
               {cat.label}
             </button>
@@ -112,8 +117,8 @@ const categories = [
         </div>
       </div>
 
-      <!-- Gallery grid -->
-      <div id="gallery" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+      <!-- Gallery masonry grid -->
+      <div id="gallery" class="columns-2 md:columns-3 lg:columns-4 gap-4" style="column-gap: 1rem;">
         <!-- Images rendered by JS -->
       </div>
 
@@ -218,26 +223,31 @@ const categories = [
   </div>
 
   <!-- Lightbox -->
-  <div id="lightbox" class="fixed inset-0 bg-base/95 backdrop-blur-sm hidden z-50 items-center justify-center p-4 sm:p-8 opacity-0 transition-opacity duration-300">
+  <div id="lightbox" class="fixed inset-0 hidden z-50 items-center justify-center p-4 sm:p-8 opacity-0 transition-opacity duration-300" style="background: rgba(44, 74, 107, 0.95); backdrop-filter: blur(8px);">
+    <!-- Close button -->
+    <button id="lightbox-close" class="absolute top-6 right-6 w-10 h-10 rounded-full border border-white/30 flex items-center justify-center text-white/60 hover:text-white hover:border-white transition-all">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+
     <!-- Prev Button -->
-    <button id="lightbox-prev" class="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-primary/10 border border-accent/30 flex items-center justify-center text-accent hover:bg-accent/20 transition-all duration-300 opacity-0 group-hover:opacity-100 z-10">
+    <button id="lightbox-prev" class="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 border border-white/30 flex items-center justify-center text-white hover:bg-white/20 transition-all duration-300 opacity-0 group-hover:opacity-100 z-10">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
     </button>
 
     <!-- Next Button -->
-    <button id="lightbox-next" class="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-primary/10 border border-accent/30 flex items-center justify-center text-accent hover:bg-accent/20 transition-all duration-300 opacity-0 group-hover:opacity-100 z-10">
+    <button id="lightbox-next" class="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 border border-white/30 flex items-center justify-center text-white hover:bg-white/20 transition-all duration-300 opacity-0 group-hover:opacity-100 z-10">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
     </button>
 
     <div id="lightbox-content" class="max-w-5xl max-h-[90vh] flex flex-col items-center scale-95 transition-transform duration-300 group">
-      <div class="rounded-lg overflow-hidden border border-accent/20 shadow-2xl">
+      <div class="rounded-lg overflow-hidden shadow-2xl">
         <img id="lightbox-img" src="" alt="" class="max-w-[90vw] max-h-[80vh] object-contain touch-pan-x touch-pan-y pinch-zoom" />
       </div>
-      <p id="lightbox-prompt" class="text-neutral/40 text-center mt-4 sm:mt-6 font-mono text-xs max-w-lg leading-relaxed"></p>
+      <p id="lightbox-prompt" class="text-white/60 text-center mt-4 sm:mt-6 text-xs max-w-lg leading-relaxed"></p>
     </div>
 
     <!-- Close hint -->
-    <p class="absolute bottom-6 text-neutral/30 text-xs font-mono">← → 切换 · 点击空白处返回</p>
+    <p class="absolute bottom-6 text-white/40 text-xs">← → 切换 · 点击空白处返回</p>
   </div>
 </BaseLayout>
 
@@ -424,14 +434,17 @@ const categories = [
       div.style.animationDelay = `${idx * 40}ms`;
 
       div.innerHTML = `
-        <div class="img-wrap relative overflow-hidden rounded-lg border border-border/30 bg-surface cursor-pointer">
-          <img src="${img.src}" alt="${img.prompt}" class="w-full object-cover" loading="lazy" />
+        <div class="img-wrap relative overflow-hidden bg-surface cursor-pointer transition-all duration-400 hover:shadow-xl" style="border-radius: 12px;">
+          <img src="${img.src}" alt="${img.prompt}" class="w-full h-auto object-contain" loading="lazy" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
+            <span class="text-white text-xs tracking-widest" style="text-shadow: 0 2px 8px rgba(0,0,0,0.8);">点击查看</span>
+          </div>
           ${isAdmin && !img.isLocal ? `
             <div class="admin-controls absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-              <button class="edit-btn w-8 h-8 bg-base/90 rounded-lg flex items-center justify-center text-neutral/70 hover:text-neutral border border-border/50" title="编辑">
+              <button class="edit-btn w-8 h-8 bg-[#2C4A6B]/90 rounded-lg flex items-center justify-center text-white/80 hover:text-white border border-white/20" title="编辑">
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
               </button>
-              <button class="delete-btn w-8 h-8 bg-base/90 rounded-lg flex items-center justify-center text-neutral/70 hover:text-red-500 border border-border/50" title="删除">
+              <button class="delete-btn w-8 h-8 bg-red-500/90 rounded-lg flex items-center justify-center text-white/80 hover:text-white border border-white/20" title="删除">
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
               </button>
             </div>
@@ -466,8 +479,7 @@ const categories = [
     lightboxCurrentIndex = index;
     updateLightboxImage();
     lightbox.classList.remove('hidden');
-    lightbox.offsetHeight;
-    lightbox.classList.add('opacity-100');
+    lightbox.classList.add('flex', 'opacity-100');
     lightbox.classList.remove('opacity-0');
     const content = document.getElementById('lightbox-content');
     if (content) {
@@ -494,7 +506,7 @@ const categories = [
     }
     setTimeout(() => {
       lightbox.classList.add('hidden');
-      lightbox.classList.remove('flex');
+      lightbox.classList.remove('flex', 'opacity-100');
       document.body.style.overflow = '';
     }, 300);
   }
@@ -637,7 +649,7 @@ const categories = [
 
   lightbox.addEventListener('click', (e) => {
     const target = e.target as HTMLElement;
-    if (target === lightbox) closeLightbox();
+    if (target === lightbox || target.closest('#lightbox-close')) closeLightbox();
     if (target.closest('#lightbox-next')) lightboxNext();
     if (target.closest('#lightbox-prev')) lightboxPrev();
   });
@@ -659,12 +671,14 @@ const categories = [
       const cat = btn.getAttribute('data-category') || 'all';
 
       navBtns.forEach(b => {
-        b.classList.remove('bg-accent', 'text-surface', 'border-accent');
-        b.classList.add('border-accent/30', 'text-neutral/50');
+        b.classList.remove('text-white', 'border-[#2C4A6B]');
+        b.classList.add('border-[#2C4A6B]/30', 'text-[#1A2E45]/50');
+        b.style.background = '';
         b.removeAttribute('data-active');
       });
-      btn.classList.remove('border-accent/30', 'text-neutral/50');
-      btn.classList.add('bg-accent', 'text-surface', 'border-accent');
+      btn.classList.remove('border-[#2C4A6B]/30', 'text-[#1A2E45]/50');
+      btn.classList.add('text-white', 'border-[#2C4A6B]');
+      btn.style.background = '#2C4A6B';
       btn.setAttribute('data-active', 'true');
 
       renderGallery(cat);
