@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🍌 Davinci Studio</title>
+  <title>🫟 DaVinci DarkRoom</title>
   <style>
     :root {
       --bg: #0b0b10;
@@ -438,8 +438,53 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Hidden */
-    input[type="file"] { display: none; }
+    /* Drop zone */
+    .drop-zone {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .drop-zone:hover, .drop-zone.dragover { border-color: var(--accent); background: rgba(168,85,247,0.05); }
+    .drop-zone.has-img { padding: 8px; border-style: solid; border-color: var(--accent); }
+    .drop-zone-img { max-height: 120px; max-width: 100%; border-radius: 8px; display: block; margin: 0 auto; }
+    .drop-zone-label { font-size: 12px; color: var(--text2); pointer-events: none; }
+    .drop-zone-label span { color: var(--accent); font-weight: 600; }
+    .drop-zone .clear-ref {
+      position: absolute; top: 6px; right: 6px;
+      background: var(--danger); color: #fff; border: none;
+      border-radius: 50%; width: 20px; height: 20px;
+      font-size: 11px; cursor: pointer; line-height: 20px; text-align: center;
+      display: none;
+    }
+    .drop-zone.has-img .clear-ref { display: block; }
+
+    /* Pill enhancements */
+    .pill.active { box-shadow: inset 3px 0 0 var(--accent); }
+    .pill-label { font-size: 11px; color: var(--text2); }
+
+    /* Generation progress */
+    .gen-progress {
+      display: none;
+      height: 4px;
+      background: var(--surface2);
+      border-radius: 2px;
+      overflow: hidden;
+      margin: 4px 0;
+    }
+    .gen-progress.active { display: block; }
+    .gen-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 2px;
+      transition: width 0.3s;
+      width: 0%;
+    }
+    .gen-progress-bar.indeterminate { animation: indeterminate 1.2s ease-in-out infinite; }
+    @keyframes indeterminate { 0%{width:0%} 50%{width:60%} 100%{width:100%} }
     .mode-content { display: none; }
     .mode-content.active { display: flex; flex-direction: column; gap: 10px; }
 
@@ -456,7 +501,8 @@
 
 <!-- TOPBAR -->
 <div class="topbar">
-  <div class="topbar-logo">🍌 <span>Davinci Studio</span></div>
+  <div class="topbar-logo">🫟 <span>DaVinci DarkRoom</span></div>
+  <a href="https://rubin.ccwu.cc" target="_blank" class="mode-tab" style="margin-left:8px;font-size:12px;color:var(--text2);text-decoration:none;padding:5px 10px;border-radius:8px;border:none;background:transparent;cursor:pointer;">← 泽川</a>
   <div class="mode-tabs">
     <button class="mode-tab active" data-mode="image" onclick="switchMode('image')">🖼️ 图片</button>
     <button class="mode-tab" data-mode="music" onclick="switchMode('music')">🎵 音乐</button>
@@ -483,105 +529,63 @@
       <!-- ===== IMAGE MODE ===== -->
       <div class="mode-content active" id="mode-image">
 
-        <div class="section">
+        <!-- Drop zone (top) -->
+        <div class="drop-zone" id="img-drop" onclick="document.getElementById('img-ref').click()">
+          <button class="clear-ref" id="img-drop-clear" onclick="clearRefImg(event)">✕</button>
+          <div id="img-drop-content">
+            <div class="drop-zone-label">📎 <span>拖入参考图</span> 或点击选择</div>
+            <div style="font-size:11px;color:var(--text2);margin-top:4px;">支持 JPG/PNG，关闭可提升风格自由度</div>
+          </div>
+        </div>
+        <input type="file" id="img-ref" accept="image/*">
+
+        <div class="section" style="margin-top:2px;">
           <div class="section-label">提示词</div>
           <textarea id="img-prompt" placeholder="描述你想要的图片..."></textarea>
         </div>
 
         <div class="section">
           <div class="section-label">模型</div>
-          <select id="img-model" onchange="switchImageModel(this.value)">
-            <option value="image-01">image-01（写实·推荐）</option>
-            <option value="image-01-live">image-01-live（风格化）</option>
-            <option value="laozhang-gpt-image-2">🍌 GPT-Image-2（$0.03）</option>
-          </select>
-        </div>
-
-        <!-- image-01 选项 -->
-        <div id="img-opts-01">
-          <div class="section">
-            <div class="section-label">尺寸比例</div>
-            <div class="pill-group" id="img-ratio">
-              <button class="pill" data-v="1:1">1:1</button>
-              <button class="pill" data-v="16:9">16:9</button>
-              <button class="pill active" data-v="3:4">3:4</button>
-              <button class="pill" data-v="4:3">4:3</button>
-              <button class="pill" data-v="2:3">2:3</button>
-              <button class="pill" data-v="9:16">9:16</button>
-              <button class="pill" data-v="3:2">3:2</button>
-              <button class="pill" data-v="21:9">21:9</button>
-            </div>
-          </div>
-
-          <div class="section">
-            <div class="section-label">画面风格</div>
-            <div class="pill-group" id="img-style">
-              <button class="pill" data-en="photographic">📷 摄影</button>
-              <button class="pill" data-en="anime">🎌 动漫</button>
-              <button class="pill" data-en="oil painting">🖼️ 油画</button>
-              <button class="pill" data-en="watercolor">🎨 水彩</button>
-              <button class="pill" data-en="cyberpunk">🤖 赛博朋克</button>
-              <button class="pill" data-en="ghibli style">🏯 吉卜力</button>
-              <button class="pill" data-en="impressionist">印象派</button>
-              <button class="pill" data-en="digital art">💻 数字艺术</button>
-              <button class="pill" data-en="cinematic lighting">🎬 电影感</button>
-            </div>
-          </div>
-
-          <div class="section">
-            <div class="section-label">进阶</div>
-            <div class="pill-group" id="img-extra">
-              <button class="pill" id="img-optimizer" onclick="this.classList.toggle('active')">✨ 提示词优化</button>
-              <button class="pill" id="img-watermark" onclick="this.classList.toggle('active')">💧 水印</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- image-01-live 选项 -->
-        <div id="img-opts-live" style="display:none">
-          <div class="section">
-            <div class="section-label">尺寸比例</div>
-            <div class="pill-group" id="img-ratio-live">
-              <button class="pill" data-v="1:1">1:1</button>
-              <button class="pill" data-v="16:9">16:9</button>
-              <button class="pill active" data-v="3:4">3:4</button>
-              <button class="pill" data-v="4:3">4:3</button>
-              <button class="pill" data-v="2:3">2:3</button>
-              <button class="pill" data-v="9:16">9:16</button>
-              <button class="pill" data-v="3:2">3:2</button>
-            </div>
-          </div>
-
-          <div class="section">
-            <div class="section-label">Live风格</div>
-            <div class="pill-group" id="img-live-style">
-              <button class="pill" data-en="漫画">🎭 漫画</button>
-              <button class="pill" data-en="元气">☀️ 元气</button>
-              <button class="pill" data-en="中世纪">🏰 中世纪</button>
-              <button class="pill" data-en="水彩">🌸 水彩</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Laozhang GPT-Image-2 选项 -->
-        <div id="img-opts-lz" style="display:none">
-          <div class="section">
-            <div class="section-label">尺寸</div>
-            <div class="pill-group" id="img-size-lz">
-              <button class="pill active" data-v="1024x1024">1K</button>
-              <button class="pill" data-v="2048x2048">2K</button>
-              <button class="pill" data-v="3840x2160">4K</button>
-            </div>
+          <div style="display:flex;gap:6px;">
+            <button class="pill model-btn active" data-m="image-01" onclick="selectModel(this,'image-01')">📷 image-01</button>
+            <button class="pill model-btn" data-m="image-01-live" onclick="selectModel(this,'image-01-live')">🎬 image-live</button>
+            <button class="pill model-btn" data-m="laozhang-gpt-image-2" onclick="selectModel(this,'laozhang-gpt-image-2')">🍌 $0.03</button>
           </div>
         </div>
 
         <div class="section">
-          <div class="upload-row">
-            <label class="upload-btn" for="img-ref">
-              📎 参考图
-            </label>
-            <input type="file" id="img-ref" accept="image/*">
-            <span class="file-name" id="img-ref-name" style="display:none"></span>
+          <div class="section-label">尺寸比例</div>
+          <div class="pill-group" id="img-ratio">
+            <button class="pill" data-v="1:1">1:1</button>
+            <button class="pill" data-v="16:9">16:9</button>
+            <button class="pill active" data-v="3:4">3:4</button>
+            <button class="pill" data-v="4:3">4:3</button>
+            <button class="pill" data-v="2:3">2:3</button>
+            <button class="pill" data-v="9:16">9:16</button>
+            <button class="pill" data-v="3:2">3:2</button>
+            <button class="pill" data-v="21:9">21:9</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-label">画面风格</div>
+          <div class="pill-group" id="img-style">
+            <button class="pill" data-en="photographic">📷 摄影</button>
+            <button class="pill" data-en="anime">🎌 动漫</button>
+            <button class="pill" data-en="oil painting">🖼️ 油画</button>
+            <button class="pill" data-en="watercolor">🎨 水彩</button>
+            <button class="pill" data-en="cyberpunk">🤖 赛博</button>
+            <button class="pill" data-en="ghibli style">🏯 吉卜力</button>
+            <button class="pill" data-en="impressionist">印象</button>
+            <button class="pill" data-en="digital art">💻 数字</button>
+            <button class="pill" data-en="cinematic lighting">🎬 电影感</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="toggle-row">
+            <span class="toggle-label">✨ 提示词优化</span>
+            <div class="toggle" id="img-optimizer" onclick="this.classList.toggle('on')"></div>
           </div>
         </div>
 
@@ -815,6 +819,9 @@
 
     <!-- Generate + status at bottom -->
     <div style="padding: 0 16px 12px;">
+      <div class="gen-progress" id="genProgress">
+        <div class="gen-progress-bar" id="genProgressBar"></div>
+      </div>
       <button class="gen-btn" id="genBtn" onclick="generate()">✨ 生成</button>
     </div>
     <div class="status-bar" id="statusBar">就绪</div>
@@ -896,7 +903,7 @@ async function refreshCredits() {
   try {
     const d = await api('/credits/all');
     if (d.minimax?.image) {
-      document.getElementById('img-credit').textContent = d.minimax.image.remaining;
+      document.getElementById('img-credit').textContent = d.minimax.image.remaining ?? d.minimax.image.remaining;
     }
     if (d.minimax?.tts) {
       document.getElementById('tts-credit').textContent = d.minimax.tts.remaining;
@@ -908,8 +915,17 @@ async function refreshCredits() {
       document.querySelector('.credit.lz span').textContent = '$' + d.laozhang.balance.toFixed(2);
     }
   } catch (e) {
-    console.warn('Credits refresh failed:', e.message);
+    // silent fail - credits are nice to have
   }
+}
+
+async function refreshLaozhangBalance() {
+  try {
+    const d = await api('/credits/laozhang');
+    if (d.balance !== undefined) {
+      document.querySelector('.credit.lz span').textContent = '$' + d.balance.toFixed(2);
+    }
+  } catch(e) {}
 }
 
 // ============ HISTORY ============
@@ -930,20 +946,60 @@ async function clearHistoryAPI() {
   setStatus('已清空', 'success');
 }
 
+// ============ MODEL SELECTOR ============
+let currentImageModel = 'image-01';
+
+function selectModel(el, model) {
+  document.querySelectorAll('.model-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  currentImageModel = model;
+}
+
+// ============ DRAG-DROP REF IMAGE ============
+const dropZone = document.getElementById('img-drop');
+const fileInput = document.getElementById('img-ref');
+
+dropZone?.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+dropZone?.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+dropZone?.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) {
+    const dt = new DataTransfer();
+    dt.items.add(file);
+    fileInput.files = dt.files;
+    showRefPreview(file);
+  }
+});
+
+fileInput?.addEventListener('change', e => {
+  if (e.target.files[0]) showRefPreview(e.target.files[0]);
+});
+
+function showRefPreview(file) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    const content = document.getElementById('img-drop-content');
+    content.innerHTML = `<img class="drop-zone-img" src="${e.target.result}" alt="ref">`;
+    dropZone.classList.add('has-img');
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearRefImg(e) {
+  e.stopPropagation();
+  fileInput.value = '';
+  const content = document.getElementById('img-drop-content');
+  content.innerHTML = `<div class="drop-zone-label">📎 <span>拖入参考图</span> 或点击选择</div><div style="font-size:11px;color:var(--text2);margin-top:4px;">支持 JPG/PNG，关闭可提升风格自由度</div>`;
+  dropZone.classList.remove('has-img');
+}
+
 // ============ MODE SWITCH ============
 function switchMode(mode) {
   currentMode = mode;
   document.querySelectorAll('.mode-tab').forEach(t => t.classList.toggle('active', t.dataset.mode === mode));
   document.querySelectorAll('.mode-content').forEach(c => c.classList.toggle('active', c.id === 'mode-' + mode));
-}
-
-function switchImageModel(model) {
-  document.getElementById('img-opts-01').style.display = model === 'image-01' ? 'flex' : 'none';
-  document.getElementById('img-opts-01').style.flexDirection = 'column';
-  document.getElementById('img-opts-live').style.display = model === 'image-01-live' ? 'flex' : 'none';
-  document.getElementById('img-opts-live').style.flexDirection = 'column';
-  document.getElementById('img-opts-lz').style.display = model === 'laozhang-gpt-image-2' ? 'flex' : 'none';
-  document.getElementById('img-opts-lz').style.flexDirection = 'column';
 }
 
 // ============ PILL SELECTION ============
@@ -981,17 +1037,28 @@ async function generate() {
   btn.innerHTML = '<span class="spinner"></span> 生成中';
   setStatus('生成中...', '');
 
+  // progress bar
+  const progress = document.getElementById('genProgress');
+  const bar = document.getElementById('genProgressBar');
+  progress.classList.add('active');
+  bar.classList.add('indeterminate');
+  bar.style.width = '30%';
+
   try {
     let result;
     if (currentMode === 'image') result = await genImageAPI();
     else if (currentMode === 'music') result = await genMusicAPI();
     else if (currentMode === 'tts') result = await genTTSAPI();
 
+    bar.style.width = '100%';
+    setTimeout(() => bar.classList.remove('active'), 300);
+
     await loadHistory();
     await refreshCredits();
 
     setStatus(currentMode === 'tts' ? '✓ 音频生成成功' : `✓ 生成成功（${result.model}）`, 'success');
   } catch(e) {
+    bar.classList.remove('active');
     setStatus('✗ ' + e.message, 'error');
   }
 
@@ -1014,23 +1081,11 @@ async function genImageAPI() {
   const prompt = document.getElementById('img-prompt').value.trim();
   if (!prompt) throw new Error('请输入提示词');
 
-  const model = document.getElementById('img-model')?.value || 'image-01';
-  let ratio, style;
-
-  if (model === 'image-01') {
-    ratio = getPillValue('img-ratio') || '3:4';
-    style = getPillEn('img-style');
-  } else if (model === 'image-01-live') {
-    ratio = getPillValue('img-ratio-live') || '3:4';
-    style = getPillEn('img-live-style');
-  } else {
-    ratio = getPillValue('img-size-lz') || '1024x1024';
-    style = '';
-  }
-
-  const optimizer = document.getElementById('img-optimizer')?.classList.contains('active');
-  const watermark = document.getElementById('img-watermark')?.classList.contains('active');
-  const refFile = document.getElementById('img-ref').files[0];
+  const model = currentImageModel;
+  const ratio = getPillValue('img-ratio') || '3:4';
+  const style = getPillEn('img-style');
+  const optimizer = document.getElementById('img-optimizer')?.classList.contains('on');
+  const refFile = fileInput.files[0];
 
   const body = { model, prompt, ratio, style, optimizer, watermark };
 
