@@ -1,0 +1,3 @@
+name = "rubin-gallery-generate"
+main = "generate.js"
+compatibility_date = "2024-01-01"
