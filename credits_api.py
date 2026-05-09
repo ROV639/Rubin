@@ -381,4 +381,10 @@ def health():
     return jsonify({'status': 'ok', 'port': 18793})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=18793, debug=False)
+    # Check for SSL cert files
+    cert_path = Path('/tmp/cert.pem')
+    key_path = Path('/tmp/key.pem')
+    if cert_path.exists() and key_path.exists():
+        app.run(host='0.0.0.0', port=18793, debug=False, ssl_context=(str(cert_path), str(key_path)))
+    else:
+        app.run(host='0.0.0.0', port=18793, debug=False)
