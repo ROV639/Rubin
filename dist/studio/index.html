@@ -545,11 +545,20 @@
         </div>
 
         <div class="section">
-          <div class="section-label">模型</div>
-          <div style="display:flex;gap:6px;">
-            <button class="pill model-btn active" data-m="image-01" onclick="selectModel(this,'image-01')">📷 image-01</button>
-            <button class="pill model-btn" data-m="image-01-live" onclick="selectModel(this,'image-01-live')">🎬 image-live</button>
-            <button class="pill model-btn" data-m="laozhang-gpt-image-2" onclick="selectModel(this,'laozhang-gpt-image-2')">🍌 $0.03</button>
+          <div class="section-label">生成模型</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <button class="pill model-btn active" data-m="image-01" onclick="selectModel(this,'image-01')">
+              📷 MiniMax 写实模型
+              <span class="pill-label">— 每日50张免费额度</span>
+            </button>
+            <button class="pill model-btn" data-m="image-01-live" onclick="selectModel(this,'image-01-live')">
+              🎬 MiniMax 风格模型
+              <span class="pill-label">— 动漫/插画/Live风格</span>
+            </button>
+            <button class="pill model-btn" data-m="laozhang-gpt-image-2" onclick="selectModel(this,'laozhang-gpt-image-2')">
+              🍌 GPT-Image-2（第三方）
+              <span class="pill-label">— $0.03/张 · Laozhang API</span>
+            </button>
           </div>
         </div>
 
@@ -582,12 +591,7 @@
           </div>
         </div>
 
-        <div class="section">
-          <div class="toggle-row">
-            <span class="toggle-label">✨ 提示词优化</span>
-            <div class="toggle" id="img-optimizer" onclick="this.classList.toggle('on')"></div>
-          </div>
-        </div>
+        <!-- image style remains, no optimizer toggle -->
 
       </div>
 
@@ -1022,13 +1026,6 @@ function setFmt(el, fmt) {
   ttsFmt = fmt;
 }
 
-['img-ref'].forEach(id => {
-  document.getElementById(id)?.addEventListener('change', e => {
-    const f = e.target.files[0];
-    const n = document.getElementById(id + '-name');
-    if (f) { n.textContent = f.name; n.style.display = 'inline'; }
-  });
-});
 
 // ============ GENERATE ============
 async function generate() {
@@ -1084,10 +1081,9 @@ async function genImageAPI() {
   const model = currentImageModel;
   const ratio = getPillValue('img-ratio') || '3:4';
   const style = getPillEn('img-style');
-  const optimizer = document.getElementById('img-optimizer')?.classList.contains('on');
   const refFile = fileInput.files[0];
 
-  const body = { model, prompt, ratio, style, optimizer, watermark };
+  const body = { model, prompt, ratio, style };
 
   if (refFile) {
     const reader = new FileReader();
