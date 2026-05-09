@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🍌 Davinci Studio</title>
+  <style>
+    :root {
+      --bg: #0b0b10;
+      --surface: #14141c;
+      --surface2: #1c1c28;
+      --border: #2a2a3a;
+      --accent: #a855f7;
+      --accent2: #7c3aed;
+      --text: #f0f0f0;
+      --text2: #888;
+      --danger: #ef4444;
+      --success: #22c55e;
+      --image-color: #a855f7;
+      --music-color: #f97316;
+      --tts-color: #06b6d4;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ===== TOPBAR ===== */
+    .topbar {
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      height: 52px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      gap: 8px;
+    }
+    .topbar-logo { font-size: 16px; font-weight: 700; color: var(--accent); flex-shrink: 0; }
+    .topbar-logo span { color: var(--text); }
+    .mode-tabs { display: flex; gap: 4px; margin-left: 16px; }
+    .mode-tab {
+      padding: 5px 14px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      color: var(--text2);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .mode-tab:hover { background: var(--surface2); color: var(--text); }
+    .mode-tab.active { background: var(--accent); color: #000; font-weight: 600; }
+    .mode-tab[data-mode="image"].active { background: var(--image-color); }
+    .mode-tab[data-mode="music"].active { background: var(--music-color); color: #fff; }
+    .mode-tab[data-mode="tts"].active { background: var(--tts-color); }
+    .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+    .credits { display: flex; gap: 8px; }
+    .credit { background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 3px 10px; font-size: 11px; display: flex; align-items: center; gap: 4px; }
+    .credit span { font-weight: 600; }
+    .credit.img span { color: var(--image-color); }
+    .credit.music span { color: var(--music-color); }
+    .credit.tts span { color: var(--tts-color); }
+    .credit.lz span { color: var(--accent); }
+    .refresh-btn { background: none; border: none; color: var(--text2); cursor: pointer; font-size: 14px; padding: 4px; border-radius: 6px; }
+    .refresh-btn:hover { color: var(--accent); }
+
+    /* ===== MAIN ===== */
+    .main {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* ===== LEFT PANEL ===== */
+    .panel-left {
+      width: 50%;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .panel-inner {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* Section label */
+    .section { display: flex; flex-direction: column; gap: 6px; }
+    .section-label {
+      font-size: 11px;
+      color: var(--text2);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Input */
+    textarea {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      color: var(--text);
+      font-size: 13px;
+      resize: none;
+      min-height: 72px;
+      outline: none;
+      transition: border 0.2s;
+      font-family: inherit;
+    }
+    textarea:focus { border-color: var(--accent); }
+    textarea::placeholder { color: var(--text2); }
+
+    /* Pills */
+    .pill-group { display: flex; flex-wrap: wrap; gap: 6px; }
+    .pill {
+      padding: 5px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text2);
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .pill:hover { border-color: var(--accent); color: var(--text); }
+    .pill.active {
+      background: var(--accent);
+      color: #000;
+      border-color: var(--accent);
+      font-weight: 600;
+    }
+    .pill.sub { font-size: 10px; padding: 3px 8px; }
+
+    /* Select */
+    select {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 12px;
+      color: var(--text);
+      font-size: 13px;
+      outline: none;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    /* Toggle */
+    .toggle-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+    .toggle-label { font-size: 13px; color: var(--text2); }
+    .toggle {
+      width: 40px; height: 22px;
+      background: var(--border);
+      border-radius: 11px;
+      position: relative;
+      cursor: pointer;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+    .toggle.on { background: var(--accent); }
+    .toggle::after {
+      content: '';
+      position: absolute;
+      width: 16px; height: 16px;
+      background: #fff;
+      border-radius: 50%;
+      top: 3px; left: 3px;
+      transition: transform 0.2s;
+    }
+    .toggle.on::after { transform: translateX(18px); }
+
+    /* Upload */
+    .upload-row { display: flex; gap: 8px; align-items: center; }
+    .upload-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text2);
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .upload-btn:hover { border-color: var(--accent); color: var(--text); }
+    .upload-btn.active { border-color: var(--accent); color: var(--accent); }
+    .file-name { font-size: 11px; color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 150px; }
+
+    /* Generate btn */
+    .gen-btn {
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border: none;
+      border-radius: 12px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      letter-spacing: 0.02em;
+    }
+    .gen-btn:hover { opacity: 0.85; }
+    .gen-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* Status bar */
+    .status-bar {
+      padding: 10px 16px;
+      font-size: 12px;
+      color: var(--text2);
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      min-height: 38px;
+      flex-shrink: 0;
+    }
+    .status-bar.success { color: var(--success); }
+    .status-bar.error { color: var(--danger); }
+
+    /* ===== RIGHT PANEL - GALLERY ===== */
+    .panel-right {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .gallery-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .gallery-title { font-size: 13px; color: var(--text2); font-weight: 500; }
+    .gallery-count { font-size: 11px; color: var(--text2); margin-left: 6px; }
+    .gallery-actions { display: flex; gap: 6px; }
+    .action-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 4px 10px;
+      color: var(--text2);
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .action-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .action-btn.danger:hover { border-color: var(--danger); color: var(--danger); }
+
+    .gallery-scroll { flex: 1; overflow-y: auto; padding: 12px; }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .gallery-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .gallery-item:hover { transform: translateY(-2px); border-color: var(--accent); }
+    .gallery-item .thumb {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      display: block;
+      background: var(--surface2);
+    }
+    .gallery-item .thumb.audio-thumb {
+      aspect-ratio: auto;
+      height: 80px;
+    }
+    .gallery-item .item-info { padding: 8px 10px; }
+    .gallery-item .item-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+    .gallery-item .model-tag {
+      font-size: 10px;
+      background: var(--accent);
+      color: #000;
+      padding: 2px 7px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+    .gallery-item .cost-tag { font-size: 10px; color: var(--text2); }
+    .gallery-item .prompt-pre {
+      font-size: 11px;
+      color: var(--text2);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .gallery-item audio {
+      width: 100%;
+      height: 28px;
+      margin-top: 6px;
+      border-radius: 14px;
+    }
+
+    /* Empty */
+    .empty-gallery {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text2);
+    }
+    .empty-gallery .icon { font-size: 42px; opacity: 0.25; }
+    .empty-gallery p { font-size: 13px; margin-top: 10px; }
+    .empty-gallery .hint { font-size: 11px; opacity: 0.5; margin-top: 4px; }
+
+    /* ===== MODAL ===== */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.93);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 24px;
+    }
+    .modal.active { display: flex; }
+    .modal-img {
+      max-width: 80vw;
+      max-height: 65vh;
+      border-radius: 14px;
+      object-fit: contain;
+    }
+    .modal-meta {
+      width: 100%;
+      max-width: 580px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      margin-top: 14px;
+      padding: 14px 18px;
+    }
+    .modal-meta-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .modal-meta-header .model-badge {
+      font-size: 10px;
+      background: var(--accent);
+      color: #000;
+      padding: 2px 8px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+    .modal-meta-header .time { font-size: 11px; color: var(--text2); }
+    .modal-prompt-label {
+      font-size: 11px;
+      color: var(--text2);
+      margin-bottom: 6px;
+    }
+    .modal-prompt-text {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-all;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+    .modal-actions { display: flex; gap: 8px; margin-top: 12px; }
+    .modal-btn {
+      flex: 1;
+      padding: 9px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface2);
+      color: var(--text);
+      font-size: 13px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s;
+    }
+    .modal-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .modal-btn.primary { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 600; }
+    .modal-close {
+      position: fixed;
+      top: 14px;
+      right: 14px;
+      width: 36px;
+      height: 36px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      color: var(--text);
+    }
+
+    /* Spinner */
+    .spinner {
+      width: 14px; height: 14px;
+      border: 2px solid rgba(0,0,0,0.3);
+      border-top-color: #000;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Hidden */
+    input[type="file"] { display: none; }
+    .mode-content { display: none; }
+    .mode-content.active { display: flex; flex-direction: column; gap: 10px; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .main { flex-direction: column; }
+      .panel-left, .panel-right { width: 100%; }
+      .panel-left { border-right: none; border-bottom: 1px solid var(--border); max-height: 60vh; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-logo">🍌 <span>Davinci Studio</span></div>
+  <div class="mode-tabs">
+    <button class="mode-tab active" data-mode="image" onclick="switchMode('image')">🖼️ 图片</button>
+    <button class="mode-tab" data-mode="music" onclick="switchMode('music')">🎵 音乐</button>
+    <button class="mode-tab" data-mode="tts" onclick="switchMode('tts')">🔊 语音</button>
+  </div>
+  <div class="topbar-right">
+    <div class="credits">
+      <div class="credit img">🖼️ <span id="img-credit">—</span>/日</div>
+      <div class="credit music">🎵 <span id="music-credit">—</span></div>
+      <div class="credit tts">🔊 <span id="tts-credit">—</span></div>
+      <div class="credit lz">🍌 <span>$</span></div>
+    </div>
+    <button class="refresh-btn" onclick="refreshCredits();refreshLaozhangBalance()" title="刷新额度">↻</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- LEFT: Controls -->
+  <div class="panel-left">
+    <div class="panel-inner">
+
+      <!-- ===== IMAGE MODE ===== -->
+      <div class="mode-content active" id="mode-image">
+
+        <div class="section">
+          <div class="section-label">提示词</div>
+          <textarea id="img-prompt" placeholder="描述你想要的图片..."></textarea>
+        </div>
+
+        <div class="section">
+          <div class="section-label">模型</div>
+          <select id="img-model" onchange="switchImageModel(this.value)">
+            <option value="image-01">image-01（写实·推荐）</option>
+            <option value="image-01-live">image-01-live（风格化）</option>
+            <option value="laozhang-gpt-image-2">🍌 GPT-Image-2（$0.03）</option>
+          </select>
+        </div>
+
+        <!-- image-01 选项 -->
+        <div id="img-opts-01">
+          <div class="section">
+            <div class="section-label">尺寸比例</div>
+            <div class="pill-group" id="img-ratio">
+              <button class="pill" data-v="1:1">1:1</button>
+              <button class="pill" data-v="16:9">16:9</button>
+              <button class="pill active" data-v="3:4">3:4</button>
+              <button class="pill" data-v="4:3">4:3</button>
+              <button class="pill" data-v="2:3">2:3</button>
+              <button class="pill" data-v="9:16">9:16</button>
+              <button class="pill" data-v="3:2">3:2</button>
+              <button class="pill" data-v="21:9">21:9</button>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-label">画面风格</div>
+            <div class="pill-group" id="img-style">
+              <button class="pill" data-en="photographic">📷 摄影</button>
+              <button class="pill" data-en="anime">🎌 动漫</button>
+              <button class="pill" data-en="oil painting">🖼️ 油画</button>
+              <button class="pill" data-en="watercolor">🎨 水彩</button>
+              <button class="pill" data-en="cyberpunk">🤖 赛博朋克</button>
+              <button class="pill" data-en="ghibli style">🏯 吉卜力</button>
+              <button class="pill" data-en="impressionist">印象派</button>
+              <button class="pill" data-en="digital art">💻 数字艺术</button>
+              <button class="pill" data-en="cinematic lighting">🎬 电影感</button>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-label">进阶</div>
+            <div class="pill-group" id="img-extra">
+              <button class="pill" id="img-optimizer" onclick="this.classList.toggle('active')">✨ 提示词优化</button>
+              <button class="pill" id="img-watermark" onclick="this.classList.toggle('active')">💧 水印</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- image-01-live 选项 -->
+        <div id="img-opts-live" style="display:none">
+          <div class="section">
+            <div class="section-label">尺寸比例</div>
+            <div class="pill-group" id="img-ratio-live">
+              <button class="pill" data-v="1:1">1:1</button>
+              <button class="pill" data-v="16:9">16:9</button>
+              <button class="pill active" data-v="3:4">3:4</button>
+              <button class="pill" data-v="4:3">4:3</button>
+              <button class="pill" data-v="2:3">2:3</button>
+              <button class="pill" data-v="9:16">9:16</button>
+              <button class="pill" data-v="3:2">3:2</button>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-label">Live风格</div>
+            <div class="pill-group" id="img-live-style">
+              <button class="pill" data-en="漫画">🎭 漫画</button>
+              <button class="pill" data-en="元气">☀️ 元气</button>
+              <button class="pill" data-en="中世纪">🏰 中世纪</button>
+              <button class="pill" data-en="水彩">🌸 水彩</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Laozhang GPT-Image-2 选项 -->
+        <div id="img-opts-lz" style="display:none">
+          <div class="section">
+            <div class="section-label">尺寸</div>
+            <div class="pill-group" id="img-size-lz">
+              <button class="pill active" data-v="1024x1024">1K</button>
+              <button class="pill" data-v="2048x2048">2K</button>
+              <button class="pill" data-v="3840x2160">4K</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="upload-row">
+            <label class="upload-btn" for="img-ref">
+              📎 参考图
+            </label>
+            <input type="file" id="img-ref" accept="image/*">
+            <span class="file-name" id="img-ref-name" style="display:none"></span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ===== MUSIC MODE ===== -->
+      <div class="mode-content" id="mode-music">
+
+        <div class="section">
+          <div class="section-label">音乐描述</div>
+          <textarea id="music-prompt" placeholder="描述音乐风格：独立民谣、忧郁、内省、渴望、咖啡馆漫步..."></textarea>
+        </div>
+
+        <div class="section">
+          <div class="section-label">音乐类型</div>
+          <div class="pill-group" id="music-genre">
+            <button class="pill" data-en="electronic" data-v="电子">🎧 电子</button>
+            <button class="pill" data-en="lo-fi" data-v="Lo-fi">🎹 Lo-fi</button>
+            <button class="pill" data-en="pop" data-v="流行">🎤 流行</button>
+            <button class="pill" data-en="classical" data-v="古典">🎻 古典</button>
+            <button class="pill" data-en="ambient" data-v="环境">🌿 环境</button>
+            <button class="pill" data-en="cinematic" data-v="电影感">🎬 电影感</button>
+            <button class="pill" data-en="cyberpunk" data-v="赛博">🤖 赛博</button>
+            <button class="pill" data-en="chinese-style" data-v="中国风">🏮 中国风</button>
+            <button class="pill" data-en="k-pop" data-v="K-Pop">🇰🇷 K-Pop</button>
+            <button class="pill" data-en="j-pop" data-v="J-Pop">🎷 J-Pop</button>
+            <button class="pill" data-en="r&b" data-v="R&B">🎶 R&B</button>
+            <button class="pill" data-en="rock" data-v="摇滚">🎸 摇滚</button>
+            <button class="pill" data-en="jazz" data-v="爵士">🎺 爵士</button>
+            <button class="pill" data-en="folk" data-v="民谣">🪕 民谣</button>
+            <button class="pill" data-en="hip-hop" data-v="嘻哈">🎤 嘻哈</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-label">情绪基调</div>
+          <div class="pill-group" id="music-mood">
+            <button class="pill" data-en="energetic" data-v="激昂">⚡ 激昂</button>
+            <button class="pill" data-en="intense" data-v="躁动">🔥 躁动</button>
+            <button class="pill" data-en="cheerful" data-v="欢快">🎉 欢快</button>
+            <button class="pill" data-en="dreamy" data-v="梦幻">✨ 梦幻</button>
+            <button class="pill" data-en="peaceful" data-v="平静">🧘 平静</button>
+            <button class="pill" data-en="fresh" data-v="清新">🌿 清新</button>
+            <button class="pill" data-en="lazy" data-v="慵懒">🌙 慵懒</button>
+            <button class="pill" data-en="classical" data-v="古典">🎻 古典</button>
+            <button class="pill" data-en="melancholic" data-v="忧郁">💔 忧郁</button>
+            <button class="pill" data-en="mysterious" data-v="神秘">🔮 神秘</button>
+            <button class="pill" data-en="electronic" data-v="电子">🤖 电子</button>
+            <button class="pill" data-en="romantic" data-v="浪漫">💗 浪漫</button>
+            <button class="pill" data-en="nostalgic" data-v="思念">🌧️ 思念</button>
+            <button class="pill" data-en="emotional" data-v="感人">😢 感人</button>
+            <button class="pill" data-en="epic" data-v="史诗">⏳ 史诗</button>
+            <button class="pill" data-en="zen" data-v="禅意">🍃 禅意</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-label">节奏速度</div>
+          <div class="pill-group" id="music-tempo">
+            <button class="pill" data-en="ultra slow" data-v="极慢">🐢 极慢</button>
+            <button class="pill" data-en="slow" data-v="慢速">🌊 慢速</button>
+            <button class="pill" data-en="medium slow" data-v="中慢">🚶 中慢</button>
+            <button class="pill" data-en="andante" data-v="行板">🍃 行板</button>
+            <button class="pill" data-en="medium" data-v="中速">🚶‍♂️ 中速</button>
+            <button class="pill" data-en="medium fast" data-v="中快">🏃 中快</button>
+            <button class="pill" data-en="dance" data-v="舞步">💃 舞步</button>
+            <button class="pill" data-en="fast" data-v="快速">⚡ 快速</button>
+            <button class="pill" data-en="ultra fast" data-v="极速">💨 极速</button>
+            <button class="pill" data-en="dynamic" data-v="变化">🌙 变化</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-label">乐器编配</div>
+          <div class="pill-group" id="music-instrument">
+            <button class="pill" data-en="synthesizer" data-v="合成器">🎹 合成器</button>
+            <button class="pill" data-en="piano" data-v="钢琴">🎸 钢琴</button>
+            <button class="pill" data-en="strings" data-v="弦乐群">🎻 弦乐</button>
+            <button class="pill" data-en="drums bass" data-v="鼓贝斯">🥁 鼓贝斯</button>
+            <button class="pill" data-en="brass" data-v="铜管">🎺 铜管</button>
+            <button class="pill" data-en="folk instruments" data-v="民乐">🪕 民乐</button>
+            <button class="pill" data-en="acoustic guitar" data-v="原声吉他">🎸 原声</button>
+            <button class="pill" data-en="electric guitar" data-v="电吉他">🎸 电吉他</button>
+            <button class="pill" data-en="mixed" data-v="混合">🔊 混合</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-label">时长</div>
+          <div class="pill-group" id="music-duration">
+            <button class="pill" data-v="15秒">15s</button>
+            <button class="pill" data-v="30秒">30s</button>
+            <button class="pill active" data-v="60秒">60s</button>
+            <button class="pill" data-v="90秒">90s</button>
+            <button class="pill" data-v="120秒">120s</button>
+            <button class="pill" data-v="180秒">180s</button>
+            <button class="pill" data-v="300秒">300s</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-label">人声类型</div>
+          <div class="pill-group" id="music-vocal">
+            <button class="pill" data-en="A-I Male Vocal">🎤 男声A</button>
+            <button class="pill" data-en="A-II Female Vocal">🎤 女声A</button>
+            <button class="pill" data-en="B-I Group Male Vocals">🎤 男群B</button>
+            <button class="pill" data-en="B-II Group Female Vocals">🎤 女群B</button>
+            <button class="pill" data-en="C-I Male Rap">🎤 说唱男</button>
+            <button class="pill" data-en="C-II Female Rap">🎤 说唱女</button>
+            <button class="pill" data-en="D-I Male Chorus">🎤 男合唱</button>
+            <button class="pill" data-en="D-II Female Chorus">🎤 女合唱</button>
+            <button class="pill" data-en="E Mixed Vocals">🎤 混声E</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="toggle-row">
+            <span class="toggle-label">🎤 纯音乐（无人声）</span>
+            <div class="toggle" id="toggle-instrumental" onclick="this.classList.toggle('on')"></div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-label">歌词（可选，每行一个段落）</div>
+          <textarea id="music-lyrics" placeholder="[verse]&#10;歌词内容..." style="min-height:50px"></textarea>
+        </div>
+
+        <div class="section">
+          <div class="section-label">模型</div>
+          <select id="music-model">
+            <option value="music-2.6">music-2.6（推荐）</option>
+            <option value="music-2.6-free">music-2.6-free（免费版）</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- ===== TTS MODE ===== -->
+      <div class="mode-content" id="mode-tts">
+
+        <div class="section">
+          <div class="section-label">合成文本</div>
+          <textarea id="tts-text" placeholder="输入要朗读的文本..."></textarea>
+        </div>
+
+        <div class="section">
+          <div class="section-label">语言</div>
+          <div class="pill-group" id="tts-lang">
+            <button class="pill" data-v="zh">🇨🇳 中文</button>
+            <button class="pill" data-v="yue">🇭🇰 粤语</button>
+            <button class="pill active" data-v="en">🇺🇸 英语</button>
+            <button class="pill" data-v="ja">🇯🇵 日语</button>
+            <button class="pill" data-v="ko">🇰🇷 韩语</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-label">音色</div>
+          <select id="tts-voice">
+            <optgroup label="🇨🇳 女声">
+              <option value="female-shaonv">少女音色</option>
+              <option value="female-yujie">御姐音色</option>
+              <option value="female-chengshu">成熟女性</option>
+              <option value="female-tianmei">甜美女性</option>
+            </optgroup>
+            <optgroup label="🇨🇳 男声">
+              <option value="male-qn-qingse" selected>青春男声</option>
+              <option value="male-qn-jingying">精英青年</option>
+              <option value="male-qn-badao">霸道青年</option>
+              <option value="male-qn-daxuesheng">青年大学生</option>
+            </optgroup>
+            <optgroup label="🇺🇸 英语">
+              <option value="male-tianmei">英男磁性</option>
+              <option value="female-baihe">英女甜美</option>
+            </optgroup>
+            <optgroup label="🇯🇵 日语">
+              <option value="Japanese_ColdQueen">冷艳女王</option>
+              <option value="Japanese_GracefulMaiden">优雅少女</option>
+              <option value="Japanese_KindLady">温柔淑女</option>
+            </optgroup>
+            <optgroup label="🇰🇷 韩语">
+              <option value="Korean_SweetGirl">甜美女孩</option>
+              <option value="Korean_ShyGirl">害羞女孩</option>
+              <option value="Korean_ElegantPrincess">优雅公主</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div class="section">
+          <div class="section-label">情感</div>
+          <div class="pill-group" id="tts-emotion">
+            <button class="pill" data-v="auto">自动</button>
+            <button class="pill" data-v="happy">😊 开心</button>
+            <button class="pill" data-v="sad">😢 悲伤</button>
+            <button class="pill" data-v="calm">😌 平静</button>
+            <button class="pill" data-v="fluent">💬 流畅</button>
+            <button class="pill" data-v="whisper">🤫 耳语</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-label">语速</div>
+          <div class="pill-group" id="tts-speed">
+            <button class="pill" data-v="0.5">0.5x</button>
+            <button class="pill" data-v="0.8">0.8x</button>
+            <button class="pill" data-v="1.0">1.0x</button>
+            <button class="pill" data-v="1.2">1.2x</button>
+            <button class="pill" data-v="1.5">1.5x</button>
+            <button class="pill" data-v="2.0">2.0x</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-label">输出格式</div>
+          <div class="pill-group">
+            <button class="pill" id="fmt-mp3" onclick="setFmt(this,'mp3')">MP3</button>
+            <button class="pill active" id="fmt-wav" onclick="setFmt(this,'wav')">WAV</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="toggle-row">
+            <span class="toggle-label">💧 添加水印</span>
+            <div class="toggle" id="toggle-watermark" onclick="this.classList.toggle('on')"></div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Generate + status at bottom -->
+    <div style="padding: 0 16px 12px;">
+      <button class="gen-btn" id="genBtn" onclick="generate()">✨ 生成</button>
+    </div>
+    <div class="status-bar" id="statusBar">就绪</div>
+  </div>
+
+  <!-- RIGHT: Gallery -->
+  <div class="panel-right">
+    <div class="gallery-header">
+      <div>
+        <span class="gallery-title">🖼️ 最近创作</span>
+        <span class="gallery-count" id="galleryCount"></span>
+      </div>
+      <div class="gallery-actions">
+        <button class="action-btn danger" onclick="clearHistory()">清空</button>
+      </div>
+    </div>
+    <div class="gallery-scroll">
+      <div class="gallery-grid" id="gallery">
+        <div class="empty-gallery">
+          <div class="icon">🍌</div>
+          <p>还没有创作记录</p>
+          <div class="hint">选择一个模式，开始创作吧</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
+  <button class="modal-close" onclick="closeModal()">✕</button>
+  <img class="modal-img" id="modalImg" src="" alt="">
+  <div class="modal-meta">
+    <div class="modal-meta-header">
+      <span class="model-badge" id="modalBadge"></span>
+      <span class="time" id="modalTime"></span>
+    </div>
+    <div class="modal-prompt-label">提示词</div>
+    <div class="modal-prompt-text" id="modalPrompt"></div>
+    <div class="modal-actions">
+      <button class="modal-btn primary" id="modalDl" onclick="modalDownload()">下载</button>
+      <button class="modal-btn" onclick="copyPrompt()">复制</button>
+      <button class="modal-btn" onclick="reusePrompt()">复用</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = 'http://localhost:18793';
+
+// ============ STATE ============
+let currentMode = 'image';
+let history = [];
+let currentItem = null;
+let ttsFmt = 'wav';
+
+// ============ INIT ============
+init();
+
+async function init() {
+  await loadHistory();
+  refreshCredits();
+}
+
+// ============ API HELPERS ============
+async function api(path, opts = {}) {
+  const res = await fetch(API + path, {
+    headers: { 'Content-Type': 'application/json' },
+    ...opts
+  });
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.error || 'API error');
+  return json;
+}
+
+// ============ CREDITS ============
+async function refreshCredits() {
+  try {
+    const d = await api('/credits/all');
+    if (d.minimax?.image) {
+      document.getElementById('img-credit').textContent = d.minimax.image.remaining;
+    }
+    if (d.minimax?.tts) {
+      document.getElementById('tts-credit').textContent = d.minimax.tts.remaining;
+    }
+    if (d.minimax?.music) {
+      document.getElementById('music-credit').textContent = Object.values(d.minimax.music)[0]?.remaining || '-';
+    }
+    if (d.laozhang?.balance !== undefined) {
+      document.querySelector('.credit.lz span').textContent = '$' + d.laozhang.balance.toFixed(2);
+    }
+  } catch (e) {
+    console.warn('Credits refresh failed:', e.message);
+  }
+}
+
+// ============ HISTORY ============
+async function loadHistory() {
+  try {
+    const d = await api('/history?limit=50');
+    history = d.items || [];
+  } catch (e) {
+    history = [];
+  }
+  renderGallery();
+}
+
+async function clearHistoryAPI() {
+  await api('/history/clear', { method: 'POST' });
+  history = [];
+  renderGallery();
+  setStatus('已清空', 'success');
+}
+
+// ============ MODE SWITCH ============
+function switchMode(mode) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-tab').forEach(t => t.classList.toggle('active', t.dataset.mode === mode));
+  document.querySelectorAll('.mode-content').forEach(c => c.classList.toggle('active', c.id === 'mode-' + mode));
+}
+
+function switchImageModel(model) {
+  document.getElementById('img-opts-01').style.display = model === 'image-01' ? 'flex' : 'none';
+  document.getElementById('img-opts-01').style.flexDirection = 'column';
+  document.getElementById('img-opts-live').style.display = model === 'image-01-live' ? 'flex' : 'none';
+  document.getElementById('img-opts-live').style.flexDirection = 'column';
+  document.getElementById('img-opts-lz').style.display = model === 'laozhang-gpt-image-2' ? 'flex' : 'none';
+  document.getElementById('img-opts-lz').style.flexDirection = 'column';
+}
+
+// ============ PILL SELECTION ============
+document.querySelectorAll('.pill-group').forEach(group => {
+  group.querySelectorAll('.pill').forEach(p => {
+    p.addEventListener('click', () => {
+      const siblings = group.querySelectorAll('.pill');
+      siblings.forEach(s => {
+        if (!s.classList.contains('sub') && !s.id?.startsWith('fmt')) s.classList.remove('active');
+      });
+      p.classList.add('active');
+    });
+  });
+});
+
+function setFmt(el, fmt) {
+  document.getElementById('fmt-mp3').classList.remove('active');
+  document.getElementById('fmt-wav').classList.remove('active');
+  el.classList.add('active');
+  ttsFmt = fmt;
+}
+
+['img-ref'].forEach(id => {
+  document.getElementById(id)?.addEventListener('change', e => {
+    const f = e.target.files[0];
+    const n = document.getElementById(id + '-name');
+    if (f) { n.textContent = f.name; n.style.display = 'inline'; }
+  });
+});
+
+// ============ GENERATE ============
+async function generate() {
+  const btn = document.getElementById('genBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> 生成中';
+  setStatus('生成中...', '');
+
+  try {
+    let result;
+    if (currentMode === 'image') result = await genImageAPI();
+    else if (currentMode === 'music') result = await genMusicAPI();
+    else if (currentMode === 'tts') result = await genTTSAPI();
+
+    await loadHistory();
+    await refreshCredits();
+
+    setStatus(currentMode === 'tts' ? '✓ 音频生成成功' : `✓ 生成成功（${result.model}）`, 'success');
+  } catch(e) {
+    setStatus('✗ ' + e.message, 'error');
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = '✨ 生成';
+}
+
+function getPillValue(groupId) {
+  const active = document.querySelector('#' + groupId + ' .pill.active');
+  return active ? (active.dataset.v || active.dataset.en || '') : '';
+}
+
+function getPillEn(groupId) {
+  const active = document.querySelector('#' + groupId + ' .pill.active');
+  return active ? (active.dataset.en || active.dataset.v || '') : '';
+}
+
+// ============ IMAGE API ============
+async function genImageAPI() {
+  const prompt = document.getElementById('img-prompt').value.trim();
+  if (!prompt) throw new Error('请输入提示词');
+
+  const model = document.getElementById('img-model')?.value || 'image-01';
+  let ratio, style;
+
+  if (model === 'image-01') {
+    ratio = getPillValue('img-ratio') || '3:4';
+    style = getPillEn('img-style');
+  } else if (model === 'image-01-live') {
+    ratio = getPillValue('img-ratio-live') || '3:4';
+    style = getPillEn('img-live-style');
+  } else {
+    ratio = getPillValue('img-size-lz') || '1024x1024';
+    style = '';
+  }
+
+  const optimizer = document.getElementById('img-optimizer')?.classList.contains('active');
+  const watermark = document.getElementById('img-watermark')?.classList.contains('active');
+  const refFile = document.getElementById('img-ref').files[0];
+
+  const body = { model, prompt, ratio, style, optimizer, watermark };
+
+  if (refFile) {
+    const reader = new FileReader();
+    const b64 = await new Promise(resolve => {
+      reader.onload = e => resolve(e.target.result);
+      reader.readAsDataURL(refFile);
+    });
+    body.image_file = b64;
+  }
+
+  return await api('/generate/image', { method: 'POST', body: JSON.stringify(body) });
+}
+
+// ============ MUSIC API ============
+async function genMusicAPI() {
+  const prompt = document.getElementById('music-prompt').value.trim();
+  const lyrics = document.getElementById('music-lyrics').value.trim();
+  const durationVal = getPillValue('music-duration');
+  const instrumental = document.getElementById('toggle-instrumental')?.classList.contains('on');
+  const model = document.getElementById('music-model')?.value || 'music-2.6';
+
+  const body = {
+    prompt,
+    genre: getPillEn('music-genre'),
+    mood: getPillEn('music-mood'),
+    tempo: getPillEn('music-tempo'),
+    instrument: getPillEn('music-instrument'),
+    vocal: getPillEn('music-vocal'),
+    duration: durationVal ? parseInt(durationVal) : 60,
+    lyrics,
+    instrumental,
+    model
+  };
+
+  return await api('/generate/music', { method: 'POST', body: JSON.stringify(body) });
+}
+
+// ============ TTS API ============
+async function genTTSAPI() {
+  const text = document.getElementById('tts-text').value.trim();
+  if (!text) throw new Error('请输入文本');
+
+  const voice_id = document.getElementById('tts-voice')?.value || 'male-qn-qingse';
+  const emotion = getPillValue('tts-emotion') || 'auto';
+  const speed = parseFloat(getPillValue('tts-speed')) || 1.0;
+
+  const body = { text, voice_id, emotion, speed, format: ttsFmt };
+  return await api('/generate/tts', { method: 'POST', body: JSON.stringify(body) });
+}
+
+// ============ GALLERY ============
+function renderGallery() {
+  const grid = document.getElementById('gallery');
+  const count = document.getElementById('galleryCount');
+  count.textContent = history.length > 0 ? `共 ${history.length} 条` : '';
+
+  if (history.length === 0) {
+    grid.innerHTML = '<div class="empty-gallery"><div class="icon">🍌</div><p>还没有创作记录</p><div class="hint">选择一个模式，开始创作吧</div></div>';
+    return;
+  }
+
+  grid.innerHTML = history.map(item => {
+    const tag = item.model?.split('-')[0] || item.model || item.provider || 'IMG';
+    const costLabel = item.cost > 0 ? '$' + item.cost.toFixed(2) : '免费';
+    const promptPre = item.prompt?.substring(0, 60) || '';
+
+    if (item.type === 'image') {
+      return `<div class="gallery-item" onclick="openModal('${item.id}')">
+        <img class="thumb" src="${item.url}" alt="" loading="lazy">
+        <div class="item-info">
+          <div class="item-meta">
+            <span class="model-tag">${tag}</span>
+            <span class="cost-tag">${costLabel}</span>
+          </div>
+          <div class="prompt-pre">${promptPre}</div>
+        </div>
+      </div>`;
+    } else {
+      const icon = item.type === 'music' ? '🎵' : '🔊';
+      return `<div class="gallery-item" onclick="openModal('${item.id}')">
+        <img class="thumb audio-thumb" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 80'%3E%3Crect fill='%231c1c28' width='200' height='80'/%3E%3Ctext x='100' y='45' text-anchor='middle' fill='%23a855f7' font-size='22'%3E${icon}%3C/text%3E%3Ctext x='100' y='62' text-anchor='middle' fill='%23888' font-size='10'%3E${encodeURIComponent(tag)}%3C/text%3E%3C/svg%3E" alt="">
+        <div class="item-info">
+          <div class="item-meta">
+            <span class="model-tag">${tag}</span>
+            <span class="cost-tag">${costLabel}</span>
+          </div>
+          <div class="prompt-pre">${promptPre}</div>
+          ${item.audio_hex ? `<audio controls src="data:audio/${item.format || 'wav'};base64,${item.audio_hex}" onclick="event.stopPropagation()"></audio>` : (item.url ? `<audio controls src="${item.url}" onclick="event.stopPropagation()"></audio>` : '')}
+        </div>
+      </div>`;
+    }
+  }).join('');
+}
+
+// ============ MODAL ============
+function openModal(id) {
+  const item = history.find(h => h.id == id || h.id === id);
+  if (!item) return;
+  currentItem = item;
+
+  const modal = document.getElementById('modal');
+  const img = document.getElementById('modalImg');
+  img.src = item.url || '';
+  img.style.display = item.type === 'image' ? 'block' : 'none';
+  document.getElementById('modalBadge').textContent = item.model || item.provider || '—';
+  document.getElementById('modalTime').textContent = item.time || '—';
+  document.getElementById('modalPrompt').textContent = item.prompt || '—';
+  modal.classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('active');
+  currentItem = null;
+}
+
+function modalDownload() {
+  if (!currentItem) return;
+  if (currentItem.audio_hex) {
+    const binary = hexStrToArrayBuffer(currentItem.audio_hex);
+    const blob = new Blob([binary], { type: 'audio/' + (currentItem.format || 'wav') });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'davinci-' + currentItem.id + '.' + (currentItem.format || 'wav');
+    a.click();
+  } else if (currentItem.url) {
+    const a = document.createElement('a');
+    a.href = currentItem.url;
+    a.download = 'davinci-' + currentItem.id + (currentItem.type === 'audio' ? '.mp3' : '.png');
+    a.target = '_blank';
+    a.click();
+  }
+}
+
+function copyPrompt() {
+  if (!currentItem) return;
+  navigator.clipboard.writeText(currentItem.prompt).then(() => setStatus('已复制', 'success'));
+}
+
+function reusePrompt() {
+  if (!currentItem) return;
+  if (currentItem.type === 'image') {
+    switchMode('image');
+    document.getElementById('img-prompt').value = currentItem.prompt || '';
+  } else if (currentItem.type === 'music') {
+    switchMode('music');
+    document.getElementById('music-prompt').value = currentItem.prompt || '';
+  } else if (currentItem.type === 'audio') {
+    switchMode('tts');
+    document.getElementById('tts-text').value = currentItem.prompt || '';
+  }
+  closeModal();
+}
+
+function clearHistory() {
+  if (!confirm('确定清空全部记录？')) return;
+  clearHistoryAPI();
+}
+
+function setStatus(msg, type = '') {
+  const bar = document.getElementById('statusBar');
+  bar.textContent = msg;
+  bar.className = 'status-bar' + (type ? ' ' + type : '');
+}
+
+function hexStrToArrayBuffer(hex) {
+  const bytes = new Uint8Array(hex.length / 2);
+  for (let i = 0; i < bytes.length; i++) bytes[i] = parseInt(hex.substr(i * 2, 2), 16);
+  return bytes.buffer;
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
