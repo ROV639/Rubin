@@ -527,307 +527,75 @@
     <div class="panel-inner">
 
       <!-- ===== IMAGE MODE ===== -->
-<div class="mode-content active" id="mode-image">
+      <div class="mode-content active" id="mode-image">
 
-  <!-- Drop zone (top) -->
-  <div class="drop-zone" id="img-drop" onclick="document.getElementById('img-ref').click()">
-    <button class="clear-ref" id="img-drop-clear" onclick="clearRefImg(event)">✕</button>
-    <div id="img-drop-content">
-      <div class="drop-zone-label">📎 <span>拖入参考图</span> 或点击选择</div>
-      <div style="font-size:11px;color:var(--text2);margin-top:4px;">支持 JPG/PNG，关闭可提升风格自由度</div>
-    </div>
-  </div>
-  <input type="file" id="img-ref" accept="image/*">
+        <!-- Drop zone (top) -->
+        <div class="drop-zone" id="img-drop" onclick="document.getElementById('img-ref').click()">
+          <button class="clear-ref" id="img-drop-clear" onclick="clearRefImg(event)">✕</button>
+          <div id="img-drop-content">
+            <div class="drop-zone-label">📎 <span>拖入参考图</span> 或点击选择</div>
+            <div style="font-size:11px;color:var(--text2);margin-top:4px;">支持 JPG/PNG，关闭可提升风格自由度</div>
+          </div>
+        </div>
+        <input type="file" id="img-ref" accept="image/*">
 
-  <!-- Sub-mode tabs -->
-  <div class="img-sub-tabs">
-    <button class="img-sub-tab active" id="sub-custom" onclick="switchImgSub('custom')">✏️ 自定义</button>
-    <button class="img-sub-tab" id="sub-portrait" onclick="switchImgSub('portrait')">🧍‍♀️ 人像向导</button>
-    <button class="img-sub-tab" id="sub-scene" onclick="switchImgSub('scene')">🏞️ 场景向导</button>
-  </div>
+        <div class="section" style="margin-top:2px;">
+          <div class="section-label">提示词</div>
+          <textarea id="img-prompt" placeholder="描述你想要的图片..."></textarea>
+        </div>
 
-  <!-- ===== 自定义模式 ===== -->
-  <div id="img-custom">
-    <div class="section">
-      <div class="prompt-preview-label">提示词预览</div>
-      <div class="prompt-preview" id="custom-prompt-preview">选择下方选项，提示词将自动生成于此...</div>
-    </div>
-    <div class="section">
-      <div class="section-label">提示词（可直接编辑）</div>
-      <textarea id="img-prompt" placeholder="描述你想要的图片，或从向导选项构建..." oninput="syncCustomPreview()"></textarea>
-    </div>
-    <div class="section">
-      <div class="section-label">MiniMax 模型</div>
-      <div style="display:flex;flex-direction:column;gap:6px;">
-        <button class="pill model-btn active" data-m="image-01" onclick="selectModel(this,'image-01')">
-          📷 MiniMax 写实模型 <span class="pill-label">— 每日50张免费额度</span>
-        </button>
-        <button class="pill model-btn" data-m="image-01-live" onclick="selectModel(this,'image-01-live')">
-          🎬 MiniMax 风格模型 <span class="pill-label">— 动漫/插画/Live风格</span>
-        </button>
-        <button class="pill model-btn" data-m="laozhang-gpt-image-2" onclick="selectModel(this,'laozhang-gpt-image-2')">
-          🍌 GPT-Image-2（第三方） <span class="pill-label">— $0.03/张 · Laozhang API</span>
-        </button>
+        <div class="section">
+          <div class="section-label">生成模型</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <button class="pill model-btn active" data-m="image-01" onclick="selectModel(this,'image-01')">
+              📷 MiniMax 写实模型
+              <span class="pill-label">— 每日50张免费额度</span>
+            </button>
+            <button class="pill model-btn" data-m="image-01-live" onclick="selectModel(this,'image-01-live')">
+              🎬 MiniMax 风格模型
+              <span class="pill-label">— 动漫/插画/Live风格</span>
+            </button>
+            <button class="pill model-btn" data-m="laozhang-gpt-image-2" onclick="selectModel(this,'laozhang-gpt-image-2')">
+              🍌 GPT-Image-2（第三方）
+              <span class="pill-label">— $0.03/张 · Laozhang API</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-label">尺寸比例</div>
+          <div class="pill-group" id="img-ratio">
+            <button class="pill" data-v="1:1">1:1</button>
+            <button class="pill" data-v="16:9">16:9</button>
+            <button class="pill active" data-v="3:4">3:4</button>
+            <button class="pill" data-v="4:3">4:3</button>
+            <button class="pill" data-v="2:3">2:3</button>
+            <button class="pill" data-v="9:16">9:16</button>
+            <button class="pill" data-v="3:2">3:2</button>
+            <button class="pill" data-v="21:9">21:9</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-label">画面风格</div>
+          <div class="pill-group" id="img-style">
+            <button class="pill" data-en="photographic">📷 摄影</button>
+            <button class="pill" data-en="anime">🎌 动漫</button>
+            <button class="pill" data-en="oil painting">🖼️ 油画</button>
+            <button class="pill" data-en="watercolor">🎨 水彩</button>
+            <button class="pill" data-en="cyberpunk">🤖 赛博</button>
+            <button class="pill" data-en="ghibli style">🏯 吉卜力</button>
+            <button class="pill" data-en="impressionist">印象</button>
+            <button class="pill" data-en="digital art">💻 数字</button>
+            <button class="pill" data-en="cinematic lighting">🎬 电影感</button>
+          </div>
+        </div>
+
+        <!-- image style remains, no optimizer toggle -->
+
       </div>
-    </div>
-    <div class="section">
-      <div class="section-label">尺寸比例</div>
-      <div class="pill-group" id="img-ratio">
-        <button class="pill" data-en="1:1">1:1</button>
-        <button class="pill" data-en="16:9">16:9</button>
-        <button class="pill active" data-en="3:4">3:4</button>
-        <button class="pill" data-en="4:3">4:3</button>
-        <button class="pill" data-en="2:3">2:3</button>
-        <button class="pill" data-en="9:16">9:16</button>
-        <button class="pill" data-en="3:2">3:2</button>
-        <button class="pill" data-en="21:9">21:9</button>
-      </div>
-    </div>
-    <div class="section">
-      <div class="section-label">艺术风格</div>
-      <div class="pill-group" id="img-style">
-        <button class="pill" data-en="Fujifilm Classic Neg simulation, soft nostalgic contrast, lifted shadows, warm Kodak-reminiscent science">🍅 CN经典</button>
-        <button class="pill" data-en="Fujifilm Pro 400H simulation, ethereal pastels, delicate soft grain, flattering skin tones">🌸 Pro400H</button>
-        <button class="pill" data-en="Fujifilm Classic Chrome simulation, muted velvety tones, documentary desaturated">🟠 Chrome</button>
-        <button class="pill" data-en="Fujifilm Velvia simulation, vivid saturated nature colors, high contrast punchy">🔴 Velvia</button>
-        <button class="pill" data-en="Fujifilm Eterna Cinema simulation, flat cinematic log look, muted film LUT">🎬 Eterna</button>
-        <button class="pill" data-en="Kodak Portra 400, natural warm skin tones, soft contrast, professional portrait negative">📗 Portra</button>
-        <button class="pill" data-en="Kodak Gold 200, warm orange-yellow bias, nostalgic consumer film, golden memory tone">🟡 Gold</button>
-        <button class="pill" data-en="Kodak Vision3 cinema film, teal-orange theatrical grade, Hollywood motion picture">🎞️ Vision3</button>
-        <button class="pill" data-en="Leica M11 color science, neutral accurate rendering, German precision, rangefinder clarity">📸 Leica</button>
-        <button class="pill" data-en="visible film grain texture, silver halide organic grain, analog authenticity">🎞️ 胶片颗粒</button>
-        <button class="pill" data-en="teal and orange cinematic grade, Hollywood color timing, blockbuster color science">🎭 青橙</button>
-        <button class="pill" data-en="cyberpunk neon aesthetic, blue magenta neon glow, futuristic rain-soaked night city">🤖 赛博霓虹</button>
-        <button class="pill" data-en="masterpiece, 8k, raw photo, best quality, highly detailed skin, sharp focus, natural lighting">✨ 超清摄影</button>
-      </div>
-    </div>
-    <div class="section">
-      <div class="section-label">光影</div>
-      <div class="pill-group" id="img-light">
-        <button class="pill" data-en="golden hour warm amber light, long soft shadows, magic hour glow, sunset rim light">🌅 黄金时刻</button>
-        <button class="pill" data-en="Rembrandt lighting, triangular cheek shadow, classic single-source painterly, dramatic portrait">🕯️ 伦勃朗</button>
-        <button class="pill" data-en="butterfly paramount lighting, beauty dish frontal, small nose shadow, glamour portrait">🦋 蝴蝶光</button>
-        <button class="pill" data-en="soft diffused large-source light, gentle wrap-around, no harsh shadow, flattering quality">💡 柔光箱</button>
-        <button class="pill" data-en="side backlight rim light, contour separation light, hair light, glowing edge outline">✨ 轮廓光</button>
-        <button class="pill" data-en="studio flash strobe, professional beauty dish, softbox setup, clean studio look">📽️ 影室灯光</button>
-      </div>
-    </div>
-    <div class="section">
-      <div class="section-label">景别/构图</div>
-      <div class="pill-group" id="img-shot">
-        <button class="pill" data-en="extreme close-up face portrait, detailed eyes, eyelashes, iris texture">👤 肖像特写</button>
-        <button class="pill" data-en="full body shot, standing pose, fashion photography">🏃 全身</button>
-        <button class="pill" data-en="medium shot, waist up, portrait composition">🎬 中景</button>
-        <button class="pill" data-en="rule of thirds composition, off-center subject placement, classic photographic balance">📐 三分法</button>
-        <button class="pill" data-en="center symmetrical composition, direct centered frontal, authoritative equilibrium">⚖️ 中心对称</button>
-        <button class="pill" data-en="leading lines guiding eye, perspective convergence, draw attention inward">↗️ 引导线</button>
-      </div>
-    </div>
-  </div>
 
-  <!-- ===== 人像向导模式 ===== -->
-  <div id="img-portrait" style="display:none;">
-    <div class="step-breadcrumb" id="portrait-breadcrumb">🧍‍♀️ 人像向导 · 已选：无</div>
-    <div class="prompt-preview-label">生成提示词预览</div>
-    <div class="prompt-preview" id="portrait-preview">请依次选择下方选项...</div>
-
-    <!-- Step 1: Gender -->
-    <div class="wizard-step active" id="p-step-0" data-step="0">
-      <div class="step-header"><span class="step-title">🧍‍♀️ 性别</span><span class="step-num">1/8</span></div>
-      <div style="display:flex;gap:6px;">
-        <button class="pill" style="flex:1;" onclick="pSelect(this,'gender','female','女生')">🧍‍♀️ 女生</button>
-        <button class="pill" style="flex:1;" onclick="pSelect(this,'gender','male','男生')">🧍‍♂️ 男生</button>
-      </div>
-    </div>
-
-    <!-- Step 2: Theme -->
-    <div class="wizard-step" id="p-step-1" data-step="1">
-      <div class="step-header"><span class="step-title">🎬 风格</span><span class="step-num">2/8</span></div>
-      <div class="pill-group" id="p-theme" style="gap:5px;flex-wrap:wrap;">
-        <button class="pill" data-en="Korean aesthetic, K-pop idol, soft lighting, clean skin, pastel tones" data-k="韩系女团" onclick="pSelect(this,'theme','korean','韩系')">🇰🇷 韩系</button>
-        <button class="pill" data-en="Japanese soft aesthetic, bright airy, natural light, candid style" data-k="日系甜美" onclick="pSelect(this,'theme','japanese','日系')">🇯🇵 日系</button>
-        <button class="pill" data-en="Chinese traditional qipao, elegant pose, dramatic lighting, rich colors" data-k="中式旗袍" onclick="pSelect(this,'theme','chinese','中式')">🏮 中式</button>
-        <button class="pill" data-en="fashion magazine cover, editorial photography, high fashion, dramatic pose" data-k="影楼写真" onclick="pSelect(this,'theme','editorial','影楼')">📸 影楼</button>
-        <button class="pill" data-en="street style photography, urban fashion, dynamic pose, natural light" data-k="街拍潮流" onclick="pSelect(this,'theme','street','街拍')">🏙️ 街拍</button>
-        <button class="pill" data-en="Vogue editorial, fashion magazine cover, high fashion beauty" data-k="Vogue时尚" onclick="pSelect(this,'theme','vogue','Vogue')">✨ Vogue</button>
-        <button class="pill" data-en="cinematic film still, movie aesthetic, dramatic lighting, film grain" data-k="电影大片" onclick="pSelect(this,'theme','cinematic','电影')">🎬 电影</button>
-        <button class="pill" data-en="vintage film photography, grain, warm tones, nostalgic aesthetic" data-k="复古港风" onclick="pSelect(this,'theme','retro','复古')">🎞️ 复古</button>
-        <button class="pill" data-en="Y2K aesthetic, pastel colors, digital art style, futuristic fashion" data-k="Y2K千禧" onclick="pSelect(this,'theme','y2k','Y2K')">💎 Y2K</button>
-        <button class="pill" data-en="fantasy fairy aesthetic, soft ethereal light, dreamy atmosphere" data-k="森系自然" onclick="pSelect(this,'theme','fairy','森系')">🌿 森系</button>
-        <button class="pill" data-en="cyberpunk aesthetic, neon lights, futuristic fashion, blue magenta" data-k="赛博朋克" onclick="pSelect(this,'theme','cyber','赛博')">🤖 赛博</button>
-      </div>
-    </div>
-
-    <!-- Step 3: Skin -->
-    <div class="wizard-step" id="p-step-2" data-step="2">
-      <div class="step-header"><span class="step-title">✨ 肤色</span><span class="step-num">3/8</span></div>
-      <div class="pill-group" id="p-skin" style="gap:5px;flex-wrap:wrap;">
-        <button class="pill" data-en="pale porcelain skin, cool undertones" data-k="冷白皮" onclick="pSelect(this,'skin','pale','冷白')">🫧 冷白</button>
-        <button class="pill" data-en="fair glowing skin, luminous, warm peachy cheeks" data-k="奶油肌" onclick="pSelect(this,'skin','fair','奶油')">🍑 奶油</button>
-        <button class="pill" data-en="rosy flush skin, warm peachy cheeks, healthy glow" data-k="粉嫩少女" onclick="pSelect(this,'skin','rosy','粉嫩')">🌸 粉嫩</button>
-        <button class="pill" data-en="transparent porcelain skin, glass skin effect, dewy wet skin" data-k="透明瓷感" onclick="pSelect(this,'skin','glass','瓷感')">💎 瓷感</button>
-        <button class="pill" data-en="natural healthy tan, sun-kissed glow, warm yellow skin tone" data-k="自然健康" onclick="pSelect(this,'skin','natural','健康')">☀️ 健康</button>
-        <button class="pill" data-en="honey tanned skin, golden undertone, warm glowing" data-k="小麦古铜" onclick="pSelect(this,'skin','tan','小麦')">🌾 小麦</button>
-        <button class="pill" data-en="dark smooth skin, rich melanin, deep warm tones" data-k="深色美黑" onclick="pSelect(this,'skin','dark','美黑')">🫘 美黑</button>
-      </div>
-    </div>
-
-    <!-- Step 4: Hair -->
-    <div class="wizard-step" id="p-step-3" data-step="3">
-      <div class="step-header"><span class="step-title">💇 发型</span><span class="step-num">4/8</span></div>
-      <div class="pill-group" id="p-hair" style="gap:5px;flex-wrap:wrap;">
-        <button class="pill" data-en="long straight hair, black hair, silky" data-k="披肩长发" onclick="pSelect(this,'hair','long_straight','长发')">长发</button>
-        <button class="pill" data-en="long wavy hair, beach waves, effortless style" data-k="波浪卷发" onclick="pSelect(this,'hair','wavy','波浪')">🌊 波浪</button>
-        <button class="pill" data-en="black long straight hair, classic beauty" data-k="黑长直" onclick="pSelect(this,'hair','black_straight','黑长直')">黑长直</button>
-        <button class="pill" data-en="low ponytail, elegant neat style" data-k="低马尾" onclick="pSelect(this,'hair','low_pony','低马尾')">低马尾</button>
-        <button class="pill" data-en="high ponytail, sporty chic, energetic" data-k="高马尾" onclick="pSelect(this,'hair','high_pony','高马尾')">高马尾</button>
-        <button class="pill" data-en="messy bun, casual elegant style" data-k="丸子头" onclick="pSelect(this,'hair','bun','丸子')">丸子</button>
-        <button class="pill" data-en="space buns, playful cute style" data-k="双丸子" onclick="pSelect(this,'hair','space_buns','双丸')">🎀 双丸</button>
-        <button class="pill" data-en="wet hair look, seductive, glistening" data-k="湿发" onclick="pSelect(this,'hair','wet','湿发')">💧 湿发</button>
-        <button class="pill" data-en="curtain bangs, soft face-framing layers" data-k="八字刘海" onclick="pSelect(this,'hair','curtain','空气刘')">空气刘</button>
-        <button class="pill" data-en="blonde hair, platinum blonde, bright" data-k="金发" onclick="pSelect(this,'hair','blonde','金发')">🧋 金发</button>
-        <button class="pill" data-en="silver ash hair, futuristic aesthetic" data-k="银灰" onclick="pSelect(this,'hair','silver','银灰')">🩶 银灰</button>
-      </div>
-    </div>
-
-    <!-- Step 5: Makeup -->
-    <div class="wizard-step" id="p-step-4" data-step="4">
-      <div class="step-header"><span class="step-title">💄 妆容</span><span class="step-num">5/8</span></div>
-      <div class="pill-group" id="p-makeup" style="gap:5px;flex-wrap:wrap;">
-        <button class="pill" data-en="no-makeup makeup look, natural beauty, clean skin" data-k="伪素颜" onclick="pSelect(this,'makeup','bare','素颜')">素颜</button>
-        <button class="pill" data-en="light natural makeup, fresh glow" data-k="清透裸妆" onclick="pSelect(this,'makeup','natural','裸妆')">🌿 裸妆</button>
-        <button class="pill" data-en="full makeup, defined features, glamorous" data-k="精致全妆" onclick="pSelect(this,'makeup','glam','全妆')">✨ 全妆</button>
-        <button class="pill" data-en="red lips, bold lip color, classic retro makeup" data-k="千禧港风" onclick="pSelect(this,'makeup','redlip','红唇')">💋 红唇</button>
-        <button class="pill" data-en="smokey eye makeup, dramatic smoky eyes, sultry look" data-k="烟熏妆" onclick="pSelect(this,'makeup','smokey','烟熏')">👁️ 烟熏</button>
-        <button class="pill" data-en="K-pop idol glitter makeup, sparkling highlight, glossy" data-k="网红妆" onclick="pSelect(this,'makeup','idol','韩妆')">⭐ 韩妆</button>
-      </div>
-    </div>
-
-    <!-- Step 6: Clothing -->
-    <div class="wizard-step" id="p-step-5" data-step="5">
-      <div class="step-header"><span class="step-title">👗 服装</span><span class="step-num">6/8</span></div>
-      <div class="pill-group" id="p-clothing" style="gap:5px;flex-wrap:wrap;">
-        <button class="pill" data-en="satin slip dress, elegant, delicate lace trim" data-k="吊带缎面裙" onclick="pSelect(this,'clothing','satin','缎面')">缎面裙</button>
-        <button class="pill" data-en="floral print slip dress, girly, romantic" data-k="碎花吊带裙" onclick="pSelect(this,'clothing','floral','碎花')">碎花裙</button>
-        <button class="pill" data-en="tight leather miniskirt, edgy, bold fashion" data-k="皮裙" onclick="pSelect(this,'clothing','leather','皮裙')">皮裙</button>
-        <button class="pill" data-en="high slit long dress, glamorous, elegant legs" data-k="开叉长裙" onclick="pSelect(this,'clothing','slit','开叉')">开叉</button>
-        <button class="pill" data-en="tight yoga pants, athletic body, fitness style" data-k="瑜伽裤" onclick="pSelect(this,'clothing','yoga','瑜伽')">🧘 瑜伽</button>
-        <button class="pill" data-en="white shirt, see-through fabric, subtle allure" data-k="白衬衫" onclick="pSelect(this,'clothing','shirt','白衬衫')">👔 白衬衫</button>
-        <button class="pill" data-en="JK uniform, schoolgirl aesthetic, youthful" data-k="JK百褶裙" onclick="pSelect(this,'clothing','jk','JK')">🎓 JK</button>
-        <button class="pill" data-en="little black dress, Chanel aesthetic, classic elegance" data-k="小黑裙" onclick="pSelect(this,'clothing','lbd','小黑')">🖤 小黑</button>
-      </div>
-    </div>
-
-    <!-- Step 7: Scene -->
-    <div class="wizard-step" id="p-step-6" data-step="6">
-      <div class="step-header"><span class="step-title">🏞️ 场景</span><span class="step-num">7/8</span></div>
-      <div class="pill-group" id="p-scene" style="gap:5px;flex-wrap:wrap;">
-        <button class="pill" data-en="luxury hotel suite, plush interiors, soft morning light" data-k="豪华酒店" onclick="pSelect(this,'scene','hotel','酒店')">🏨 酒店</button>
-        <button class="pill" data-en="cozy messy bedroom, soft morning light, intimate" data-k="卧室" onclick="pSelect(this,'scene','bedroom','卧室')">🛏️ 卧室</button>
-        <button class="pill" data-en="dimly lit jazz bar atmosphere, moody lighting" data-k="爵士酒吧" onclick="pSelect(this,'scene','bar','酒吧')">🍸 酒吧</button>
-        <button class="pill" data-en="minimalist art gallery, white walls, clean aesthetic" data-k="艺术展厅" onclick="pSelect(this,'scene','gallery','展厅')">🏛️ 展厅</button>
-        <button class="pill" data-en="sunlit glass greenhouse, botanical, natural light" data-k="阳光花房" onclick="pSelect(this,'scene','greenhouse','花房')">🌿 花房</button>
-        <button class="pill" data-en="infinity pool, luxury mansion, ocean view" data-k="无边泳池" onclick="pSelect(this,'scene','pool','泳池')">🏊 泳池</button>
-        <button class="pill" data-en="cyberpunk neon alley, night scene, blue magenta neon" data-k="霓虹巷" onclick="pSelect(this,'scene','neon','霓虹')">🌃 霓虹</button>
-        <button class="pill" data-en="sunset beach, ocean waves, golden hour, warm light" data-k="海边日落" onclick="pSelect(this,'scene','beach','海边')">🌅 海边</button>
-        <button class="pill" data-en="misty forest, ethereal fog, magical atmosphere" data-k="迷雾森林" onclick="pSelect(this,'scene','forest','森林')">🌫️ 森林</button>
-        <button class="pill" data-en="cherry blossom park, pink petals, Japanese aesthetic" data-k="樱花公园" onclick="pSelect(this,'scene','sakura','樱花')">🌸 樱花</button>
-      </div>
-    </div>
-
-    <!-- Step 8: Art Style -->
-    <div class="wizard-step" id="p-step-7" data-step="7">
-      <div class="step-header"><span class="step-title">🎬 艺术风格</span><span class="step-num">8/8</span></div>
-      <div class="pill-group" id="p-artstyle" style="gap:5px;flex-wrap:wrap;">
-        <button class="pill" data-en="Fujifilm Classic Neg simulation, soft nostalgic contrast, lifted shadows" data-k="富士CN" onclick="pSelect(this,'artstyle','fuji_cn','CN')">🍅 CN</button>
-        <button class="pill" data-en="Fujifilm Pro 400H simulation, ethereal pastels, delicate soft grain" data-k="富士Pro" onclick="pSelect(this,'artstyle','fuji_p400h','Pro')">🌸 Pro</button>
-        <button class="pill" data-en="Kodak Portra 400, natural warm skin tones, soft contrast" data-k="柯达Portra" onclick="pSelect(this,'artstyle','portra','Portra')">📗 Portra</button>
-        <button class="pill" data-en="Kodak Vision3 cinema film, teal-orange theatrical grade" data-k="柯达的Vision3" onclick="pSelect(this,'artstyle','kodak_v3','Vision')">🎞️ Vision</button>
-        <button class="pill" data-en="Leica M11 color science, neutral accurate rendering, German precision" data-k="徕卡" onclick="pSelect(this,'artstyle','leica','Leica')">📸 Leica</button>
-        <button class="pill" data-en="visible film grain texture, silver halide organic grain" data-k="胶片颗粒" onclick="pSelect(this,'artstyle','film_grain','颗粒')">🎞️ 颗粒</button>
-        <button class="pill" data-en="teal and orange cinematic grade, Hollywood color timing" data-k="青橙色调" onclick="pSelect(this,'artstyle','teal_orange','青橙')">🎭 青橙</button>
-        <button class="pill" data-en="masterpiece, 8k, raw photo, best quality, highly detailed" data-k="超清摄影" onclick="pSelect(this,'artstyle','ultra','超清')">✨ 超清</button>
-      </div>
-    </div>
-
-    <!-- Portrait nav -->
-    <div class="step-nav" style="margin-top:4px;">
-      <button class="step-btn" id="p-back" onclick="pPrev()">⬆️ 上一步</button>
-      <button class="step-btn" id="p-next" onclick="pNext()">下一步 ⭢</button>
-      <button class="step-btn primary" id="p-gen" onclick="pGenerate()" style="display:none;">✨ 生成</button>
-    </div>
-  </div>
-
-  <!-- ===== 场景向导模式 ===== -->
-  <div id="img-scene" style="display:none;">
-    <div class="step-breadcrumb" id="scene-breadcrumb">🏞️ 场景向导 · 已选：无</div>
-    <div class="prompt-preview-label">生成提示词预览</div>
-    <div class="prompt-preview" id="scene-preview">请依次选择下方选项...</div>
-
-    <!-- S-step-0: Category -->
-    <div class="wizard-step active" id="s-step-0" data-step="0">
-      <div class="step-header"><span class="step-title">🏞️ 场景主题</span><span class="step-num">1/5</span></div>
-      <div class="pill-group" style="gap:5px;flex-wrap:wrap;">
-        <button class="pill" data-k="自然风景" onclick="sSelect(this,'category','landscape','自然风景')">🌲 自然风景</button>
-        <button class="pill" data-k="城市建筑" onclick="sSelect(this,'category','urban','城市建筑')">🏙️ 城市建筑</button>
-        <button class="pill" data-k="美食静物" onclick="sSelect(this,'category','food','美食静物')">🍔 美食静物</button>
-        <button class="pill" data-k="夜景霓虹" onclick="sSelect(this,'category','night','夜景霓虹')">🌃 夜景霓虹</button>
-        <button class="pill" data-k="动漫插画" onclick="sSelect(this,'category','anime','动漫插画')">🎨 动漫插画</button>
-        <button class="pill" data-k="电影剧照" onclick="sSelect(this,'category','cinema','电影剧照')">🎬 电影剧照</button>
-      </div>
-    </div>
-
-    <!-- S-step-1: Sub-type (dynamic) -->
-    <div class="wizard-step" id="s-step-1" data-step="1">
-      <div class="step-header"><span class="step-title">🎯 具体场景</span><span class="step-num">2/5</span></div>
-      <div class="pill-group" id="s-subtype" style="gap:5px;flex-wrap:wrap;"></div>
-    </div>
-
-    <!-- S-step-2: Light -->
-    <div class="wizard-step" id="s-step-2" data-step="2">
-      <div class="step-header"><span class="step-title">🌅 光影/时间</span><span class="step-num">3/5</span></div>
-      <div class="pill-group" style="gap:5px;flex-wrap:wrap;">
-        <button class="pill" data-k="日出/日落" onclick="sSelect(this,'light','golden','日出/日落')">🌅 日落</button>
-        <button class="pill" data-k="正午阳光" onclick="sSelect(this,'light','noon','正午阳光')">☀️ 正午</button>
-        <button class="pill" data-k="蓝调时刻" onclick="sSelect(this,'light','blue','蓝调时刻')">💙 蓝调</button>
-        <button class="pill" data-k="霓虹夜色" onclick="sSelect(this,'light','neon','霓虹夜色')">🌃 霓虹</button>
-        <button class="pill" data-k="雨天氛围" onclick="sSelect(this,'light','rain','雨天氛围')">🌧️ 雨天</button>
-        <button class="pill" data-k="雾中景致" onclick="sSelect(this,'light','fog','雾中景致')">🌫️ 雾气</button>
-      </div>
-    </div>
-
-    <!-- S-step-3: Style -->
-    <div class="wizard-step" id="s-step-3" data-step="3">
-      <div class="step-header"><span class="step-title">🎨 风格</span><span class="step-num">4/5</span></div>
-      <div class="pill-group" style="gap:5px;flex-wrap:wrap;">
-        <button class="pill" data-k="Velvia鲜艳" onclick="sSelect(this,'style','velvia','Velvia')">🔴 Velvia</button>
-        <button class="pill" data-k="Portra柔和" onclick="sSelect(this,'style','portra','Portra')">📗 Portra</button>
-        <button class="pill" data-k="青橙色调" onclick="sSelect(this,'style','teal','青橙')">🎭 青橙</button>
-        <button class="pill" data-k="赛博朋克" onclick="sSelect(this,'style','cyber','赛博')">🤖 赛博</button>
-        <button class="pill" data-k="油画质感" onclick="sSelect(this,'style','oil','油画')">🖼️ 油画</button>
-        <button class="pill" data-k="动漫风格" onclick="sSelect(this,'style','anime','动漫')">🎨 动漫</button>
-      </div>
-    </div>
-
-    <!-- S-step-4: Quality -->
-    <div class="wizard-step" id="s-step-4" data-step="4">
-      <div class="step-header"><span class="step-title">✨ 质量</span><span class="step-num">5/5</span></div>
-      <div class="pill-group" style="gap:5px;flex-wrap:wrap;">
-        <button class="pill" data-k="超清摄影" onclick="sSelect(this,'quality','ultra','超清摄影')">✨ 超清摄影</button>
-        <button class="pill" data-k="胶片质感" onclick="sSelect(this,'quality','film','胶片质感')">🎞️ 胶片</button>
-        <button class="pill" data-k="电影感" onclick="sSelect(this,'quality','cinema','电影感')">🎬 电影</button>
-      </div>
-    </div>
-
-    <!-- Scene nav -->
-    <div class="step-nav" style="margin-top:4px;">
-      <button class="step-btn" id="s-back" onclick="sPrev()">⬆️ 上一步</button>
-      <button class="step-btn" id="s-next" onclick="sNext()">下一步 ⭢</button>
-      <button class="step-btn primary" id="s-gen" onclick="sGenerate()" style="display:none;">✨ 生成</button>
-    </div>
-  </div>
-
-</div><!-- ===== MUSIC MODE ===== -->
+      <!-- ===== MUSIC MODE ===== -->
       <div class="mode-content" id="mode-music">
 
         <div class="section">
@@ -1058,7 +826,7 @@
       <div class="gen-progress" id="genProgress">
         <div class="gen-progress-bar" id="genProgressBar"></div>
       </div>
-      <button class="gen-btn" id="genBtn" onclick="genBtnClick()">✨ 生成</button>
+      <button class="gen-btn" id="genBtn" onclick="generate()">✨ 生成</button>
     </div>
     <div class="status-bar" id="statusBar">就绪</div>
   </div>
@@ -1132,314 +900,6 @@ async function api(path, opts = {}) {
   const json = await res.json();
   if (!res.ok) throw new Error(json.error || 'API error');
   return json;
-}
-
-// ============ IMG SUB-MODE SWITCH ============
-function switchImgSub(sub) {
-  document.querySelectorAll('.img-sub-tab').forEach(t => t.classList.toggle('active', t.id === 'sub-' + sub));
-  document.getElementById('img-custom').style.display = sub === 'custom' ? 'flex' : 'none';
-  document.getElementById('img-custom').style.flexDirection = 'column';
-  document.getElementById('img-portrait').style.display = sub === 'portrait' ? 'block' : 'none';
-  document.getElementById('img-scene').style.display = sub === 'scene' ? 'block' : 'none';
-}
-
-// ============ CUSTOM MODE PROMPT SYNC ============
-function syncCustomPreview() {
-  const ta = document.getElementById('img-prompt');
-  const preview = document.getElementById('custom-prompt-preview');
-  preview.textContent = ta.value.trim() || '选择下方选项，提示词将自动生成于此...';
-}
-
-// pill click for custom mode: add to prompt
-document.querySelectorAll('#img-custom .pill-group .pill').forEach(p => {
-  p.addEventListener('click', () => {
-    const en = p.dataset.en;
-    if (!en) return;
-    const ta = document.getElementById('img-prompt');
-    const current = ta.value.trim();
-    // check if already in prompt
-    if (current.includes(en)) return;
-    ta.value = current ? current + ', ' + en : en;
-    syncCustomPreview();
-  });
-});
-
-// ============ PORTRAIT WIZARD ============
-let pState = { step: 0, choices: {}, totalSteps: 8 };
-
-function pSelect(el, key, val, label) {
-  // clear siblings
-  el.parentElement.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-  el.classList.add('active');
-  pState.choices[key] = { val, label };
-  updatePortraitBreadcrumb();
-}
-
-function updatePortraitBreadcrumb() {
-  const labels = Object.values(pState.choices).map(c => c.label);
-  const text = labels.length > 0 ? '已选: ' + labels.join(' · ') : '已选：无';
-  document.getElementById('portrait-breadcrumb').textContent = '🧍‍♀️ 人像向导 · ' + text;
-  document.getElementById('portrait-preview').textContent = buildPortraitPrompt();
-}
-
-function buildPortraitPrompt() {
-  const c = pState.choices;
-  let parts = [];
-  if (c.gender?.val) parts.push(c.gender.val === 'female' ? '1girl, solo' : '1male, solo');
-  if (c.theme?.val) parts.push(c.theme.val);
-  if (c.skin?.val) parts.push(c.skin.val);
-  if (c.hair?.val) parts.push(c.hair.val);
-  if (c.makeup?.val) parts.push(c.makeup.val);
-  if (c.clothing?.val) parts.push(c.clothing.val);
-  if (c.scene?.val) parts.push(c.scene.val);
-  if (c.artstyle?.val) parts.push(c.artstyle.val);
-  parts.push('masterpiece, 8k, raw photo, best quality');
-  return parts.join(', ');
-}
-
-function pCanGenerate() {
-  return pState.choices.gender && pState.choices.theme;
-}
-
-function pNext() {
-  const maxStep = 7;
-  if (pState.step < maxStep) {
-    document.getElementById('p-step-' + pState.step).classList.remove('active');
-    pState.step++;
-    document.getElementById('p-step-' + pState.step).classList.add('active');
-    updatePNav();
-  } else {
-    // last step - show generate
-    document.getElementById('p-next').style.display = 'none';
-    document.getElementById('p-gen').style.display = 'block';
-  }
-}
-
-function pPrev() {
-  if (pState.step > 0) {
-    document.getElementById('p-step-' + pState.step).classList.remove('active');
-    pState.step--;
-    document.getElementById('p-step-' + pState.step).classList.add('active');
-    updatePNav();
-  }
-}
-
-function updatePNav() {
-  document.getElementById('p-back').disabled = pState.step === 0;
-  document.getElementById('p-next').style.display = pState.step >= 7 ? 'none' : 'inline-block';
-  document.getElementById('p-gen').style.display = 'none';
-  // if last step and gender/theme selected, allow next
-  if (pState.step >= 7) {
-    document.getElementById('p-next').style.display = 'none';
-  }
-}
-
-async function pGenerate() {
-  const btn = document.getElementById('p-gen');
-  btn.disabled = true;
-  btn.textContent = '生成中...';
-
-  const progress = document.getElementById('genProgress');
-  const bar = document.getElementById('genProgressBar');
-  progress.classList.add('active');
-  bar.classList.add('indeterminate');
-  setStatus('生成中...', '');
-
-  try {
-    const prompt = buildPortraitPrompt();
-    const model = currentImageModel;
-    const refFile = fileInput.files[0];
-    const ratio = getPillValue('img-ratio') || '3:4';
-
-    const body = { model, prompt, ratio, style: '' };
-    if (refFile) {
-      const reader = new FileReader();
-      const b64 = await new Promise(resolve => {
-        reader.onload = e => resolve(e.target.result);
-        reader.readAsDataURL(refFile);
-      });
-      body.image_file = b64;
-    }
-
-    const result = await api('/generate/image', { method: 'POST', body: JSON.stringify(body) });
-    bar.style.width = '100%';
-    setTimeout(() => bar.classList.remove('active'), 300);
-    await loadHistory();
-    await refreshCredits();
-    setStatus('✓ 生成成功（' + result.model + '）', 'success');
-    // reset wizard
-    pState = { step: 0, choices: {}, totalSteps: 8 };
-    document.querySelectorAll('.wizard-step').forEach((s, i) => s.classList.toggle('active', i === 0));
-    updatePNav();
-    updatePortraitBreadcrumb();
-  } catch(e) {
-    bar.classList.remove('active');
-    setStatus('✗ ' + e.message, 'error');
-  }
-  btn.disabled = false;
-  btn.textContent = '✨ 生成';
-}
-
-// ============ SCENE WIZARD ============
-let sState = { step: 0, choices: {}, totalSteps: 5 };
-
-const SCENE_SUBS = {
-  landscape: [
-    { k:'晨曦森林', en:'morning forest, sunlight through trees, misty, ethereal light' },
-    { k:'蔚蓝深海', en:'deep blue ocean, crystal clear water, underwater coral reef' },
-    { k:'荒漠夕阳', en:'desert sunset, golden dunes, warm orange light, dramatic' },
-    { k:'雪山顶峰', en:'snowy mountain peak, dramatic clouds, golden sunrise, majestic' },
-    { k:'春日花海', en:'cherry blossom field, pink petals, soft spring light' },
-    { k:'深秋枫林', en:'autumn maple forest, red orange foliage, golden hour light' },
-    { k:'金色麦田', en:'golden wheat field, warm sunlight, endless horizon, peaceful' },
-    { k:'迷雾山谷', en:'foggy valley, layered mountains, mystical atmosphere' },
-    { k:'星空银河', en:'milky way galaxy, starry night sky, astrophotography' },
-    { k:'海边日落', en:'sunset beach, golden hour, ocean waves, warm light' },
-  ],
-  urban: [
-    { k:'现代建筑', en:'modern skyscraper architecture, glass facade, clean lines' },
-    { k:'历史街区', en:'historic old town street, European architecture, charming' },
-    { k:'天际线', en:'city skyline at night, illuminated buildings, dramatic' },
-    { k:'霓虹夜景', en:'neon lit city street, night photography, cyberpunk' },
-    { k:'工业废墟', en:'industrial abandoned building, urban decay, moody' },
-    { k:'艺术展厅', en:'modern art gallery interior, minimalist design, clean' },
-  ],
-  food: [
-    { k:'咖啡拉花', en:'latte art, specialty coffee, warm lighting, cozy cafe' },
-    { k:'和牛牛排', en:'premium wagyu steak, food photography, appetizing' },
-    { k:'精致甜点', en:'gourmet dessert, chocolate, pastry, elegant plating' },
-    { k:'日本刺身', en:'sashimi platter, Japanese cuisine, fresh, artistic' },
-    { k:'法式甜品', en:'french pastry, macarons, pastel colors, elegant' },
-  ],
-  night: [
-    { k:'都市霓虹', en:'urban neon lights, city street at night, vibrant colors' },
-    { k:'雨夜倒影', en:'rainy night city, wet reflections, moody atmosphere' },
-    { k:'烟花夜景', en:'fireworks display, night sky, celebration, dramatic' },
-    { k:'星空露营', en:'camping under stars, tent, wilderness, peaceful night' },
-    { k:'便利店光', en:'24h convenience store, neon glow, urban night, warm' },
-  ],
-  anime: [
-    { k:'吉卜力风', en:'Ghibli style animation, soft colors, whimsical, magical' },
-    { k:'赛博机甲', en:'mecha robot, cyberpunk anime, sci-fi, futuristic' },
-    { k:'新海诚风', en:'Shinkai Makoto style, beautiful sky, emotional, cinematic' },
-    { k:'热血战斗', en:'action anime, dynamic pose, dramatic lighting' },
-    { k:'日常治愈', en:'slice of life anime, peaceful, warm, nostalgic' },
-  ],
-  cinema: [
-    { k:'悬疑紧张', en:'thriller film still, suspense, dramatic shadows, moody' },
-    { k:'浪漫唯美', en:'romantic movie scene, warm tones, soft lighting' },
-    { k:'科幻未来', en:'sci-fi film still, futuristic, blue neon, dramatic' },
-    { k:'黑色电影', en:'film noir, high contrast, dramatic shadows, classic' },
-    { k:'动作激情', en:'action movie still, dynamic, motion blur, intense' },
-  ]
-};
-
-function sSelect(el, key, val, label) {
-  el.parentElement.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-  el.classList.add('active');
-  sState.choices[key] = { val, label };
-
-  if (key === 'category') {
-    sState.choices.subtype = null;
-    const subs = SCENE_SUBS[val] || [];
-    const container = document.getElementById('s-subtype');
-    container.innerHTML = subs.map(s =>
-      `<button class="pill" data-en="${s.en}" data-k="${s.k}" onclick="sSelect(this,'subtype','${s.en}','${s.k}')">${s.k}</button>`
-    ).join('');
-    // auto advance to step 1 after category select
-    document.getElementById('s-step-0').classList.remove('active');
-    sState.step = 1;
-    document.getElementById('s-step-1').classList.add('active');
-    updateSNav();
-  }
-
-  updateSceneBreadcrumb();
-}
-
-function updateSceneBreadcrumb() {
-  const labels = Object.values(sState.choices).map(c => c.label);
-  const text = labels.length > 0 ? '已选: ' + labels.join(' · ') : '已选：无';
-  document.getElementById('scene-breadcrumb').textContent = '🏞️ 场景向导 · ' + text;
-  document.getElementById('scene-preview').textContent = buildScenePrompt();
-}
-
-function buildScenePrompt() {
-  const c = sState.choices;
-  let parts = [];
-  if (c.category?.val) parts.push(c.category.val);
-  if (c.subtype?.val) parts.push(c.subtype.val);
-  if (c.light?.val) parts.push(c.light.val);
-  if (c.style?.val) parts.push(c.style.val);
-  if (c.quality?.val) parts.push(c.quality.val);
-  parts.push('masterpiece, 8k, raw photo, best quality');
-  return parts.join(', ');
-}
-
-function sCanGenerate() {
-  return sState.choices.category && sState.choices.subtype;
-}
-
-function sNext() {
-  const maxStep = 4;
-  if (sState.step < maxStep) {
-    document.getElementById('s-step-' + sState.step).classList.remove('active');
-    sState.step++;
-    document.getElementById('s-step-' + sState.step).classList.add('active');
-    updateSNav();
-  } else {
-    document.getElementById('s-next').style.display = 'none';
-    document.getElementById('s-gen').style.display = 'block';
-  }
-}
-
-function sPrev() {
-  if (sState.step > 0) {
-    document.getElementById('s-step-' + sState.step).classList.remove('active');
-    sState.step--;
-    document.getElementById('s-step-' + sState.step).classList.add('active');
-    updateSNav();
-  }
-}
-
-function updateSNav() {
-  document.getElementById('s-back').disabled = sState.step === 0;
-  document.getElementById('s-next').style.display = sState.step >= 4 ? 'none' : 'inline-block';
-  document.getElementById('s-gen').style.display = 'none';
-}
-
-async function sGenerate() {
-  const btn = document.getElementById('s-gen');
-  btn.disabled = true;
-  btn.textContent = '生成中...';
-
-  const progress = document.getElementById('genProgress');
-  const bar = document.getElementById('genProgressBar');
-  progress.classList.add('active');
-  bar.classList.add('indeterminate');
-  setStatus('生成中...', '');
-
-  try {
-    const prompt = buildScenePrompt();
-    const model = currentImageModel;
-    const ratio = getPillValue('img-ratio') || '3:4';
-
-    const result = await api('/generate/image', { method: 'POST', body: JSON.stringify({ model, prompt, ratio, style: '' }) });
-    bar.style.width = '100%';
-    setTimeout(() => bar.classList.remove('active'), 300);
-    await loadHistory();
-    await refreshCredits();
-    setStatus('✓ 生成成功（' + result.model + '）', 'success');
-    // reset
-    sState = { step: 0, choices: {}, totalSteps: 5 };
-    document.querySelectorAll('#img-scene .wizard-step').forEach((s, i) => s.classList.toggle('active', i === 0));
-    updateSNav();
-    updateSceneBreadcrumb();
-  } catch(e) {
-    bar.classList.remove('active');
-    setStatus('✗ ' + e.message, 'error');
-  }
-  btn.disabled = false;
-  btn.textContent = '✨ 生成';
 }
 
 // ============ CREDITS ============
@@ -1568,23 +1028,6 @@ function setFmt(el, fmt) {
 
 
 // ============ GENERATE ============
-async function genBtnClick() {
-  const sub = document.querySelector('.img-sub-tab.active')?.id;
-  if (sub === 'sub-portrait') {
-    // portrait wizard handles its own generate
-    if (pCanGenerate()) pGenerate();
-    else setStatus('请完成所有步骤', 'error');
-    return;
-  }
-  if (sub === 'sub-scene') {
-    if (sCanGenerate()) sGenerate();
-    else setStatus('请完成所有步骤', 'error');
-    return;
-  }
-  // custom mode
-  generate();
-}
-
 async function generate() {
   const btn = document.getElementById('genBtn');
   btn.disabled = true;
