@@ -488,6 +488,10 @@
     .mode-content { display: none; }
     .mode-content.active { display: flex; flex-direction: column; gap: 10px; }
 
+    /* Wizard steps: hide all by default, show only active */
+    .wizard-step { display: none; }
+    .wizard-step.active { display: block; }
+
     /* ===== RESPONSIVE ===== */
     @media (max-width: 900px) {
       .main { flex-direction: column; }
@@ -1115,6 +1119,22 @@ let history = [];
 let currentItem = null;
 let ttsFmt = 'wav';
 
+// ============ HISTORY (localStorage) ============
+function saveHistoryLocal(item) {
+  let h = [];
+  try { h = JSON.parse(localStorage.getItem('davinci_history') || '[]'); } catch(e) {}
+  h.unshift(item);
+  h = h.slice(0, 100);
+  localStorage.setItem('davinci_history', JSON.stringify(h));
+  history = h;
+  renderGallery();
+}
+
+function loadHistoryLocal() {
+  try { history = JSON.parse(localStorage.getItem('davinci_history') || '[]'); } catch(e) { history = []; }
+  renderGallery();
+}
+
 // ============ INIT ============
 init();
 
@@ -1173,6 +1193,7 @@ function pSelect(el, key, val, label) {
   el.classList.add('active');
   pState.choices[key] = { val, label };
   updatePortraitBreadcrumb();
+  // NO auto-advance — user controls navigation with next/prev
 }
 
 function updatePortraitBreadcrumb() {
@@ -1261,12 +1282,28 @@ async function pGenerate() {
       body.image_file = b64;
     }
 
-    const result = await api('/generate/image', { method: 'POST', body: JSON.stringify(body) });
+    const raw = await api('/generate/image', { method: 'POST', body: JSON.stringify(body) });
     bar.style.width = '100%';
     setTimeout(() => bar.classList.remove('active'), 300);
-    await loadHistory();
+
+    // Normalize and save locally
+    let url = '';
+    if (raw.data?.image_urls?.[0]) url = raw.data.image_urls[0];
+    else if (raw.data?.[0]?.url) url = raw.data[0].url;
+    const item = {
+      id: raw.id || Date.now().toString(36),
+      type: 'image',
+      url,
+      prompt,
+      model: raw.model || model,
+      ratio: ratio,
+      cost: model === 'laozhang-gpt-image-2' ? 0.03 : 0,
+      time: new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }),
+      provider: model === 'laozhang-gpt-image-2' ? 'laozhang' : 'minimax'
+    };
+    saveHistoryLocal(item);
     await refreshCredits();
-    setStatus('✓ 生成成功（' + result.model + '）', 'success');
+    setStatus('✓ 生成成功（' + (raw.model || model) + '）', 'success');
     // reset wizard
     pState = { step: 0, choices: {}, totalSteps: 8 };
     document.querySelectorAll('.wizard-step').forEach((s, i) => s.classList.toggle('active', i === 0));
@@ -1474,11 +1511,13 @@ async function refreshLaozhangBalance() {
 
 // ============ HISTORY ============
 async function loadHistory() {
+  // Worker has no persistence — always also check localStorage
   try {
     const d = await api('/history?limit=50');
     history = d.items || [];
-  } catch (e) {
-    history = [];
+  } catch(e) {}
+  if (history.length === 0) {
+    try { history = JSON.parse(localStorage.getItem('davinci_history') || '[]'); } catch(e2) { history = []; }
   }
   renderGallery();
 }
@@ -1607,7 +1646,7 @@ async function generate() {
     bar.style.width = '100%';
     setTimeout(() => bar.classList.remove('active'), 300);
 
-    await loadHistory();
+    await loadHistory(); // refresh from localStorage
     await refreshCredits();
 
     setStatus(currentMode === 'tts' ? '✓ 音频生成成功' : `✓ 生成成功（${result.model}）`, 'success');
@@ -1651,7 +1690,25 @@ async function genImageAPI() {
     body.image_file = b64;
   }
 
-  return await api('/generate/image', { method: 'POST', body: JSON.stringify(body) });
+  const raw = await api('/generate/image', { method: 'POST', body: JSON.stringify(body) });
+  // Normalize: MiniMax { data: { image_urls: [...] } } and Laozhang { data: [{ url }] } → unified
+  let url = '';
+  if (raw.data?.image_urls?.[0]) url = raw.data.image_urls[0];
+  else if (raw.data?.[0]?.url) url = raw.data[0].url;
+  const item = {
+    id: raw.id || Date.now().toString(36),
+    type: 'image',
+    url,
+    prompt,
+    model: raw.model || model,
+    ratio,
+    style,
+    cost: model === 'laozhang-gpt-image-2' ? 0.03 : 0,
+    time: new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }),
+    provider: model === 'laozhang-gpt-image-2' ? 'laozhang' : 'minimax'
+  };
+  saveHistoryLocal(item);
+  return item;
 }
 
 // ============ MUSIC API ============
@@ -1675,7 +1732,23 @@ async function genMusicAPI() {
     model
   };
 
-  return await api('/generate/music', { method: 'POST', body: JSON.stringify(body) });
+  const raw = await api('/generate/music', { method: 'POST', body: JSON.stringify(body) });
+  let url = raw.data?.audio_url || '';
+  const item = {
+    id: raw.id || Date.now().toString(36),
+    type: 'music',
+    url,
+    prompt,
+    model,
+    genre: getPillEn('music-genre'),
+    mood: getPillEn('music-mood'),
+    duration: durationVal ? parseInt(durationVal) : 60,
+    cost: 0,
+    time: new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }),
+    provider: 'minimax'
+  };
+  saveHistoryLocal(item);
+  return item;
 }
 
 // ============ TTS API ============
@@ -1687,11 +1760,23 @@ async function genTTSAPI() {
   const emotion = getPillValue('tts-emotion') || 'auto';
   const speed = parseFloat(getPillValue('tts-speed')) || 1.0;
 
-  const body = { text, voice_id, emotion, speed, format: ttsFmt };
-  return await api('/generate/tts', { method: 'POST', body: JSON.stringify(body) });
+  const raw = await api('/generate/tts', { method: 'POST', body: JSON.stringify(body) });
+  const url = raw.data?.audio || '';
+  const item = {
+    id: raw.id || Date.now().toString(36),
+    type: 'audio',
+    url,
+    prompt: text,
+    model: voice_id,
+    emotion,
+    speed,
+    cost: 0,
+    time: new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }),
+    provider: 'minimax'
+  };
+  saveHistoryLocal(item);
+  return item;
 }
-
-// ============ GALLERY ============
 function renderGallery() {
   const grid = document.getElementById('gallery');
   const count = document.getElementById('galleryCount');
