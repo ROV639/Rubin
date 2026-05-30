@@ -1,0 +1,30 @@
+# ===== 构建产物 =====
+dist/
+.astro/
+.wrangler/
+
+# ===== 依赖 =====
+node_modules/
+
+# ===== Python 虚拟环境（credits_api.py 用，230MB，禁止入库）=====
+.venv/
+__pycache__/
+*.pyc
+
+# ===== 环境变量 / 密钥 =====
+.env
+.env.production
+.env.local
+
+# ===== 含明文凭证的运维文件（禁止推送到 GitHub）=====
+📌 待办.md
+davinci_history.json
+
+# ===== 系统文件 =====
+.DS_Store
+.idea/
+.vscode/
+
+# ===== 日志 =====
+npm-debug.log*
+*.log
