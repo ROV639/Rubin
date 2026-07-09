@@ -70,7 +70,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     position: relative;
     min-height: 100vh;
     padding: 14px;
-    color: #2b2b28;
+    --rubin-ink: #203949;
+    --rubin-ink-soft: #4f5d64;
+    --rubin-brand-deep: #1d3849;
+    color: var(--rubin-ink);
     overflow: hidden;
   }
 
@@ -178,34 +181,49 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   .brand-mark {
     position: relative;
-    width: 34px;
+    width: 40px;
     height: 34px;
     display: grid;
     place-items: center;
     background:
-      linear-gradient(135deg, #2b2b28 0 39%, #5e7c74 39% 63%, #a65a4a 63% 100%);
-    border: 1px solid rgba(43,43,40,.42);
-    box-shadow: 0 2px 0 rgba(43,43,40,.18);
-    transform: rotate(45deg);
+      linear-gradient(135deg, rgba(194,160,90,.28) 0 24%, transparent 24% 100%),
+      linear-gradient(90deg, #1d3849, #24485b);
+    border: 1px solid rgba(29,56,73,.58);
+    box-shadow: 0 2px 0 rgba(32,57,73,.18);
     overflow: hidden;
   }
 
+  .brand-mark::before,
+  .brand-mark::after,
   .mark-shape {
     position: absolute;
     display: block;
-    opacity: .92;
+    content: "";
+  }
+
+  .brand-mark::before {
+    inset: 5px auto 5px 18px;
+    width: 6px;
+    background: #c2a05a;
+    clip-path: polygon(18% 0, 100% 8%, 82% 100%, 0 92%);
+  }
+
+  .brand-mark::after {
+    inset: 6px 7px 4px auto;
+    width: 7px;
+    background: #a65a4a;
+    clip-path: polygon(10% 0, 100% 10%, 90% 100%, 0 88%);
   }
 
   .mark-shape-a {
-    inset: -3px 15px 17px -2px;
-    background: #c2a05a;
-    clip-path: polygon(0 0, 100% 18%, 72% 100%, 0 78%);
+    inset: 7px auto 3px 7px;
+    width: 7px;
+    background: #6f8b84;
+    clip-path: polygon(28% 0, 100% 9%, 72% 100%, 0 90%);
   }
 
   .mark-shape-b {
-    inset: 14px -4px -3px 12px;
-    background: #5e7c74;
-    clip-path: polygon(18% 0, 100% 15%, 100% 100%, 0 70%);
+    display: none;
   }
 
   .nav-pill {
@@ -218,7 +236,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     border: 1px solid rgba(43,43,40,.2);
     background:
       linear-gradient(128deg, rgba(94,124,116,.32) 0 28%, rgba(242,237,227,.72) 28% 58%, rgba(166,90,74,.26) 58% 72%, rgba(194,160,90,.3) 72% 100%);
-    color: #2b2b28;
+    color: var(--rubin-ink);
     font-family: 'Rubin Carter', sans-serif;
     font-size: 12px;
     letter-spacing: .08em;
@@ -248,7 +266,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   .nav-pill:hover {
     transform: translateY(-2px);
-    border-color: #2b2b28;
+    border-color: var(--rubin-ink);
     filter: contrast(1.04) saturate(1.04);
   }
 
@@ -273,7 +291,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   h1 {
     margin: 18px 0 20px;
-    color: #2b2b28;
+    color: var(--rubin-ink);
     font-size: clamp(58px, 9vw, 118px);
     font-weight: 400;
     line-height: .9;
@@ -323,7 +341,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     grid-template-columns: 180px 1fr;
     gap: 18px;
     padding: 14px 16px;
-    color: #2b2b28;
+    color: var(--rubin-ink);
     border: 1px solid rgba(43,43,40,.22);
     background: rgba(242,237,227,.88);
     backdrop-filter: blur(12px);
@@ -335,7 +353,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   .stage-panel span {
-    color: #575247;
+    color: var(--rubin-ink-soft);
   }
 
   @media (max-width: 1100px) {

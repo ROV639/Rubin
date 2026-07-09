@@ -54,7 +54,10 @@ import { museumRooms } from '../../data/museumRooms';
     position: relative;
     min-height: 100vh;
     padding: 14px;
-    color: #2b2b28;
+    --rubin-ink: #203949;
+    --rubin-ink-soft: #4f5d64;
+    --rubin-brand-deep: #1d3849;
+    color: var(--rubin-ink);
     overflow: hidden;
   }
 
@@ -145,34 +148,49 @@ import { museumRooms } from '../../data/museumRooms';
 
   .brand-mark {
     position: relative;
-    width: 34px;
+    width: 40px;
     height: 34px;
     display: grid;
     place-items: center;
     background:
-      linear-gradient(135deg, #2b2b28 0 39%, #5e7c74 39% 63%, #a65a4a 63% 100%);
-    border: 1px solid rgba(43,43,40,.42);
-    box-shadow: 0 2px 0 rgba(43,43,40,.18);
-    transform: rotate(45deg);
+      linear-gradient(135deg, rgba(194,160,90,.28) 0 24%, transparent 24% 100%),
+      linear-gradient(90deg, #1d3849, #24485b);
+    border: 1px solid rgba(29,56,73,.58);
+    box-shadow: 0 2px 0 rgba(32,57,73,.18);
     overflow: hidden;
   }
 
+  .brand-mark::before,
+  .brand-mark::after,
   .mark-shape {
     position: absolute;
     display: block;
-    opacity: .92;
+    content: "";
+  }
+
+  .brand-mark::before {
+    inset: 5px auto 5px 18px;
+    width: 6px;
+    background: #c2a05a;
+    clip-path: polygon(18% 0, 100% 8%, 82% 100%, 0 92%);
+  }
+
+  .brand-mark::after {
+    inset: 6px 7px 4px auto;
+    width: 7px;
+    background: #a65a4a;
+    clip-path: polygon(10% 0, 100% 10%, 90% 100%, 0 88%);
   }
 
   .mark-shape-a {
-    inset: -3px 15px 17px -2px;
-    background: #c2a05a;
-    clip-path: polygon(0 0, 100% 18%, 72% 100%, 0 78%);
+    inset: 7px auto 3px 7px;
+    width: 7px;
+    background: #6f8b84;
+    clip-path: polygon(28% 0, 100% 9%, 72% 100%, 0 90%);
   }
 
   .mark-shape-b {
-    inset: 14px -4px -3px 12px;
-    background: #5e7c74;
-    clip-path: polygon(18% 0, 100% 15%, 100% 100%, 0 70%);
+    display: none;
   }
 
   .nav-links {
@@ -191,7 +209,7 @@ import { museumRooms } from '../../data/museumRooms';
     border: 1px solid rgba(43,43,40,.18);
     background:
       linear-gradient(128deg, rgba(94,124,116,.22) 0 28%, rgba(255,250,240,.62) 28% 70%, rgba(194,160,90,.22) 70% 100%);
-    color: #575247;
+    color: var(--rubin-ink-soft);
     font-family: 'Rubin Carter', sans-serif;
     font-size: 12px;
     letter-spacing: .06em;
@@ -214,11 +232,11 @@ import { museumRooms } from '../../data/museumRooms';
 
   h1 {
     margin: 12px 0 0;
-    color: #2b2b28;
-    font-size: clamp(52px, 7vw, 104px);
+    color: var(--rubin-ink);
+    font-size: clamp(32px, 5.4vw, 72px);
     font-weight: 400;
-    line-height: .92;
-    text-wrap: balance;
+    line-height: 1.02;
+    white-space: nowrap;
   }
 
   .room-menu {
@@ -239,7 +257,7 @@ import { museumRooms } from '../../data/museumRooms';
     background:
       linear-gradient(180deg, rgba(255,250,240,.82), rgba(231,219,198,.68)),
       #efe6d5;
-    color: #2b2b28;
+    color: var(--rubin-ink);
     transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
     overflow: hidden;
   }
@@ -266,16 +284,46 @@ import { museumRooms } from '../../data/museumRooms';
   }
 
   .room-no {
-    width: max-content;
-    padding: 5px 9px;
-    color: #2b2b28;
-    border: 1px solid rgba(43,43,40,.24);
+    width: 116px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    color: var(--rubin-ink);
+    border: 1px solid rgba(32,57,73,.34);
     background:
-      linear-gradient(126deg, color-mix(in srgb, var(--room-accent) 24%, #f2ede3) 0 42%, #f2ede3 42% 72%, color-mix(in srgb, var(--room-secondary) 22%, #f2ede3) 72% 100%);
+      linear-gradient(128deg, rgba(32,57,73,.28) 0 24%, rgba(242,237,227,.82) 24% 55%, rgba(194,160,90,.32) 55% 100%);
     font-family: 'Rubin Carter', sans-serif;
     font-size: 12px;
     letter-spacing: .06em;
     text-transform: uppercase;
+    box-shadow: inset 0 0 0 1px rgba(242,237,227,.35);
+  }
+
+  .room-link:nth-child(2) .room-no {
+    background:
+      linear-gradient(118deg, rgba(166,90,74,.28) 0 31%, rgba(242,237,227,.82) 31% 66%, rgba(94,124,116,.29) 66% 100%);
+  }
+
+  .room-link:nth-child(3) .room-no {
+    background:
+      linear-gradient(98deg, rgba(194,160,90,.31) 0 26%, rgba(242,237,227,.84) 26% 50%, rgba(32,57,73,.24) 50% 100%);
+  }
+
+  .room-link:nth-child(4) .room-no {
+    background:
+      linear-gradient(136deg, rgba(94,124,116,.28) 0 22%, rgba(242,237,227,.84) 22% 62%, rgba(166,90,74,.25) 62% 100%);
+  }
+
+  .room-link:nth-child(5) .room-no {
+    background:
+      linear-gradient(108deg, rgba(32,57,73,.24) 0 35%, rgba(194,160,90,.28) 35% 52%, rgba(242,237,227,.84) 52% 100%);
+  }
+
+  .room-link:nth-child(6) .room-no {
+    background:
+      linear-gradient(142deg, rgba(166,90,74,.24) 0 18%, rgba(94,124,116,.26) 18% 46%, rgba(242,237,227,.86) 46% 100%);
   }
 
   .room-image {
@@ -283,7 +331,7 @@ import { museumRooms } from '../../data/museumRooms';
     display: block;
     min-height: 148px;
     margin: 0 -8px;
-    border: 2px solid #2b2b28;
+    border: 2px solid var(--rubin-ink);
     background: #efe6d5;
     overflow: hidden;
   }
@@ -311,7 +359,7 @@ import { museumRooms } from '../../data/museumRooms';
 
   .room-link strong {
     display: block;
-    color: #2b2b28;
+    color: var(--rubin-ink);
     font-family: 'Rubin Carter', sans-serif;
     font-size: clamp(25px, 2.5vw, 38px);
     font-weight: 400;
@@ -320,7 +368,7 @@ import { museumRooms } from '../../data/museumRooms';
 
   .room-link p {
     margin: 12px 0 0;
-    color: #575247;
+    color: var(--rubin-ink-soft);
     line-height: 1.55;
   }
 
