@@ -1,4 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="8" fill="#FAF9F5"/>
-  <text x="16" y="23" font-family="serif" font-size="22" font-weight="normal" fill="#1F1E1D" text-anchor="middle">川</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Rubin Studio">
+  <rect width="64" height="64" rx="12" fill="#F2EDE3"/>
+  <path d="M15 12h15v40H15z" fill="#2B2B28"/>
+  <path d="M30 12h10c8 0 13 5 13 13s-5 13-13 13H30V26h9c2 0 4-1 4-3s-2-3-4-3h-9z" fill="#5E7C74"/>
+  <path d="M30 35h12l12 17H41z" fill="#2B2B28"/>
+  <path d="M18 15h9v9h-9zM18 29h9v9h-9z" fill="#5E7C74"/>
 </svg>

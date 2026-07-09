@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <filter id="paperGrain" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.62" numOctaves="4" seed="23"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncA type="table" tableValues="0 0.18"/>
+      </feComponentTransfer>
+    </filter>
+    <pattern id="screenDots" width="16" height="16" patternUnits="userSpaceOnUse">
+      <circle cx="2.2" cy="2.2" r="0.85" fill="#2B2B28" opacity="0.17"/>
+      <circle cx="10.5" cy="12" r="0.75" fill="#FFFFFF" opacity="0.3"/>
+    </pattern>
+    <pattern id="softGrid" width="42" height="42" patternUnits="userSpaceOnUse">
+      <path d="M42 0H0V42" fill="none" stroke="#2B2B28" stroke-width="1" opacity="0.06"/>
+    </pattern>
+  </defs>
+
+  <rect width="1600" height="1000" fill="#F2EDE3"/>
+  <rect width="1600" height="1000" fill="url(#softGrid)"/>
+
+  <g opacity="0.98">
+    <path d="M-120 210 245 70 425 430 105 610Z" fill="#5E7C74" opacity="0.34"/>
+    <path d="M128 74 425 430 246 560Z" fill="#C2A05A" opacity="0.28"/>
+    <path d="M-90 690 230 540 460 1040-40 1110Z" fill="#A65A4A" opacity="0.27"/>
+    <path d="M430 620 720 470 930 870 600 1060Z" fill="#6B7F94" opacity="0.3"/>
+    <path d="M670 130 890 10 1070 360 780 430Z" fill="#C2A05A" opacity="0.29"/>
+    <path d="M930 -40 1260 40 1135 455 820 330Z" fill="#1F5960" opacity="0.26"/>
+    <path d="M1160 250 1660 90 1640 535 1290 610Z" fill="#5F9361" opacity="0.36"/>
+    <path d="M1050 610 1510 520 1690 1040 1190 1080Z" fill="#A65A4A" opacity="0.27"/>
+    <path d="M1300 600 1600 520 1620 890 1390 820Z" fill="#C2A05A" opacity="0.3"/>
+    <path d="M315 -40 560 115 420 345 210 250Z" fill="#8A7080" opacity="0.18"/>
+    <path d="M525 305 730 230 765 505 548 548Z" fill="#5E7C74" opacity="0.2"/>
+    <path d="M1005 410 1248 348 1378 620 1098 650Z" fill="#6B7F94" opacity="0.22"/>
+  </g>
+
+  <g opacity="0.18">
+    <path d="M102 168c82-52 152-44 205 22 47 59 36 138-31 239"/>
+    <path d="M104 168c42 88 99 147 172 261"/>
+    <path d="M1224 164c68-43 138-31 177 28 35 54 18 118-55 184"/>
+    <path d="M1230 164c28 82 67 136 116 212"/>
+    <path d="M188 795c86-55 172-56 258-4"/>
+    <path d="M220 855c64-42 132-42 202 1"/>
+    <path d="M255 916c42-26 90-25 142 2"/>
+  </g>
+
+  <g fill="none" stroke="#2B2B28" stroke-width="1.4" opacity="0.22">
+    <path d="M118 512c66-82 130-118 190-106 54 11 82 54 84 128-88 18-180 11-274-22Z"/>
+    <path d="M1320 548c92-47 176-50 250-7-29 66-85 103-167 109-42-18-70-52-83-102Z"/>
+    <path d="M670 226 740 145 828 195 788 315 690 332Z"/>
+    <path d="M760 676 904 592 1044 690 1000 846 812 858Z"/>
+  </g>
+
+  <g opacity="0.34">
+    <path d="M845 130 940 55 990 220Z" fill="#A65A4A"/>
+    <path d="M940 55 1080 128 990 220Z" fill="#2B2B28"/>
+    <path d="M990 220 1080 128 1195 315Z" fill="#5E7C74"/>
+    <path d="M304 346 470 278 555 492Z" fill="#C2A05A"/>
+    <path d="M470 278 642 392 555 492Z" fill="#6B7F94"/>
+    <path d="M1135 695 1290 595 1390 820Z" fill="#5F9361"/>
+    <path d="M1290 595 1515 715 1390 820Z" fill="#A65A4A"/>
+  </g>
+
+  <rect width="1600" height="1000" fill="url(#screenDots)" opacity="0.34"/>
+  <rect width="1600" height="1000" filter="url(#paperGrain)" opacity="0.8"/>
+</svg>

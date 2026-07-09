@@ -1,4 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192">
-  <rect width="192" height="192" rx="32" fill="#C15F3C"/>
-  <text x="96" y="120" font-family="Georgia, serif" font-size="80" fill="#FAF9F5" text-anchor="middle">泽</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 64 64" role="img" aria-label="Rubin Studio">
+  <rect width="64" height="64" rx="12" fill="#F2EDE3"/>
+  <path d="M15 12h15v40H15z" fill="#2B2B28"/>
+  <path d="M30 12h10c8 0 13 5 13 13s-5 13-13 13H30V26h9c2 0 4-1 4-3s-2-3-4-3h-9z" fill="#5E7C74"/>
+  <path d="M30 35h12l12 17H41z" fill="#2B2B28"/>
+  <path d="M18 15h9v9h-9zM18 29h9v9h-9z" fill="#5E7C74"/>
 </svg>

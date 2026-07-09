@@ -1,697 +1,377 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-
-const categories = [
-  { key: 'all', label: '全部' },
-  { key: 'eve-city', label: 'EVE城市' },
-  { key: 'eve-daily', label: 'EVE日常' },
-  { key: 'eve-cover', label: 'EVE封面' },
-  { key: 'portrait', label: '人像' },
-  { key: 'product', label: '产品' },
-  { key: 'landscape', label: '风景' },
-  { key: 'other', label: '其它' },
-];
 ---
 
-<BaseLayout title="泽川 — Rubin's Agent Nexus">
-  <!-- Film Grain Overlay -->
-  <div class="fixed inset-0 pointer-events-none opacity-[0.03] z-50" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 256 256%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E');"></div>
-
-  <!-- Sticky Glass Header -->
-  <header class="glass sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-      <a href="/" class="group flex items-baseline gap-2">
-        <span class="text-2xl font-light tracking-[0.12em] text-neutral uppercase" style="font-family: 'Cormorant Garamond', serif;">泽川</span>
-      </a>
-      <nav class="flex items-center gap-6">
-        <a href="/studio" class="text-xs tracking-[0.2em] uppercase text-neutral/60 hover:text-neutral transition-colors duration-300 relative group py-1">
-          DaVinci DarkRoom
-          <span class="absolute bottom-0 left-0 w-0 h-px bg-accent group-hover:w-full transition-all duration-500"></span>
+<BaseLayout title="Rubin Studio — Museum Entrance">
+  <main class="site-shell">
+    <section class="entrance-card" data-enter-target="/museum/" tabindex="0" aria-label="Enter Rubin Studio Museum">
+      <nav class="museum-nav" aria-label="Rubin Museum">
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true">
+            <i class="mark-shape mark-shape-a"></i>
+            <i class="mark-shape mark-shape-b"></i>
+          </span>
+          <span>Rubin Studio</span>
         </a>
-        <button id="btn-admin" class="text-xs tracking-[0.15em] uppercase text-neutral/40 hover:text-accent transition-colors duration-300 flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          <span id="admin-text">管理</span>
-        </button>
+        <a class="nav-pill" href="/museum/"><span>Enter Museum</span></a>
       </nav>
-    </div>
-  </header>
 
-  <main>
-    <!-- Hero Section -->
-    <section class="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
-      <!-- Steel blue background -->
-      <div class="absolute inset-0" style="background: #2C4A6B;"></div>
-      <!-- Subtle texture overlay -->
-      <div class="absolute inset-0 opacity-20" style="background-image: url('data:image/svg+xml,%3Csvg width=%2260%22 height=%2260%22 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cg fill=%22%23000000%22 fill-opacity=%220.05%22%3E%3Cpath d=%22M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
-
-      <!-- Decorative elements -->
-      <div class="absolute top-20 left-1/4 w-px h-32 bg-white/10"></div>
-      <div class="absolute bottom-40 right-1/4 w-px h-24 bg-white/10"></div>
-      <div class="absolute top-1/3 right-1/5 w-2 h-2 rounded-full bg-white/20"></div>
-      <div class="absolute bottom-1/4 left-1/6 w-3 h-3 rounded-full bg-white/10"></div>
-
-      <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
-        <!-- Main title -->
-        <h1 class="text-6xl md:text-8xl font-light tracking-[0.15em] leading-none mb-6 text-white hero-title" style="font-family: 'Cormorant Garamond', serif;">
-          泽川
-        </h1>
-
-        <!-- Subtitle -->
-        <p class="text-white/60 text-lg font-light leading-relaxed max-w-lg mx-auto mb-10">
-          记录所见，探索所知。<br/>
-          让每一次定格，都成为时间的标本。
-        </p>
-
-        <!-- Decorative divider -->
-        <div class="flex items-center justify-center gap-3 mb-10">
-          <span class="w-1 h-1 rounded-full bg-white/30"></span>
-          <span class="w-1 h-1 rounded-full bg-white/50"></span>
-          <span class="w-1 h-1 rounded-full bg-white/80"></span>
+      <div class="entrance">
+        <div class="entrance-copy">
+          <p class="kicker">Living Museum</p>
+          <h1>
+            Rubin Studio
+            <span>Living Museum</span>
+          </h1>
         </div>
 
-        <!-- CTA Button -->
-        <div class="flex items-center justify-center gap-5">
-          <a href="#gallery" class="group inline-flex items-center gap-3 px-8 py-3 rounded-md border border-white/30 text-white text-sm tracking-[0.2em] uppercase hover:bg-white hover:text-[#2C4A6B] transition-all duration-500" style="background: rgba(255,255,255,0.05);">
-            <span>开始探索</span>
-            <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-y-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Gallery Section -->
-    <section id="gallery-section" class="max-w-7xl mx-auto px-6 py-20">
-      <!-- Section header -->
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-        <div>
-          <div class="flex items-center gap-3 mb-3">
-            <span class="w-8 h-px" style="background: #2C4A6B;"></span>
-            <span class="text-xs tracking-[0.3em] uppercase" style="color: #2C4A6B;">Gallery</span>
+        <div class="door-scene" data-source="Original AI-generated cubist museum entrance artwork">
+          <div class="gallery-photo">
+            <img src="/images/museum-sources/entrance-cubist-original.webp" alt="Original cubist museum entrance artwork used as Rubin Studio entrance cover" />
           </div>
-          <h2 class="text-4xl font-light tracking-tight" style="color: #1A2E45; font-family: 'Cormorant Garamond', serif;">精选作品</h2>
+          <div class="stage-panel">
+            <b>Identity Hall</b>
+            <span>Original cubist entrance artwork</span>
+          </div>
         </div>
-
-        <!-- Category filters -->
-        <div class="flex flex-wrap gap-2" id="filter-container">
-          {categories.map((cat, i) => (
-            <button
-              data-category={cat.key}
-              class:list={[
-                'px-5 py-2 text-xs tracking-[0.15em] uppercase border rounded-md transition-all duration-400',
-                i === 0
-                  ? 'text-white border-[#2C4A6B]'
-                  : 'border-[#2C4A6B]/30 text-[#1A2E45]/50 hover:border-[#2C4A6B] hover:text-[#1A2E45]'
-              ]}
-              style={i === 0 ? 'background: #2C4A6B;' : ''}
-            >
-              {cat.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <!-- Gallery masonry grid -->
-      <div id="gallery" class="columns-2 md:columns-3 lg:columns-4 gap-4" style="column-gap: 1rem;">
-        <!-- Images rendered by JS -->
-      </div>
-
-      <!-- Empty state -->
-      <div id="empty-state" class="hidden text-center py-32">
-        <p class="text-neutral/40 text-lg font-light tracking-wide mb-2">暂无匹配内容</p>
-        <p class="text-accent/30 text-sm">更多内容持续上传中</p>
       </div>
     </section>
   </main>
-
-  <!-- Footer -->
-  <footer class="border-t border-border/30 mt-20 relative z-10">
-    <div class="max-w-6xl mx-auto px-6 py-10 flex flex-col items-center gap-2 text-center">
-      <div class="flex items-center gap-3 mb-2">
-        <span class="w-8 h-px bg-accent/60"></span>
-        <span class="accent-text text-xs tracking-[0.3em] uppercase text-accent">Est. 2026</span>
-        <span class="w-8 h-px bg-accent/60"></span>
-      </div>
-      <p class="text-neutral/40 text-sm font-light tracking-wider">© 2026 泽川 · 所有图片均为AI视觉创作</p>
-      <a href="/admin" class="text-neutral/30 text-xs tracking-widest uppercase hover:text-neutral/60 transition-colors">上传</a>
-    </div>
-  </footer>
-
-  <!-- Login Modal -->
-  <div id="login-modal" class="fixed inset-0 bg-base/90 backdrop-blur-sm hidden z-50 items-center justify-center p-6">
-    <div class="bg-surface rounded-xl border border-border p-8 w-full max-w-sm">
-      <h2 class="font-serif text-xl text-neutral mb-4" style="font-family: 'Cormorant Garamond', serif;">管理模式</h2>
-      <input
-        type="password"
-        id="admin-password"
-        placeholder="输入管理密码..."
-        class="w-full px-4 py-3 bg-base border border-border rounded-lg text-neutral placeholder:text-neutral/30 focus:outline-none focus:border-primary transition-colors mb-4"
-      />
-      <div class="flex gap-3">
-        <button id="btn-login" class="flex-1 py-3 bg-primary text-white rounded-lg hover:bg-primary/80 transition-colors">
-          进入
-        </button>
-        <button id="btn-login-cancel" class="px-6 py-3 border border-border/50 text-neutral/50 rounded-lg hover:border-text/30 transition-colors">
-          取消
-        </button>
-      </div>
-      <p id="login-error" class="text-red-500 text-sm mt-3 hidden">密码错误</p>
-    </div>
-  </div>
-
-  <!-- Admin Bar -->
-  <div id="admin-bar" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-primary text-white rounded-full px-6 py-3 shadow-lg hidden z-50 flex items-center gap-4">
-    <span class="text-sm">管理模式</span>
-    <div class="flex items-center gap-2">
-      <span id="img-count-admin" class="text-xs opacity-70">0 张</span>
-    </div>
-    <button id="btn-exit-admin" class="text-xs opacity-70 hover:opacity-100 transition-opacity">
-      退出管理
-    </button>
-  </div>
-
-  <!-- Edit Modal -->
-  <div id="edit-modal" class="fixed inset-0 bg-base/90 backdrop-blur-sm hidden z-50 items-center justify-center p-6">
-    <div class="bg-surface rounded-xl border border-border p-8 w-full max-w-lg">
-      <h2 class="font-serif text-xl text-neutral mb-4" style="font-family: 'Cormorant Garamond', serif;">编辑图片</h2>
-      <input type="hidden" id="edit-id" />
-      <div class="mb-4 rounded-lg overflow-hidden border border-border/30 bg-base">
-        <img id="edit-preview" src="" class="w-full max-h-64 object-contain" />
-      </div>
-      <div class="mb-4">
-        <label class="block text-neutral/50 text-xs mb-2 font-mono">描述</label>
-        <input
-          type="text"
-          id="edit-prompt"
-          placeholder="输入图片描述..."
-          class="w-full px-4 py-3 bg-base border border-border rounded-lg text-neutral placeholder:text-neutral/30 focus:outline-none focus:border-primary transition-colors"
-        />
-      </div>
-      <div class="mb-6">
-        <label class="block text-neutral/50 text-xs mb-2 font-mono">分类</label>
-        <select
-          id="edit-category"
-          class="w-full px-4 py-3 bg-base border border-border rounded-lg text-neutral focus:outline-none focus:border-primary transition-colors"
-        >
-          <option value="eve-city">EVE城市</option>
-          <option value="eve-daily">EVE日常</option>
-          <option value="eve-cover">EVE封面</option>
-          <option value="portrait">人像</option>
-          <option value="product">产品</option>
-          <option value="landscape">风景</option>
-          <option value="other">其它</option>
-        </select>
-      </div>
-      <div class="flex gap-3">
-        <button id="btn-save" class="flex-1 py-3 bg-primary text-white rounded-lg hover:bg-primary/80 transition-colors">
-          保存修改
-        </button>
-        <button id="btn-delete-img" class="px-6 py-3 border border-red-500/50 text-red-500/70 rounded-lg hover:border-red-500 hover:text-red-500 transition-colors">
-          删除
-        </button>
-        <button id="btn-edit-cancel" class="px-6 py-3 border border-border/50 text-neutral/50 rounded-lg hover:border-text/30 transition-colors">
-          取消
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Lightbox -->
-  <div id="lightbox" class="fixed inset-0 hidden z-50 items-center justify-center p-4 sm:p-8 opacity-0 transition-opacity duration-300" style="background: rgba(44, 74, 107, 0.95); backdrop-filter: blur(8px);">
-    <!-- Close button -->
-    <button id="lightbox-close" class="absolute top-6 right-6 w-10 h-10 rounded-full border border-white/30 flex items-center justify-center text-white/60 hover:text-white hover:border-white transition-all">
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
-
-    <!-- Prev Button -->
-    <button id="lightbox-prev" class="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 border border-white/30 flex items-center justify-center text-white hover:bg-white/20 transition-all duration-300 opacity-0 group-hover:opacity-100 z-10">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-    </button>
-
-    <!-- Next Button -->
-    <button id="lightbox-next" class="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 border border-white/30 flex items-center justify-center text-white hover:bg-white/20 transition-all duration-300 opacity-0 group-hover:opacity-100 z-10">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-    </button>
-
-    <div id="lightbox-content" class="max-w-5xl max-h-[90vh] flex flex-col items-center scale-95 transition-transform duration-300 group">
-      <div class="rounded-lg overflow-hidden shadow-2xl">
-        <img id="lightbox-img" src="" alt="" class="max-w-[90vw] max-h-[80vh] object-contain touch-pan-x touch-pan-y pinch-zoom" />
-      </div>
-      <p id="lightbox-prompt" class="text-white/60 text-center mt-4 sm:mt-6 text-xs max-w-lg leading-relaxed"></p>
-    </div>
-
-    <!-- Close hint -->
-    <p class="absolute bottom-6 text-white/40 text-xs">← → 切换 · 点击空白处返回</p>
-  </div>
 </BaseLayout>
 
-<style>
-  /* Glassmorphism header */
-  .glass {
-    background: rgba(245, 241, 232, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(224, 217, 208, 0.5);
-  }
-
-  /* Hero title hover */
-  .hero-title {
-    color: var(--color-primary);
-    transition: color 0.3s ease, transform 0.3s ease;
-    display: inline-block;
-    cursor: default;
-  }
-  .hero-title:hover {
-    color: var(--color-accent);
-    transform: translateY(-2px);
-  }
-
-  /* Gallery item hover effects */
-  .gallery-item {
-    transition: transform 0.3s ease;
-  }
-  .gallery-item:hover {
-    transform: translateY(-4px);
-  }
-  .gallery-item .img-wrap {
-    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    box-shadow: 0 4px 20px rgba(26, 46, 69, 0);
-  }
-  .gallery-item:hover .img-wrap {
-    box-shadow: 0 8px 32px rgba(26, 46, 69, 0.15), 0 0 0 1px rgba(138, 114, 72, 0.3);
-  }
-  .gallery-item .img-wrap img {
-    transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-  .gallery-item:hover .img-wrap img {
-    transform: scale(1.04);
-  }
-
-  /* Staggered entrance animation */
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .gallery-item {
-    animation: fadeInUp 0.5s ease backwards;
-  }
-
-  /* Lightbox image touch zoom */
-  #lightbox-img {
-    touch-action: pan-x pan-y pinch-zoom;
-    cursor: grab;
-  }
-  #lightbox-img:active {
-    cursor: grabbing;
-  }
-  #lightbox:hover #lightbox-prev,
-  #lightbox:hover #lightbox-next {
-    opacity: 1;
-  }
-
-  .admin-mode .gallery-item .delete-btn,
-  .admin-mode .gallery-item .edit-btn {
-    opacity: 100 !important;
-  }
-
-  /* Scroll behavior */
-  html {
-    scroll-behavior: smooth;
-  }
-
-  /* Selection color */
-  ::selection {
-    background: #8A724833;
-  }
-</style>
-
 <script>
-  const ADMIN_PASSWORD = 'rubin639';
-  const API_URL = 'https://rubin-gallery-api.luokaijun2025.workers.dev';
-  const STORAGE_KEY = 'rubin_gallery';
+  const entranceCard = document.querySelector('[data-enter-target]');
+  const enterMuseum = () => {
+    const target = entranceCard?.getAttribute('data-enter-target');
+    if (target) window.location.href = target;
+  };
 
-  const defaultImages = [];
-
-  // State
-  let images: any[] = [];
-  let isAdmin = false;
-  let currentEditId: string | null = null;
-
-  // Elements
-  const gallery = document.getElementById('gallery')!;
-  const lightbox = document.getElementById('lightbox')!;
-  const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
-  const lightboxPrompt = document.getElementById('lightbox-prompt');
-  const loginModal = document.getElementById('login-modal')!;
-  const editModal = document.getElementById('edit-modal')!;
-  const btnAdmin = document.getElementById('btn-admin')!;
-  const adminBar = document.getElementById('admin-bar')!;
-  const adminText = document.getElementById('admin-text')!;
-  const filterContainer = document.getElementById('filter-container')!;
-  const navBtns = filterContainer.querySelectorAll('button');
-  const emptyState = document.getElementById('empty-state')!;
-
-  // Load images from cloud
-  async function loadImages() {
-    try {
-      const res = await fetch(API_URL + '?t=' + Date.now());
-      const cloudImages = await res.json();
-      if (cloudImages && cloudImages.length > 0) {
-        images = [...defaultImages, ...cloudImages.filter((img: any) => !img.isLocal)];
-      } else {
-        images = [...defaultImages];
-      }
-    } catch (e) {
-      images = [...defaultImages];
-    }
-    renderGallery(getCurrentFilter());
-  }
-
-  async function saveImages() {
-    const uploadedImages = images.filter(img => !img.isLocal);
-    try {
-      await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(uploadedImages.map((img: any) => ({
-          id: img.id,
-          src: img.src,
-          prompt: img.prompt,
-          category: img.category,
-          time: img.time || new Date().toISOString(),
-          platform: img.platform || 'imgbb',
-          isLocal: false
-        })))
-      });
-    } catch (e) {
-      console.error('Failed to save to cloud:', e);
-    }
-  }
-
-  async function deleteImageCloud(id: string) {
-    try {
-      await fetch(API_URL, {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id })
-      });
-    } catch (e) {
-      console.error('Failed to delete from cloud:', e);
-    }
-  }
-
-  function generateId() {
-    return 'img-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
-  }
-
-  // Render gallery
-  function renderGallery(filter = 'all') {
-    gallery.innerHTML = '';
-    const filteredImages = images
-      .filter(img => filter === 'all' || img.category === filter)
-      .sort((a, b) => new Date(b.time || 0).getTime() - new Date(a.time || 0).getTime());
-
-    if (filteredImages.length === 0) {
-      emptyState.classList.remove('hidden');
-    } else {
-      emptyState.classList.add('hidden');
-    }
-
-    filteredImages.forEach((img: any, idx: number) => {
-      const div = document.createElement('div');
-      div.className = 'gallery-item break-inside-avoid group relative';
-      div.dataset.id = img.id;
-      div.dataset.category = img.category;
-      div.dataset.src = img.src;
-      div.dataset.prompt = img.prompt;
-      div.dataset.index = String(idx);
-      div.style.animationDelay = `${idx * 40}ms`;
-
-      div.innerHTML = `
-        <div class="img-wrap relative overflow-hidden bg-surface cursor-pointer transition-all duration-400 hover:shadow-xl" style="border-radius: 12px;">
-          <img src="${img.src}" alt="${img.prompt}" class="w-full h-auto object-contain" loading="lazy" />
-          <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
-            <span class="text-white text-xs tracking-widest" style="text-shadow: 0 2px 8px rgba(0,0,0,0.8);">点击查看</span>
-          </div>
-          ${isAdmin && !img.isLocal ? `
-            <div class="admin-controls absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-              <button class="edit-btn w-8 h-8 bg-[#2C4A6B]/90 rounded-lg flex items-center justify-center text-white/80 hover:text-white border border-white/20" title="编辑">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-              </button>
-              <button class="delete-btn w-8 h-8 bg-red-500/90 rounded-lg flex items-center justify-center text-white/80 hover:text-white border border-white/20" title="删除">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-              </button>
-            </div>
-          ` : ''}
-        </div>
-      `;
-
-      div.addEventListener('click', (e) => {
-        const target = e.target as HTMLElement;
-        if (isAdmin) {
-          if (target.closest('.edit-btn')) {
-            openEditModal(img);
-          } else if (target.closest('.delete-btn')) {
-            deleteImage(img.id);
-          } else {
-            openLightbox(idx, filteredImages);
-          }
-        } else {
-          openLightbox(idx, filteredImages);
-        }
-      });
-
-      gallery.appendChild(div);
-    });
-  }
-
-  let lightboxImages: any[] = [];
-  let lightboxCurrentIndex = 0;
-
-  function openLightbox(index: number, imageList: any[]) {
-    lightboxImages = imageList;
-    lightboxCurrentIndex = index;
-    updateLightboxImage();
-    lightbox.classList.remove('hidden');
-    lightbox.classList.add('flex', 'opacity-100');
-    lightbox.classList.remove('opacity-0');
-    const content = document.getElementById('lightbox-content');
-    if (content) {
-      content.classList.remove('scale-95');
-      content.classList.add('scale-100');
-    }
-    document.body.style.overflow = 'hidden';
-  }
-
-  function updateLightboxImage() {
-    const img = lightboxImages[lightboxCurrentIndex];
-    if (!img) return;
-    lightboxImg.src = img.src;
-    lightboxPrompt!.textContent = img.prompt;
-  }
-
-  function closeLightbox() {
-    lightbox.classList.remove('opacity-100');
-    lightbox.classList.add('opacity-0');
-    const content = document.getElementById('lightbox-content');
-    if (content) {
-      content.classList.remove('scale-100');
-      content.classList.add('scale-95');
-    }
-    setTimeout(() => {
-      lightbox.classList.add('hidden');
-      lightbox.classList.remove('flex', 'opacity-100');
-      document.body.style.overflow = '';
-    }, 300);
-  }
-
-  function lightboxNext() {
-    lightboxCurrentIndex = (lightboxCurrentIndex + 1) % lightboxImages.length;
-    updateLightboxImage();
-  }
-
-  function lightboxPrev() {
-    lightboxCurrentIndex = (lightboxCurrentIndex - 1 + lightboxImages.length) % lightboxImages.length;
-    updateLightboxImage();
-  }
-
-  function deleteImage(id: string) {
-    if (!confirm('确定删除这张图片？')) return;
-    const img = images.find((i: any) => i.id === id);
-    images = images.filter((i: any) => i.id !== id);
-    if (img && !img.isLocal) {
-      deleteImageCloud(id);
-    }
-    renderGallery(getCurrentFilter());
-  }
-
-  function openEditModal(img: any) {
-    currentEditId = img.id;
-    (document.getElementById('edit-id') as HTMLInputElement).value = img.id;
-    (document.getElementById('edit-preview') as HTMLImageElement).src = img.src;
-    (document.getElementById('edit-prompt') as HTMLInputElement).value = img.prompt;
-    (document.getElementById('edit-category') as HTMLSelectElement).value = img.category;
-    editModal.classList.remove('hidden');
-    editModal.classList.add('flex');
-    document.body.style.overflow = 'hidden';
-    (document.getElementById('edit-prompt') as HTMLInputElement).focus();
-  }
-
-  function closeEditModal() {
-    editModal.classList.add('hidden');
-    editModal.classList.remove('flex');
-    document.body.style.overflow = '';
-  }
-
-  function saveEdit() {
-    if (!currentEditId) return;
-    const prompt = (document.getElementById('edit-prompt') as HTMLInputElement).value;
-    const category = (document.getElementById('edit-category') as HTMLSelectElement).value;
-    const img = images.find((i: any) => i.id === currentEditId);
-    if (img) {
-      img.prompt = prompt;
-      img.category = category;
-      saveImages();
-      updateAdminBarCount();
-      renderGallery(getCurrentFilter());
-    }
-    closeEditModal();
-  }
-
-  function deleteCurrentImage() {
-    if (!currentEditId) return;
-    if (!confirm('确定删除这张图片？')) return;
-    images = images.filter((img: any) => img.id !== currentEditId);
-    saveImages();
-    updateAdminBarCount();
-    renderGallery(getCurrentFilter());
-    closeEditModal();
-  }
-
-  function updateAdminBarCount() {
-    const countEl = document.getElementById('img-count-admin');
-    if (countEl) countEl.textContent = `${images.length} 张`;
-  }
-
-  function getCurrentFilter() {
-    const activeBtn = filterContainer.querySelector('button[data-active]');
-    return activeBtn?.getAttribute('data-category') || 'all';
-  }
-
-  // Admin mode
-  function toggleAdmin() {
-    if (isAdmin) {
-      exitAdminMode();
-    } else {
-      loginModal.classList.remove('hidden');
-      loginModal.classList.add('flex');
-      (document.getElementById('admin-password') as HTMLInputElement).value = '';
-      document.getElementById('login-error')!.classList.add('hidden');
-      (document.getElementById('admin-password') as HTMLInputElement).focus();
-    }
-  }
-
-  function exitAdminMode() {
-    isAdmin = false;
-    sessionStorage.removeItem('gallery_admin');
-    adminBar.classList.add('hidden');
-    adminBar.classList.remove('flex');
-    adminText.textContent = '管理';
-    document.body.classList.remove('admin-mode');
-    renderGallery(getCurrentFilter());
-  }
-
-  function enterAdminMode() {
-    isAdmin = true;
-    sessionStorage.setItem('gallery_admin', 'true');
-    loginModal.classList.add('hidden');
-    loginModal.classList.remove('flex');
-    adminBar.classList.remove('hidden');
-    adminBar.classList.add('flex');
-    adminText.textContent = '退出';
-    document.body.classList.add('admin-mode');
-    updateAdminBarCount();
-    renderGallery(getCurrentFilter());
-  }
-
-  function doLogin() {
-    const pw = (document.getElementById('admin-password') as HTMLInputElement).value;
-    if (pw === ADMIN_PASSWORD) {
-      enterAdminMode();
-    } else {
-      document.getElementById('login-error')!.classList.remove('hidden');
-    }
-  }
-
-  // Event listeners
-  btnAdmin.addEventListener('click', toggleAdmin);
-
-  document.getElementById('btn-login')!.addEventListener('click', doLogin);
-  document.getElementById('btn-login-cancel')!.addEventListener('click', () => {
-    loginModal.classList.add('hidden');
-    loginModal.classList.remove('flex');
+  entranceCard?.addEventListener('click', (event) => {
+    const target = event.target;
+    if (target instanceof Element && target.closest('a, button, input, textarea, select, label')) return;
+    enterMuseum();
   });
 
-  document.getElementById('admin-password')!.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') doLogin();
-  });
-
-  document.getElementById('btn-save')!.addEventListener('click', saveEdit);
-  document.getElementById('btn-delete-img')!.addEventListener('click', deleteCurrentImage);
-  document.getElementById('btn-edit-cancel')!.addEventListener('click', closeEditModal);
-  document.getElementById('btn-exit-admin')!.addEventListener('click', exitAdminMode);
-
-  lightbox.addEventListener('click', (e) => {
-    const target = e.target as HTMLElement;
-    if (target === lightbox || target.closest('#lightbox-close')) closeLightbox();
-    if (target.closest('#lightbox-next')) lightboxNext();
-    if (target.closest('#lightbox-prev')) lightboxPrev();
-  });
-  document.addEventListener('keydown', (e) => {
-    if (!lightbox.classList.contains('hidden')) {
-      if (e.key === 'Escape') closeLightbox();
-      if (e.key === 'ArrowRight') lightboxNext();
-      if (e.key === 'ArrowLeft') lightboxPrev();
-      return;
-    }
-    if (!editModal.classList.contains('hidden')) {
-      if (e.key === 'Escape') closeEditModal();
-    }
-  });
-
-  // Category filter
-  navBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const cat = btn.getAttribute('data-category') || 'all';
-
-      navBtns.forEach(b => {
-        b.classList.remove('text-white', 'border-[#2C4A6B]');
-        b.classList.add('border-[#2C4A6B]/30', 'text-[#1A2E45]/50');
-        b.style.background = '';
-        b.removeAttribute('data-active');
-      });
-      btn.classList.remove('border-[#2C4A6B]/30', 'text-[#1A2E45]/50');
-      btn.classList.add('text-white', 'border-[#2C4A6B]');
-      btn.style.background = '#2C4A6B';
-      btn.setAttribute('data-active', 'true');
-
-      renderGallery(cat);
-    });
-  });
-
-  // Init
-  if (sessionStorage.getItem('gallery_admin') === 'true') {
-    isAdmin = true;
-    adminText.textContent = '退出';
-    document.body.classList.add('admin-mode');
-  }
-
-  loadImages();
-
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible') {
-      loadImages();
-    }
+  entranceCard?.addEventListener('keydown', (event) => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    const target = event.target;
+    if (target instanceof Element && target.closest('a, button, input, textarea, select, label')) return;
+    event.preventDefault();
+    enterMuseum();
   });
 </script>
+
+<style>
+  :global(body) {
+    background: #f2ede3 url('/images/museum-sources/picasso-paper-bg.svg') center / cover fixed no-repeat;
+  }
+
+  .site-shell {
+    position: relative;
+    min-height: 100vh;
+    padding: 14px;
+    color: #2b2b28;
+    overflow: hidden;
+  }
+
+  .site-shell::before,
+  .site-shell::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .site-shell::before {
+    background:
+      linear-gradient(127deg, transparent 0 10%, rgba(94,124,116,.23) 10% 21%, transparent 21% 100%),
+      linear-gradient(32deg, transparent 0 63%, rgba(166,90,74,.2) 63% 74%, transparent 74% 100%),
+      linear-gradient(154deg, transparent 0 38%, rgba(194,160,90,.17) 38% 48%, transparent 48% 100%),
+      radial-gradient(rgba(43,43,40,.09) .8px, transparent .8px);
+    background-size: auto, auto, auto, 18px 18px;
+    opacity: .92;
+    z-index: -1;
+  }
+
+  .site-shell::after {
+    background:
+      linear-gradient(68deg, transparent 0 8%, rgba(43,43,40,.09) 8% 8.5%, transparent 8.5%),
+      linear-gradient(112deg, transparent 0 82%, rgba(94,124,116,.18) 82% 94%, transparent 94%),
+      linear-gradient(22deg, transparent 0 3%, rgba(194,160,90,.2) 3% 12%, transparent 12%);
+    mix-blend-mode: multiply;
+    opacity: .7;
+    z-index: -1;
+  }
+
+  .entrance-card {
+    position: relative;
+    width: min(1540px, 100%);
+    min-height: calc(100vh - 28px);
+    margin: 0 auto;
+    border: 1px solid rgba(43,43,40,.18);
+    background:
+      linear-gradient(128deg, rgba(242,237,227,.88) 0 42%, rgba(94,124,116,.2) 42% 49%, transparent 49% 100%),
+      linear-gradient(26deg, transparent 0 68%, rgba(166,90,74,.14) 68% 79%, transparent 79% 100%),
+      linear-gradient(120deg, rgba(242,237,227,.76), rgba(242,237,227,.5)),
+      rgba(242,237,227,.5);
+    box-shadow: 0 34px 110px rgba(43, 43, 40, .14);
+    cursor: pointer;
+    overflow: clip;
+  }
+
+  .entrance-card::before,
+  .entrance-card::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .entrance-card::before {
+    width: 40vw;
+    height: 32vw;
+    right: -11vw;
+    top: 11vh;
+    background:
+      linear-gradient(145deg, rgba(94,124,116,.34) 0 38%, transparent 38%),
+      linear-gradient(42deg, transparent 0 44%, rgba(194,160,90,.28) 44% 65%, transparent 65%),
+      linear-gradient(116deg, transparent 0 58%, rgba(166,90,74,.23) 58% 100%);
+    clip-path: polygon(0 11%, 72% 0, 100% 54%, 50% 100%, 7% 76%);
+  }
+
+  .entrance-card::after {
+    width: 28vw;
+    height: 24vw;
+    left: -8vw;
+    bottom: -9vw;
+    background:
+      linear-gradient(78deg, rgba(194,160,90,.25), transparent 52%),
+      linear-gradient(136deg, transparent 0 38%, rgba(94,124,116,.22) 38% 100%);
+    clip-path: polygon(12% 0, 100% 28%, 76% 86%, 0 100%);
+  }
+
+  .museum-nav {
+    position: relative;
+    min-height: 76px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 18px;
+    padding: 12px 24px;
+    border-bottom: 1px solid rgba(43,43,40,.18);
+    background:
+      linear-gradient(114deg, rgba(94,124,116,.18) 0 16%, transparent 16% 58%, rgba(194,160,90,.16) 58% 66%, transparent 66%),
+      rgba(242,237,227,.78);
+    backdrop-filter: blur(18px);
+    z-index: 2;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Rubin Carter', sans-serif;
+    font-size: 13px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .brand-mark {
+    position: relative;
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    background:
+      linear-gradient(135deg, #2b2b28 0 39%, #5e7c74 39% 63%, #a65a4a 63% 100%);
+    border: 1px solid rgba(43,43,40,.42);
+    box-shadow: 0 2px 0 rgba(43,43,40,.18);
+    transform: rotate(45deg);
+    overflow: hidden;
+  }
+
+  .mark-shape {
+    position: absolute;
+    display: block;
+    opacity: .92;
+  }
+
+  .mark-shape-a {
+    inset: -3px 15px 17px -2px;
+    background: #c2a05a;
+    clip-path: polygon(0 0, 100% 18%, 72% 100%, 0 78%);
+  }
+
+  .mark-shape-b {
+    inset: 14px -4px -3px 12px;
+    background: #5e7c74;
+    clip-path: polygon(18% 0, 100% 15%, 100% 100%, 0 70%);
+  }
+
+  .nav-pill {
+    position: relative;
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 16px;
+    border: 1px solid rgba(43,43,40,.2);
+    background:
+      linear-gradient(128deg, rgba(94,124,116,.32) 0 28%, rgba(242,237,227,.72) 28% 58%, rgba(166,90,74,.26) 58% 72%, rgba(194,160,90,.3) 72% 100%);
+    color: #2b2b28;
+    font-family: 'Rubin Carter', sans-serif;
+    font-size: 12px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    box-shadow: inset 0 0 0 1px rgba(242,237,227,.36);
+    transition: transform .22s ease, border-color .22s ease, filter .22s ease;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .nav-pill::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(43,43,40,.08) 1px, transparent 1px),
+      radial-gradient(rgba(43,43,40,.16) .65px, transparent .65px);
+    background-size: 18px 18px, 12px 12px;
+    mix-blend-mode: multiply;
+    opacity: .7;
+  }
+
+  .nav-pill span {
+    position: relative;
+    z-index: 1;
+  }
+
+  .nav-pill:hover {
+    transform: translateY(-2px);
+    border-color: #2b2b28;
+    filter: contrast(1.04) saturate(1.04);
+  }
+
+  .entrance {
+    position: relative;
+    z-index: 1;
+    min-height: calc(100vh - 106px);
+    display: grid;
+    grid-template-columns: minmax(0, .84fr) minmax(520px, 1.16fr);
+    gap: 34px;
+    align-items: center;
+    padding: 56px 48px 42px;
+  }
+
+  .kicker {
+    color: #a67832;
+    font-family: 'Rubin Carter', sans-serif;
+    font-size: 12px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    margin: 18px 0 20px;
+    color: #2b2b28;
+    font-size: clamp(58px, 9vw, 118px);
+    font-weight: 400;
+    line-height: .9;
+    text-wrap: balance;
+  }
+
+  h1 span {
+    display: block;
+    margin-top: 8px;
+    color: #a65a4a;
+    font-family: 'Rubin Carter', sans-serif;
+    font-size: clamp(28px, 4vw, 54px);
+  }
+
+  .door-scene {
+    position: relative;
+    min-height: 620px;
+    border: 1px solid rgba(43,43,40,.18);
+    background:
+      linear-gradient(180deg, rgba(255,250,240,.7), rgba(231,219,198,.4)),
+      #efe6d5;
+    box-shadow: 0 26px 74px rgba(43,43,40,.14);
+    overflow: hidden;
+  }
+
+  .gallery-photo {
+    position: absolute;
+    inset: 6% 6% 18%;
+    border: 12px solid rgba(242,237,227,.86);
+    box-shadow: 0 24px 70px rgba(43,43,40,.16);
+    overflow: hidden;
+    z-index: 3;
+  }
+
+  .gallery-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .stage-panel {
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    bottom: 24px;
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 18px;
+    padding: 14px 16px;
+    color: #2b2b28;
+    border: 1px solid rgba(43,43,40,.22);
+    background: rgba(242,237,227,.88);
+    backdrop-filter: blur(12px);
+    z-index: 4;
+  }
+
+  .stage-panel b {
+    font-family: 'Rubin Carter', sans-serif;
+  }
+
+  .stage-panel span {
+    color: #575247;
+  }
+
+  @media (max-width: 1100px) {
+    .entrance {
+      grid-template-columns: 1fr;
+    }
+    .door-scene {
+      min-height: 540px;
+    }
+  }
+
+  @media (max-width: 680px) {
+    .site-shell {
+      padding: 8px;
+    }
+    .museum-nav,
+    .entrance {
+      padding-left: 18px;
+      padding-right: 18px;
+    }
+    .museum-nav {
+      grid-template-columns: 1fr;
+    }
+    .entrance {
+      min-height: auto;
+      padding-top: 34px;
+    }
+    .door-scene {
+      min-height: 460px;
+    }
+    .gallery-photo {
+      inset: 6% 6% 24%;
+      border-width: 8px;
+    }
+    .stage-panel {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

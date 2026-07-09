@@ -1,11 +1,11 @@
 {
-  "name": "RA Nexus",
-  "short_name": "RA",
-  "description": "Rubin's AI Art Gallery",
+  "name": "Rubin Studio",
+  "short_name": "Rubin",
+  "description": "Rubin Studio Living Museum",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#F4F1EC",
-  "theme_color": "#4A6D8C",
+  "background_color": "#F2EDE3",
+  "theme_color": "#2B2B28",
   "orientation": "any",
   "icons": [
     {

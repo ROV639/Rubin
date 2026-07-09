@@ -1,0 +1,62 @@
+[
+  {
+    "slug": "systems",
+    "title": "File:Oxford University Museum of Natural History, Oxford, UK - Diliff.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Oxford_University_Museum_of_Natural_History,_Oxford,_UK_-_Diliff.jpg",
+    "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Oxford_University_Museum_of_Natural_History%2C_Oxford%2C_UK_-_Diliff.jpg/1280px-Oxford_University_Museum_of_Natural_History%2C_Oxford%2C_UK_-_Diliff.jpg",
+    "local_source": "public/images/museum-sources/originals/systems-source.jpg",
+    "license": "CC BY-SA 3.0",
+    "artist": "Diliff",
+    "credit": "Own work"
+  },
+  {
+    "slug": "visual",
+    "title": "File:Doha Museum of Islamic Arts Interior Hall 01.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Doha_Museum_of_Islamic_Arts_Interior_Hall_01.jpg",
+    "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Doha_Museum_of_Islamic_Arts_Interior_Hall_01.jpg/1280px-Doha_Museum_of_Islamic_Arts_Interior_Hall_01.jpg",
+    "local_source": "public/images/museum-sources/originals/visual-source.jpg",
+    "license": "CC BY 4.0",
+    "artist": "Zairon",
+    "credit": "Own work"
+  },
+  {
+    "slug": "studio",
+    "title": "File:Birmingham Museum and Art Gallery - geograph.org.uk - 4654319.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Birmingham_Museum_and_Art_Gallery_-_geograph.org.uk_-_4654319.jpg",
+    "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Birmingham_Museum_and_Art_Gallery_-_geograph.org.uk_-_4654319.jpg/1280px-Birmingham_Museum_and_Art_Gallery_-_geograph.org.uk_-_4654319.jpg",
+    "local_source": "public/images/museum-sources/originals/studio-source.jpg",
+    "license": "CC BY-SA 2.0",
+    "artist": "Philip Pankhurst",
+    "credit": "Geograph Britain and Ireland"
+  },
+  {
+    "slug": "archive",
+    "title": "File:Pitzhanger Gallery interior with Anish Kapoor exhibition - geograph.org.uk - 6091793.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Pitzhanger_Gallery_interior_with_Anish_Kapoor_exhibition_-_geograph.org.uk_-_6091793.jpg",
+    "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Pitzhanger_Gallery_interior_with_Anish_Kapoor_exhibition_-_geograph.org.uk_-_6091793.jpg/1280px-Pitzhanger_Gallery_interior_with_Anish_Kapoor_exhibition_-_geograph.org.uk_-_6091793.jpg",
+    "local_source": "public/images/museum-sources/originals/archive-source.jpg",
+    "license": "CC BY-SA 2.0",
+    "artist": "David Hawgood",
+    "credit": "Geograph Britain and Ireland"
+  },
+  {
+    "slug": "notes",
+    "title": "File:Interior and museum gallery of the Victoria Memorial, in Kolkata 15.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Interior_and_museum_gallery_of_the_Victoria_Memorial,_in_Kolkata_15.jpg",
+    "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Interior_and_museum_gallery_of_the_Victoria_Memorial%2C_in_Kolkata_15.jpg/1280px-Interior_and_museum_gallery_of_the_Victoria_Memorial%2C_in_Kolkata_15.jpg",
+    "local_source": "public/images/museum-sources/originals/notes-source.jpg",
+    "license": "CC BY 4.0",
+    "artist": "Pinakpani",
+    "credit": "Own work"
+  },
+  {
+    "slug": "about",
+    "title": "File:Schmucker Art Gallery Interior, Gettysburg College.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Schmucker_Art_Gallery_Interior,_Gettysburg_College.jpg",
+    "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Schmucker_Art_Gallery_Interior%2C_Gettysburg_College.jpg/1280px-Schmucker_Art_Gallery_Interior%2C_Gettysburg_College.jpg",
+    "local_source": "public/images/museum-sources/originals/about-source.jpg",
+    "license": "CC BY 4.0",
+    "artist": "RococoLouise",
+    "credit": "Own work"
+  }
+]
